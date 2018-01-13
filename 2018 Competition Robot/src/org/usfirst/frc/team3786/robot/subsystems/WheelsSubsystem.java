@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class WheelsSubsystem extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    
 	
 	private WPI_TalonSRX leftFront;
 	private WPI_TalonSRX leftBack;
