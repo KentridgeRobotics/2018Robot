@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -32,8 +33,21 @@ public class WheelsSubsystem extends Subsystem {
 		
 	}
 	
+	public void setBrakeMode(boolean isBraking) {
+		NeutralMode mode;
+		if(isBraking) {
+			mode = NeutralMode.Brake;
+		} else {
+			mode = NeutralMode.Coast;
+		}
+		leftFront.setNeutralMode(mode);
+		leftBack.setNeutralMode(mode);
+		rightBack.setNeutralMode(mode);
+		rightFront.setNeutralMode(mode);
+	}
+	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
+        //Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
 }
