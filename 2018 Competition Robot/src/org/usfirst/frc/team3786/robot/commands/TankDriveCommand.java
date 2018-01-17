@@ -29,7 +29,7 @@ public class TankDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.myDrive.setSpeed(OI.getLeftStickY(), OI.getRightStickY());
+    	Robot.myDrive.setTwoMotorSpeeds(OI.getLeftStickY(), OI.getRightStickY());
     	
     }
 
