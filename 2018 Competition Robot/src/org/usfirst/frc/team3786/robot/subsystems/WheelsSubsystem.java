@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 /**
  *
  */
-public class WheelsSubsystem extends Subsystem {
+public class WheelsSubsystem extends Subsystem implements Drive{ 
 
     
 	
@@ -27,15 +27,23 @@ public class WheelsSubsystem extends Subsystem {
 		rightFront = new WPI_TalonSRX(0);
 		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
-
+@Override
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
 		leftFront.set(leftFrontSpeed);
 		leftBack.set(leftBackSpeed);
 		rightBack.set(rightBackSpeed);
 		rightFront.set(rightFrontSpeed);
 		
-	}
+	} 
+@Override
+public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
+	leftFront.set(leftSpeed);
+	leftBack.set(leftSpeed);
+	rightBack.set(rightSpeed);
+	rightFront.set(rightSpeed);
 	
+} 
+@Override
 	public void setBrakeMode(boolean isBraking) {
 		NeutralMode mode;
 		if(isBraking) {
