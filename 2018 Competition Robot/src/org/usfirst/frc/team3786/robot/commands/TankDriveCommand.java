@@ -2,6 +2,7 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
+import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,10 +22,12 @@ public class TankDriveCommand extends Command {
 		public TankDriveCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+		requires(TwoWheelSubsystem.getInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	TwoWheelSubsystem.getInstance();
     }
 
     // Called repeatedly when this Command is scheduled to run
