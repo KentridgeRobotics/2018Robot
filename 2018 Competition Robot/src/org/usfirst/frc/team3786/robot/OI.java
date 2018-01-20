@@ -23,7 +23,7 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-	private static XboxController myXbox = new XboxController(0);
+	private static XboxController myXbox = new XboxController(3);
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
 	}

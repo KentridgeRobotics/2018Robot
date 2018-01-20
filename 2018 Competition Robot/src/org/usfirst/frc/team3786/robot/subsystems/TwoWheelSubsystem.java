@@ -19,9 +19,8 @@ public class TwoWheelSubsystem extends Subsystem implements Drive {
 	private WPI_TalonSRX left;
 	private WPI_TalonSRX right;
 	public TwoWheelSubsystem() {
-		left = new WPI_TalonSRX(1);
-		right = new WPI_TalonSRX(2);
-		
+		left = new WPI_TalonSRX(2);
+		right = new WPI_TalonSRX(1);
 	}
 	@Override
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
@@ -49,9 +48,9 @@ public class TwoWheelSubsystem extends Subsystem implements Drive {
 
 	@Override
 	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
-		left.set(leftSpeed);
+		left.set(-leftSpeed);
 		right.set(rightSpeed);
-		// TODO Auto-generated method stub
+		System.out.println("Set speed: " + leftSpeed + " " + rightSpeed);
 		
 	}
 	
