@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3786.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -26,7 +27,11 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
+	
+	private static int cam_fps = 30;
+	
 	public static final TwoWheelSubsystem kTwoWheelSubsystem
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
@@ -42,13 +47,16 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
-		//CameraServer.getInstance().startAutomaticCapture();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(640, 480);
+		camera.setFPS(cam_fps);
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
+	 * 
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.

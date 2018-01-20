@@ -10,7 +10,8 @@ package org.usfirst.frc.team3786.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -23,7 +24,13 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-	private static XboxController myXbox = new XboxController(3);
+	
+	private static XboxController myXbox = new XboxController(5);
+	
+	// private static Button button1 = new JoystickButton(myXbox, 1);
+	
+	// button1.whenPressed();	
+	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
 	}
