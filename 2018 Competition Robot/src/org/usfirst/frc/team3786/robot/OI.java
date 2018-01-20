@@ -27,9 +27,9 @@ public class OI {
 	
 	private static XboxController myXbox = new XboxController(5);
 	
-	// private static Button button1 = new JoystickButton(myXbox, 1);
+	private static Button button1 = new JoystickButton(myXbox, 1);
 	
-	// button1.whenPressed();	
+		
 	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);

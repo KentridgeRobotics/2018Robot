@@ -57,6 +57,8 @@ public class TwoWheelSubsystem extends Subsystem implements Drive {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+		left.configOpenloopRamp(1.0, 0);
+		right.configOpenloopRamp(1.0, 0);
 	}
 
 }
