@@ -31,14 +31,22 @@ public class OI {
 	public static Button button2 = new JoystickButton(myXbox, 2); // B button
 	public static Button button3 = new JoystickButton(myXbox, 3); // X button
 	public static Button button4 = new JoystickButton(myXbox, 4); // Y button
-	public static Button button5 = new JoystickButton(myXbox, 5);
 	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
 	}
 	
+	public static double getLeftStickX() {
+		return myXbox.getX(Hand.kLeft);
+		
+	}
+	
 	public static double getRightStickY() {
 		return myXbox.getY(Hand.kRight);
+	}
+	
+	public static double getRightStickX() {
+		return myXbox.getX(Hand.kRight);
 	}
 	
 	public static boolean a_button() {
@@ -46,6 +54,17 @@ public class OI {
 		return myXbox.getAButton();
 	}
 	
+	public static boolean b_button() {
+		return myXbox.getBButton();
+	}
+	
+	public static boolean x_button() {
+		return myXbox.getXButton();
+	}
+	
+	public static boolean y_button() {
+		return myXbox.getYButton();
+	}
 	
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
