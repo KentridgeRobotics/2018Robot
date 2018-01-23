@@ -27,9 +27,11 @@ public class OI {
 	
 	private static XboxController myXbox = new XboxController(5);
 	
-	private static Button button1 = new JoystickButton(myXbox, 1);
-	
-		
+	public static Button button1 = new JoystickButton(myXbox, 1); // A button
+	public static Button button2 = new JoystickButton(myXbox, 2); // B button
+	public static Button button3 = new JoystickButton(myXbox, 3); // X button
+	public static Button button4 = new JoystickButton(myXbox, 4); // Y button
+	public static Button button5 = new JoystickButton(myXbox, 5);
 	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
@@ -39,6 +41,10 @@ public class OI {
 		return myXbox.getY(Hand.kRight);
 	}
 	
+	public static boolean a_button() {
+		
+		return myXbox.getAButton();
+	}
 	
 	
 	// There are a few additional built in buttons you can use. Additionally,
