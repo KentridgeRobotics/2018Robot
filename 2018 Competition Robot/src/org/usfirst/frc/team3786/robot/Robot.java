@@ -19,6 +19,10 @@ import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.IterativeRobot;
 //import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 /**
@@ -29,6 +33,9 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
  * project.
  */
 
+
+
+
 public class Robot extends TimedRobot {
 	
 	private static int cam_fps = 30;
@@ -37,9 +44,12 @@ public class Robot extends TimedRobot {
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
 	public static Drive myDrive;
+	public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
+
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -49,8 +59,10 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
+		m_mecanumDrive = new MecanumDrive(null, null, null, null);
+		XboxController xboxcontroller = new XboxController(5);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(640, 480);
+		camera.setResolution(320, 240);
 		camera.setFPS(cam_fps);
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -129,6 +141,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
+		SmartDashboard.putBoolean("A Button", OI.a_button());
+		m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 	}
 
