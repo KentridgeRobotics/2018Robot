@@ -4,9 +4,9 @@ import org.usfirst.frc.team3786.robot.subsystems.MandibleSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-	public class MandibleCloseCommand extends Command{
+	public class MandibleStopCommand extends Command{
 
-		public MandibleCloseCommand() {
+		public MandibleStopCommand() {
 			// Use requires() here to declare subsystem dependencies
 			requires(MandibleSubsystem.getInstance());
 		}
@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 		// Called just before this Command runs the first time
 		@Override
 		protected void initialize() {
-			MandibleSubsystem.getInstance().setBrakeMode(false);
-			MandibleSubsystem.getInstance().setTwoMotorSpeeds(-1.0);
+			MandibleSubsystem.getInstance().setBrakeMode(true);
+			MandibleSubsystem.getInstance().setTwoMotorSpeeds(0);
 		}
 
 		// Called repeatedly when this Command is scheduled to run

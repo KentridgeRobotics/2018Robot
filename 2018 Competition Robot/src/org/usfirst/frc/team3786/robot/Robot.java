@@ -7,22 +7,24 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
-import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 /**
@@ -68,6 +70,11 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		pdp = new PowerDistributionPanel();
+		m_oi.buttonA.whenPressed(new MandibleOpenCommand());
+		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
+		m_oi.buttonA.whenReleased(mandibleStopCommand);
+		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
+		m_oi.buttonB.whenReleased(mandibleStopCommand);
 	}
 
 	/**

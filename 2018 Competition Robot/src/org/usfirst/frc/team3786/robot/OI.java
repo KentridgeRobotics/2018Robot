@@ -27,10 +27,10 @@ public class OI {
 	
 	private static XboxController myXbox = new XboxController(5);
 	
-	public static Button button1 = new JoystickButton(myXbox, 1); // A button
-	public static Button button2 = new JoystickButton(myXbox, 2); // B button
-	public static Button button3 = new JoystickButton(myXbox, 3); // X button
-	public static Button button4 = new JoystickButton(myXbox, 4); // Y button
+	public static Button buttonA = new JoystickButton(myXbox, 1); // A button
+	public static Button buttonB = new JoystickButton(myXbox, 2); // B button
+	public static Button buttonX = new JoystickButton(myXbox, 3); // X button
+	public static Button buttonY = new JoystickButton(myXbox, 4); // Y button
 	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
