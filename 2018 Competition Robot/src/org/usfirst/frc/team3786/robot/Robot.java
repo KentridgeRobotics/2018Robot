@@ -15,9 +15,9 @@ import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 	public static final TwoWheelSubsystem kTwoWheelSubsystem
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
+	private static BNO055 gyro = null;
 	public static Drive myDrive;
 	//public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
@@ -78,7 +79,10 @@ public class Robot extends TimedRobot {
 		m_oi.buttonA.whenReleased(mandibleStopCommand);
 		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
 		m_oi.buttonB.whenReleased(mandibleStopCommand);
+		int DriverStationNumber = DriverStation.getInstance().getLocation();
+		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}
+
 
 	/**
 	 * 
@@ -166,6 +170,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("VelY", gUtil.getVelY());
 		SmartDashboard.putNumber("DispX", gUtil.getDispX());
 		SmartDashboard.putNumber("VelY", gUtil.getDispY());
+	//	m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 	}
 
