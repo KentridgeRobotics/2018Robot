@@ -14,6 +14,7 @@ import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.util.GyroUtil;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -46,10 +47,12 @@ public class Robot extends TimedRobot {
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
 	public static Drive myDrive;
-	public MecanumDrive m_mecanumDrive;
+	//public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
+	
+	GyroUtil gUtil = new GyroUtil();
 
 	
 
@@ -61,7 +64,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
-		m_mecanumDrive = new MecanumDrive(null, null, null, null);
+		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
 		XboxController xboxcontroller = new XboxController(5);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
@@ -139,6 +142,8 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		TankDriveCommand.getInstance().start();
+		
+		
 	}
 
 	/**
@@ -149,7 +154,18 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
 		SmartDashboard.putBoolean("A Button", OI.a_button());
-		m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
+		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
+		
+		gUtil.run();
+		System.out.println("TEST");
+		
+		SmartDashboard.putNumber("AccelX", gUtil.getAccel()[0]);
+		SmartDashboard.putNumber("AccelY", gUtil.getAccel()[1]);
+		
+		SmartDashboard.putNumber("VelX", gUtil.getVelX());
+		SmartDashboard.putNumber("VelY", gUtil.getVelY());
+		SmartDashboard.putNumber("DispX", gUtil.getDispX());
+		SmartDashboard.putNumber("VelY", gUtil.getDispY());
 		
 	}
 
