@@ -46,7 +46,6 @@ public class Robot extends TimedRobot {
 	public static final TwoWheelSubsystem kTwoWheelSubsystem
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
-	private static BNO055 gyro = null;
 	public static Drive myDrive;
 	//public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
