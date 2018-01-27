@@ -7,17 +7,26 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
+import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.util.BNO055;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 /**
@@ -28,6 +37,9 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
  * project.
  */
 
+
+
+
 public class Robot extends TimedRobot {
 	
 	private static int cam_fps = 30;
@@ -35,9 +47,14 @@ public class Robot extends TimedRobot {
 	public static final TwoWheelSubsystem kTwoWheelSubsystem
 			= new TwoWheelSubsystem();
 	public static OI m_oi;
+	private static BNO055 gyro = null;
 	public static Drive myDrive;
+	public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	PowerDistributionPanel pdp;
+
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,13 +64,30 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
+		m_mecanumDrive = new MecanumDrive(null, null, null, null);
+		XboxController xboxcontroller = new XboxController(5);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(640, 480);
+		camera.setResolution(320, 240);
 		camera.setFPS(cam_fps);
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		pdp = new PowerDistributionPanel();
+		m_oi.buttonA.whenPressed(new MandibleOpenCommand());
+		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
+		m_oi.buttonA.whenReleased(mandibleStopCommand);
+		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
+		m_oi.buttonB.whenReleased(mandibleStopCommand);
+		int DriverStationNumber = DriverStation.getInstance().getLocation();
+		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		if(gyro == null) {
+			gyro = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_IMUPLUS, BNO055.vector_type_t.VECTOR_EULER);
+		}
 	}
+	public static BNO055 getGyro() {
+		return gyro;
+	}
+
 
 	/**
 	 * 
@@ -125,6 +159,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
+		SmartDashboard.putBoolean("A Button", OI.a_button());
+		m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
+		
 	}
 
 	/**

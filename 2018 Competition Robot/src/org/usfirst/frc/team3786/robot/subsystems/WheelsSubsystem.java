@@ -11,7 +11,13 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
  */
 public class WheelsSubsystem extends Subsystem implements Drive{ 
 
+    public static WheelsSubsystem instance;
     
+    public static WheelsSubsystem getInstance() {
+    	if(instance == null)
+    		instance = new WheelsSubsystem();
+    	return instance;
+    }
 	
 	private WPI_TalonSRX leftFront;
 	private WPI_TalonSRX leftBack;
@@ -60,6 +66,10 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     public void initDefaultCommand() {
         //Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+ 
+    public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
+    mecanumDrive.drivePolar(speed, angle, 0);
     }
 }
 

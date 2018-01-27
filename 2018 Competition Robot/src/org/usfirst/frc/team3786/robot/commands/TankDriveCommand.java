@@ -32,11 +32,17 @@ public class TankDriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// When the number is negative, the wheels go forwards.
+    	// When the number is positive, the wheels go backwards.
     	double leftStickY = OI.getLeftStickY();
     	leftStickY = leftStickY * leftStickY * leftStickY;
+    	System.out.println("Left Joystick Y = " + leftStickY);
+
     	double rightStickY = OI.getRightStickY();
     	rightStickY = rightStickY * rightStickY * rightStickY;
-		Robot.myDrive.setTwoMotorSpeeds(leftStickY, OI.getRightStickY());
+    	System.out.println("Right Joystick Y = " + rightStickY);
+    	
+    	Robot.myDrive.setTwoMotorSpeeds(leftStickY, rightStickY);
     	
     }
 
