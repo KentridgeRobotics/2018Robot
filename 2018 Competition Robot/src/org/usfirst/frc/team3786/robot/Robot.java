@@ -55,8 +55,8 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
 	
-	GyroUtil gUtil = new GyroUtil();
-	ColorUtil cUtil = new ColorUtil();
+	public GyroUtil gUtil = new GyroUtil();
+	public ColorUtil cUtil = new ColorUtil();
 
 	
 
