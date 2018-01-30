@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3786.robot.commands;
 
+import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,6 +39,9 @@ public class AutonomousCrossTheLine extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (Robot.inst.cUtil.onBlack()) {
+    		return true;
+    	}
         return false;
     }
 

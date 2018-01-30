@@ -14,6 +14,7 @@ import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.util.ColorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -41,6 +42,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	
+	public static Robot inst;
+	
 	private static int cam_fps = 30;
 	
 	public static final TwoWheelSubsystem kTwoWheelSubsystem
@@ -52,7 +55,8 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
 	
-	GyroUtil gUtil = new GyroUtil();
+	public GyroUtil gUtil = new GyroUtil();
+	public ColorUtil cUtil = new ColorUtil();
 
 	
 
@@ -62,6 +66,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		inst = this;
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
 		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
