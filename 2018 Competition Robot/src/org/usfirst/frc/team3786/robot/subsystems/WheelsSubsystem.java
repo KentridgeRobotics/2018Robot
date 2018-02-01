@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import org.usfirst.frc.team3786.robot.OI;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -69,7 +71,7 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     }
  
     public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
-    mecanumDrive.drivePolar(speed, angle, 0);
+    mecanumDrive.drivePolar(Math.hypot(OI.getLeftStickX(), OI.getLeftStickY()), Math.atan2(OI.getLeftStickY(), OI.getLeftStickX()), GyroAngle);
     }
 }
 

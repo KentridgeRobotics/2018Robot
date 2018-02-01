@@ -14,6 +14,8 @@ import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,8 +46,11 @@ public class Robot extends TimedRobot {
 	
 	private static int cam_fps = 30;
 	
-	public static final TwoWheelSubsystem kTwoWheelSubsystem
+	public static final TwoWheelSubsystem TwoWheelSubsystem
 			= new TwoWheelSubsystem();
+
+	public static final Subsystem WheelsSubsystem 
+			= new WheelsSubsystem();
 	public static OI m_oi;
 	public static Drive myDrive;
 	//public MecanumDrive m_mecanumDrive;
@@ -52,6 +58,7 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
 	
+	ColorSensorUtil csUtil = new ColorSensorUtil();
 	GyroUtil gUtil = new GyroUtil();
 
 	

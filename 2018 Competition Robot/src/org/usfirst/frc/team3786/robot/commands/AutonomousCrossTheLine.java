@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -24,6 +25,9 @@ public class AutonomousCrossTheLine extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if (ColorSensorUtil.onBlackTape()) {
+    		
+    	}
     	if(StartingPosition == 1) {
     		//drive at 335 degrees
     		WheelsSubsystem.getInstance().setDirectionSpeed(335, 1.0, 0);
