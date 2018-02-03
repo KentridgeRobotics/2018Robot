@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3786.robot.commands;
 
-import org.usfirst.frc.team3786.robot.subsystems.MandibleSubsystem;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HalfSpeedCommand extends Command{
