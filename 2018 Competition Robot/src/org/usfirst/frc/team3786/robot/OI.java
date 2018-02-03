@@ -72,6 +72,16 @@ public class OI {
 			return n;
 	}
 	
+	public static double getLeftTrigger() {
+		double n = myXbox.getTriggerAxis(Hand.kLeft);
+		return n;
+	}
+	
+	public static double getRightTrigger() {
+		double n = myXbox.getTriggerAxis(Hand.kRight);
+		return n;
+	}
+	
 	public static boolean aButton() {
 		
 		return myXbox.getAButton();
