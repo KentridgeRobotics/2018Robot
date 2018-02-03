@@ -30,10 +30,10 @@ public class WheelsSubsystem extends Subsystem implements Drive {
 	private MecanumDrive mecanumDrive;
 	
 	public WheelsSubsystem() {
-		leftFront = new WPI_TalonSRX(1);
+		leftFront = new WPI_TalonSRX(2);
 		leftBack = new WPI_TalonSRX(3);
-		rightBack = new WPI_TalonSRX(4);
-		rightFront = new WPI_TalonSRX(2);
+		rightBack = new WPI_TalonSRX(1);
+		rightFront = new WPI_TalonSRX(4);
 		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 @Override
