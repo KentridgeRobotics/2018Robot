@@ -15,11 +15,11 @@ import org.usfirst.frc.team3786.robot.OI;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class switchdrive extends Command {
+public class SwitchDrive extends Command {
 	
 	private static int switchDrive = 0;
 	
-	public switchdrive() {
+	public SwitchDrive() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.twoWheelSubsystem);
 		requires(Robot.wheelsSubsystem);
