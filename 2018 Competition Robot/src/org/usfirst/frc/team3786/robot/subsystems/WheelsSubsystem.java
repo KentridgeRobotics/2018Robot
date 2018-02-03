@@ -30,10 +30,10 @@ public class WheelsSubsystem extends Subsystem implements Drive {
 	private MecanumDrive mecanumDrive;
 	
 	public WheelsSubsystem() {
-		leftFront = new WPI_TalonSRX(2);
-		leftBack = new WPI_TalonSRX(3);
-		rightBack = new WPI_TalonSRX(1);
-		rightFront = new WPI_TalonSRX(4);
+		leftFront = new WPI_TalonSRX(2); // Yellow
+		leftBack = new WPI_TalonSRX(3); // Purple
+		rightBack = new WPI_TalonSRX(1); // Blue
+		rightFront = new WPI_TalonSRX(4); // Orange
 		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 @Override
@@ -81,7 +81,7 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     
     public void setXboxDrive(double x, double y) {
     	double heading = GyroUtil.getInstance().getHeading();
-    	mecanumDrive.driveCartesian(y, x, 0, heading);
+    	mecanumDrive.driveCartesian(x, y, 0, heading);
     }
     
 }
