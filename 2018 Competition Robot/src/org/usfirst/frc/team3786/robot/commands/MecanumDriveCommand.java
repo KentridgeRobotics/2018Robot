@@ -11,6 +11,9 @@ public class MecanumDriveCommand extends Command {
 	public static MecanumDriveCommand inst;
 
 	private boolean halfSpeed = false;
+	
+	private boolean xDisable = false;
+	private boolean yDisable = false;
 
 	public static MecanumDriveCommand getInstance() {
 		if (inst == null)
@@ -34,12 +37,17 @@ public class MecanumDriveCommand extends Command {
 		// Drive controls
 		double x = OI.getLeftStickX();
 		double y = OI.getLeftStickY();
+		// Turning controls
+		double turn = OI.getRightStickX();
 		if (this.halfSpeed) {
 			x = x / 3;
 			y = y / 3;
+			turn = turn / 3;
 		}
-		// Turning controls
-		double turn = OI.getRightStickX();
+		if (this.xDisable)
+			x = 0;
+		if (this.yDisable)
+			y = 0;
 		// Update motors with controls
 		Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
 		
@@ -69,5 +77,19 @@ public class MecanumDriveCommand extends Command {
 			this.halfSpeed = false;
 		else
 			this.halfSpeed = true;
+	}
+	
+	public void toggleX() {
+		if (this.xDisable)
+			this.xDisable = false;
+		else
+			this.xDisable = true;
+	}
+	
+	public void toggleY() {
+		if (this.yDisable)
+			this.yDisable = false;
+		else
+			this.yDisable = true;
 	}
 }

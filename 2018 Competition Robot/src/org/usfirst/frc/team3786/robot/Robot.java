@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
+import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3786.robot.commands.HalfSpeedCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
@@ -76,12 +78,14 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		pdp = new PowerDistributionPanel();
-		m_oi.buttonA.whenPressed(new MandibleOpenCommand());
+		OI.buttonA.whenPressed(new MandibleOpenCommand());
 		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
-		m_oi.buttonA.whenReleased(mandibleStopCommand);
-		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
-		m_oi.buttonB.whenReleased(mandibleStopCommand);
-		m_oi.buttonX.whenPressed(new HalfSpeedCommand());
+		OI.buttonA.whenReleased(mandibleStopCommand);
+		OI.buttonB.whenPressed(new MandibleCloseCommand());
+		OI.buttonB.whenReleased(mandibleStopCommand);
+		OI.buttonX.whenPressed(new HalfSpeedCommand());
+		OI.buttonBack.whenPressed(new DisableXCommand());
+		OI.buttonStart.whenPressed(new DisableYCommand());
 		int DriverStationNumber = DriverStation.getInstance().getLocation();
 		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}

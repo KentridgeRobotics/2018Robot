@@ -2,7 +2,6 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
-import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 
 import edu.wpi.first.wpilibj.command.Command;
 
