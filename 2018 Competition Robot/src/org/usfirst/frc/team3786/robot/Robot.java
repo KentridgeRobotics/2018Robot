@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3786.robot.commands.HalfSpeedCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
 	PowerDistributionPanel pdp;
 	
 	public ColorSensorUtil csUtil = new ColorSensorUtil();
-	public GyroUtil gUtil = new GyroUtil();
+	public GyroUtil gUtil = GyroUtil.getInstance();
 	public ColorUtil cUtil = new ColorUtil();
 	
 
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
 		m_oi.buttonA.whenReleased(mandibleStopCommand);
 		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
 		m_oi.buttonB.whenReleased(mandibleStopCommand);
+		m_oi.buttonX.whenPressed(new HalfSpeedCommand());
 		int DriverStationNumber = DriverStation.getInstance().getLocation();
 		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}
@@ -165,7 +167,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
-		SmartDashboard.putBoolean("A Button", OI.a_button());
+		SmartDashboard.putBoolean("A Button", OI.aButton());
 		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 		gUtil.run();
