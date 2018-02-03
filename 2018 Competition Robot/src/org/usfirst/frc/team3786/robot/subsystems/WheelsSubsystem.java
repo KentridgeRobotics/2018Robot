@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
-import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,14 +24,14 @@ public class WheelsSubsystem extends Subsystem implements Drive{
 	private WPI_TalonSRX rightBack;
 	private WPI_TalonSRX rightFront;
 	
-	private ExtendedMecanumDrive mecanumDrive;
+	private MecanumDrive mecanumDrive;
 	
 	public WheelsSubsystem() {
 		leftFront = new WPI_TalonSRX(0);
 		leftBack = new WPI_TalonSRX(0);
 		rightBack = new WPI_TalonSRX(0);
 		rightFront = new WPI_TalonSRX(0);
-		mecanumDrive = (ExtendedMecanumDrive) new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
+		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 @Override
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
@@ -71,7 +69,8 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     }
  
     public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
-    mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
+    	mecanumDrive.drivePolar(speed, angle, 0);
     }
+    
 }
 
