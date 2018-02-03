@@ -31,15 +31,18 @@ public class MecanumDriveCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		// When the number is negative, the wheels go forwards.
-		// When the number is positive, the wheels go backwards.
+		// Drive controls
 		double x = OI.getLeftStickX();
 		double y = OI.getLeftStickY();
 		if (this.halfSpeed) {
 			x = x / 3;
 			y = y / 3;
 		}
-		Robot.wheelsSubsystem.setXboxDrive(x, -y);
+		// Turning controls
+		double turn = OI.getRightStickX();
+		// Update motors with controls
+		Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
+		
 
 	}
 

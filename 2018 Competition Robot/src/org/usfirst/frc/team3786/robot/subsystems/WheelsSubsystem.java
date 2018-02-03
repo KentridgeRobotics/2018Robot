@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -32,7 +33,12 @@ public class WheelsSubsystem extends Subsystem {
 		leftBack = new WPI_TalonSRX(3); // Purple
 		rightBack = new WPI_TalonSRX(1); // Blue
 		rightFront = new WPI_TalonSRX(4); // Orange
-		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
+		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
+		leftFront.configOpenloopRamp(0.2, 0);
+		leftBack.configOpenloopRamp(0.2, 0);
+		rightBack.configOpenloopRamp(0.2, 0);
+		rightFront.configOpenloopRamp(0.2, 0);
+		
 	}
 
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
@@ -67,19 +73,15 @@ public class WheelsSubsystem extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		leftFront.configOpenloopRamp(0.2, 0);
-		leftBack.configOpenloopRamp(0.2, 0);
-		rightBack.configOpenloopRamp(0.2, 0);
-		rightFront.configOpenloopRamp(0.2, 0);
 	}
 
 	public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
 		mecanumDrive.drivePolar(speed, angle, 0);
 	}
 
-	public void setXboxDrive(double x, double y) {
+	public void setXboxDrive(double x, double y, double turn) {
 		double heading = GyroUtil.getInstance().getHeading();
-		mecanumDrive.driveCartesian(x, y, 0, heading);
+		mecanumDrive.driveCartesian(x, y, turn, heading);
 	}
 
 }

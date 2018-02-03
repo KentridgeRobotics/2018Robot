@@ -26,6 +26,8 @@ public class OI {
 	
 	private static XboxController myXbox = new XboxController(0);
 	
+	private static double deadZone = 0.1;
+	
 	public static Button buttonA = new JoystickButton(myXbox, 1); // A button
 	public static Button buttonB = new JoystickButton(myXbox, 2); // B button
 	public static Button buttonX = new JoystickButton(myXbox, 3); // X button
@@ -38,20 +40,36 @@ public class OI {
 	public static Button buttonRCenter = new JoystickButton(myXbox, 10); // Right Center button
 	
 	public static double getLeftStickY() {
-		return myXbox.getY(Hand.kLeft);
+		double n = myXbox.getY(Hand.kLeft);
+		if (Math.abs(n) <= deadZone)
+			return 0.0;
+		else
+			return n;
 	}
 	
 	public static double getLeftStickX() {
-		return myXbox.getX(Hand.kLeft);
+		double n = myXbox.getX(Hand.kLeft);
+		if (Math.abs(n) <= deadZone)
+			return 0.0;
+		else
+			return n;
 		
 	}
 	
 	public static double getRightStickY() {
-		return myXbox.getY(Hand.kRight);
+		double n = myXbox.getY(Hand.kRight);
+		if (Math.abs(n) <= deadZone)
+			return 0.0;
+		else
+			return n;
 	}
 	
 	public static double getRightStickX() {
-		return myXbox.getX(Hand.kRight);
+		double n = myXbox.getX(Hand.kRight);
+		if (Math.abs(n) <= deadZone)
+			return 0.0;
+		else
+			return n;
 	}
 	
 	public static boolean aButton() {
