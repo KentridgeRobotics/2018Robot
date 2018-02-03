@@ -34,12 +34,13 @@ public class MecanumDriveCommand extends Command {
 		// Drive controls
 		double x = OI.getLeftStickX();
 		double y = OI.getLeftStickY();
+		// Turning controls
+		double turn = OI.getRightStickX();
 		if (this.halfSpeed) {
 			x = x / 3;
 			y = y / 3;
+			turn = turn / 3;
 		}
-		// Turning controls
-		double turn = OI.getRightStickX();
 		// Update motors with controls
 		Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
 		
