@@ -3,9 +3,9 @@ package org.usfirst.frc.team3786.robot.commands;
 import org.usfirst.frc.team3786.robot.subsystems.LifterSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LifterLowerCommand extends Command{
+public class LifterStopCommand extends Command{
 	
-	public LifterLowerCommand() {
+	public LifterStopCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(LifterSubsystem.getInstance());
 	}
@@ -14,8 +14,8 @@ public class LifterLowerCommand extends Command{
 	// Called just before this Command runs the first time
 		@Override
 		protected void initialize() {
-			LifterSubsystem.getInstance().setBrakeMode(false);
-			LifterSubsystem.getInstance().setLiftSpeed(-1.0);
+			LifterSubsystem.getInstance().setBrakeMode(true);
+			LifterSubsystem.getInstance().setLiftSpeed(0.0);
 		}
 
 		// Called repeatedly when this Command is scheduled to run
