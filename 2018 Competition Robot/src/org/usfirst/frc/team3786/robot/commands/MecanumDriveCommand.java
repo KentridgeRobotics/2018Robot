@@ -40,7 +40,6 @@ public class MecanumDriveCommand extends Command {
 			y = y / 2;
 		}
 		x = x * -1;
-		y = y * -1;
 		System.out.println("Left Joystick X = " + x);
 		System.out.println("Left Joystick Y = " + y);
 		Robot.wheelsSubsystem.setXboxDrive(x, y);
