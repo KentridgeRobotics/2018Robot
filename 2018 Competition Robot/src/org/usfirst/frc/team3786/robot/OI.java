@@ -8,7 +8,6 @@
 package org.usfirst.frc.team3786.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,6 +30,12 @@ public class OI {
 	public static Button buttonB = new JoystickButton(myXbox, 2); // B button
 	public static Button buttonX = new JoystickButton(myXbox, 3); // X button
 	public static Button buttonY = new JoystickButton(myXbox, 4); // Y button
+	public static Button bumperL = new JoystickButton(myXbox, 5); // Left bumper
+	public static Button bumperR = new JoystickButton(myXbox, 6); // Right bumper
+	public static Button buttonBack = new JoystickButton(myXbox, 7); // Back button
+	public static Button buttonStart = new JoystickButton(myXbox, 8); // Start button
+	public static Button buttonLCenter = new JoystickButton(myXbox, 9); // Left Center button
+	public static Button buttonRCenter = new JoystickButton(myXbox, 10); // Right Center button
 	
 	public static double getLeftStickY() {
 		return myXbox.getY(Hand.kLeft);
@@ -49,21 +54,45 @@ public class OI {
 		return myXbox.getX(Hand.kRight);
 	}
 	
-	public static boolean a_button() {
+	public static boolean aButton() {
 		
 		return myXbox.getAButton();
 	}
 	
-	public static boolean b_button() {
+	public static boolean bButton() {
 		return myXbox.getBButton();
 	}
 	
-	public static boolean x_button() {
+	public static boolean xButton() {
 		return myXbox.getXButton();
 	}
 	
-	public static boolean y_button() {
+	public static boolean yButton() {
 		return myXbox.getYButton();
+	}
+	
+	public static boolean backButton() {
+		return myXbox.getBackButton();
+	}
+	
+	public static boolean startButton() {
+		return myXbox.getStartButton();
+	}
+	
+	public static boolean leftCenter() {
+		return myXbox.getStickButton(Hand.kLeft);
+	}
+	
+	public static boolean rightCenter() {
+		return myXbox.getStickButton(Hand.kRight);
+	}
+	
+	public static boolean leftBumper() {
+		return myXbox.getBumper(Hand.kLeft);
+	}
+	
+	public static boolean rightBumper() {
+		return myXbox.getBumper(Hand.kRight);
 	}
 	
 	// There are a few additional built in buttons you can use. Additionally,
