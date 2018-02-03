@@ -60,14 +60,14 @@ public class GyroUtil implements Runnable {
 		accelX = (float) (Math.cos(robotHead)*robotAccelX + Math.sin(robotHead)*robotAccelY);
 		accelY = (float) (-Math.sin(robotHead)*robotAccelX + Math.cos(robotHead)*robotAccelY);
 		
-		velX[1] = velX[0] + accelX/dT;
-		velY[1] = velY[0] + accelY/dT;
+		velX[1] = velX[0] + accelX*dT;
+		velY[1] = velY[0] + accelY*dT;
 		
 		velX[0] = velX[1];
 		velY[0] = velY[1];
 		
-		dispX[1] = dispX[0] + velX[1]/dT;
-		dispY[1] = dispY[0] + velY[1]/dT;
+		dispX[1] = dispX[0] + velX[1]*dT + 0.5*accelX*Math.pow(dT, 2);
+		dispY[1] = dispY[0] + velY[1]*dT + 0.5*accelY*Math.pow(dT, 2);
 		
 		dispX[0] = dispX[1];
 		dispY[0] = dispY[1];
