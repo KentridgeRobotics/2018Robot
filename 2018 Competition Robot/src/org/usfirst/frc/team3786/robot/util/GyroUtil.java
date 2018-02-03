@@ -1,6 +1,15 @@
 package org.usfirst.frc.team3786.robot.util;
 
 public class GyroUtil implements Runnable {
+	
+	public static GyroUtil instance;
+	
+	public static GyroUtil getInstance() {
+		if(instance == null)
+			instance = new GyroUtil();
+		return instance;
+	}
+	
 	private static BNO055 gyro;
 	private static BNO055 accel;
 	private double orientMatrix[][];
