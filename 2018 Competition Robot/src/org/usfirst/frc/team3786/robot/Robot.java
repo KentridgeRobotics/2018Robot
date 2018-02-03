@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
+import org.usfirst.frc.team3786.robot.commands.HalfSpeedCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
 		m_oi.buttonA.whenReleased(mandibleStopCommand);
 		m_oi.buttonB.whenPressed(new MandibleCloseCommand());
 		m_oi.buttonB.whenReleased(mandibleStopCommand);
+		m_oi.buttonX.whenPressed(new HalfSpeedCommand());
 		int DriverStationNumber = DriverStation.getInstance().getLocation();
 		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}
