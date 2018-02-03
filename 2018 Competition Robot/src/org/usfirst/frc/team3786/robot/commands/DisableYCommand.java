@@ -2,15 +2,15 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HalfSpeedCommand extends Command {
+public class DisableYCommand extends Command {
 
-	public HalfSpeedCommand() {
+	public DisableYCommand() {
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		MecanumDriveCommand.inst.toggleHalfSpeed();
+		MecanumDriveCommand.inst.toggleY();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

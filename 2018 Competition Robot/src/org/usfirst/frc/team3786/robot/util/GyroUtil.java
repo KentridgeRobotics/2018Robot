@@ -12,7 +12,6 @@ public class GyroUtil implements Runnable {
 	
 	private static BNO055 gyro;
 	private static BNO055 accel;
-	private double orientMatrix[][];
 	private double accelX, accelY;
 	private double robotAccelX, robotAccelY, robotHead;
 	private double[] velX, velY,
