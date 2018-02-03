@@ -29,10 +29,10 @@ public class WheelsSubsystem extends Subsystem implements Drive{
 	private ExtendedMecanumDrive mecanumDrive;
 	
 	public WheelsSubsystem() {
-		leftFront = new WPI_TalonSRX(0);
-		leftBack = new WPI_TalonSRX(0);
-		rightBack = new WPI_TalonSRX(0);
-		rightFront = new WPI_TalonSRX(0);
+		leftFront = new WPI_TalonSRX(1);
+		leftBack = new WPI_TalonSRX(3);
+		rightBack = new WPI_TalonSRX(4);
+		rightFront = new WPI_TalonSRX(2);
 		mecanumDrive = (ExtendedMecanumDrive) new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 @Override
@@ -68,6 +68,10 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     public void initDefaultCommand() {
         //Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	leftFront.configOpenloopRamp(0.2, 0);
+		leftBack.configOpenloopRamp(0.2, 0);
+		rightBack.configOpenloopRamp(0.2, 0);
+		rightFront.configOpenloopRamp(0.2, 0);
     }
  
     public void setDirectionSpeed(double angle, double speed, double GyroAngle) {

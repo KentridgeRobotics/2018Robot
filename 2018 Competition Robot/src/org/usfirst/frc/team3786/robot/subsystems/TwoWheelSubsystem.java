@@ -16,18 +16,25 @@ public class TwoWheelSubsystem extends Subsystem implements Drive {
 			instance = new TwoWheelSubsystem();
 		return instance;		
 	}
-	private WPI_TalonSRX left;
-	private WPI_TalonSRX right;
+	private WPI_TalonSRX leftfront;
+	private WPI_TalonSRX rightfront;
+	private WPI_TalonSRX rightback;
+	private WPI_TalonSRX leftback;
 	public TwoWheelSubsystem() {
-		left = new WPI_TalonSRX(2);
-		right = new WPI_TalonSRX(1);
+		leftfront = new WPI_TalonSRX(1);
+		rightfront = new WPI_TalonSRX(2);
+		leftback = new WPI_TalonSRX(3);
+		rightback = new WPI_TalonSRX(4);
+		
 	}
 	@Override
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
-		left.set(leftFrontSpeed);
-		right.set(rightFrontSpeed);
+		leftfront.set(leftFrontSpeed);
+		rightfront.set(rightFrontSpeed);
+		leftback.set(-leftBackSpeed);
+		rightback.set(-rightBackSpeed);
 		// TODO Auto-generated method stub
-		
+		System.out.println("Set speed: " + leftFrontSpeed + " " + leftBackSpeed + "" + rightFrontSpeed + "" + rightBackSpeed);
 	}
 	
 
@@ -39,26 +46,34 @@ public class TwoWheelSubsystem extends Subsystem implements Drive {
 		} else {
 			mode = NeutralMode.Coast;
 		}
-		left.setNeutralMode(mode);
-		right.setNeutralMode(mode);
-		
-		
-		
+		leftfront.setNeutralMode(mode);
+		rightfront.setNeutralMode(mode);
+		leftback.setNeutralMode(mode);
+		rightback.setNeutralMode(mode);
+				
 	}
 
 	@Override
-	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
-		left.set(-leftSpeed);
-		right.set(rightSpeed);
-		System.out.println("Set speed: " + leftSpeed + " " + rightSpeed);
+//	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
+	//	leftfront.set(leftSpeed);
+		//leftback.set(-leftSpeed);
+		//right.set(rightSpeed);
 		
-	}
+		
+	//}
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		left.configOpenloopRamp(0.2, 0);
-		right.configOpenloopRamp(0.2, 0);
+		leftfront.configOpenloopRamp(0.2, 0);
+		leftback.configOpenloopRamp(0.2, 0);
+		rightfront.configOpenloopRamp(0.2, 0);
+		rightback.configOpenloopRamp(0.2, 0);
+	}
+	@Override
+	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
