@@ -13,8 +13,6 @@ import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
-import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
-import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
@@ -25,11 +23,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
@@ -55,7 +50,6 @@ public class Robot extends TimedRobot {
 
 	public static final WheelsSubsystem wheelsSubsystem = new WheelsSubsystem();
 	public static OI m_oi;
-	public static Drive myDrive;
 	//public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -74,7 +68,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		inst = this;
 		m_oi = new OI();
-		myDrive = new TwoWheelSubsystem();
 		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
@@ -171,7 +164,6 @@ public class Robot extends TimedRobot {
 		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 		gUtil.run();
-		System.out.println("TEST");
 		
 		SmartDashboard.putNumber("AccelX", gUtil.getAccel()[0]);
 		SmartDashboard.putNumber("AccelY", gUtil.getAccel()[1]);

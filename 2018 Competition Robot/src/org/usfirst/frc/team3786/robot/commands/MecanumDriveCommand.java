@@ -36,13 +36,10 @@ public class MecanumDriveCommand extends Command {
 		double x = OI.getLeftStickX();
 		double y = OI.getLeftStickY();
 		if (this.halfSpeed) {
-			x = x / 2;
-			y = y / 2;
+			x = x / 3;
+			y = y / 3;
 		}
-		x = x * -1;
-		System.out.println("Left Joystick X = " + x);
-		System.out.println("Left Joystick Y = " + y);
-		Robot.wheelsSubsystem.setXboxDrive(x, y);
+		Robot.wheelsSubsystem.setXboxDrive(x, -y);
 
 	}
 
