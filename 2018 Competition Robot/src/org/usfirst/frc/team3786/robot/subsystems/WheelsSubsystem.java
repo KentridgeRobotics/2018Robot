@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import org.usfirst.frc.team3786.robot.Robot;
+import org.usfirst.frc.team3786.robot.util.GyroUtil;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -77,7 +80,8 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     }
     
     public void setXboxDrive(double x, double y) {
-    	mecanumDrive.driveCartesian(y, x, 0);
+    	double heading = GyroUtil.getInstance().getHeading();
+    	mecanumDrive.driveCartesian(y, x, 0, heading);
     }
     
 }

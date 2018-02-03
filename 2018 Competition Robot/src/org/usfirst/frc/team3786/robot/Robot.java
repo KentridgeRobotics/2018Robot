@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
 	PowerDistributionPanel pdp;
 	
 	public ColorSensorUtil csUtil = new ColorSensorUtil();
-	public GyroUtil gUtil = new GyroUtil();
+	public GyroUtil gUtil = GyroUtil.getInstance();
 	public ColorUtil cUtil = new ColorUtil();
 	
 
