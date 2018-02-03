@@ -11,9 +11,12 @@ import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
+import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.Drive;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.ColorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,8 +50,9 @@ public class Robot extends TimedRobot {
 	
 	private static int cam_fps = 30;
 	
-	public static final TwoWheelSubsystem kTwoWheelSubsystem
-			= new TwoWheelSubsystem();
+	public static final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
+
+	public static final WheelsSubsystem wheelsSubsystem = new WheelsSubsystem();
 	public static OI m_oi;
 	public static Drive myDrive;
 	//public MecanumDrive m_mecanumDrive;
@@ -55,9 +60,9 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
 	
+	public ColorSensorUtil csUtil = new ColorSensorUtil();
 	public GyroUtil gUtil = new GyroUtil();
 	public ColorUtil cUtil = new ColorUtil();
-
 	
 
 	/**
@@ -70,7 +75,6 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		myDrive = new TwoWheelSubsystem();
 		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
-		XboxController xboxcontroller = new XboxController(5);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		camera.setFPS(cam_fps);
@@ -149,7 +153,7 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-		TankDriveCommand.getInstance().start();
+		MecanumDriveCommand.getInstance().start();
 		
 		
 	}

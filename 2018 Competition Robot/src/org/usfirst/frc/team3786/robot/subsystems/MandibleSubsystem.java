@@ -20,8 +20,8 @@ public class MandibleSubsystem extends Subsystem {
 	private WPI_TalonSRX left;
 	private WPI_TalonSRX right;
 	public MandibleSubsystem() {
-		left = new WPI_TalonSRX(2);
-		right = new WPI_TalonSRX(1);
+		left = new WPI_TalonSRX(5);
+		right = new WPI_TalonSRX(6);
 		left.configOpenloopRamp(0.2, 0);
 		right.configOpenloopRamp(0.2, 0);
 	}

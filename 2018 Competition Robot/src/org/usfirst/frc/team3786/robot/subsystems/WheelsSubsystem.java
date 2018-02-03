@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
-import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -11,7 +9,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 /**
  *
  */
-public class WheelsSubsystem extends Subsystem implements Drive{ 
+public class WheelsSubsystem extends Subsystem implements Drive { 
 
     public static WheelsSubsystem instance;
     
@@ -26,14 +24,14 @@ public class WheelsSubsystem extends Subsystem implements Drive{
 	private WPI_TalonSRX rightBack;
 	private WPI_TalonSRX rightFront;
 	
-	private ExtendedMecanumDrive mecanumDrive;
+	private MecanumDrive mecanumDrive;
 	
 	public WheelsSubsystem() {
 		leftFront = new WPI_TalonSRX(1);
 		leftBack = new WPI_TalonSRX(3);
 		rightBack = new WPI_TalonSRX(4);
 		rightFront = new WPI_TalonSRX(2);
-		mecanumDrive = (ExtendedMecanumDrive) new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
+		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 @Override
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
@@ -75,7 +73,12 @@ public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
     }
  
     public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
-    mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
+    	mecanumDrive.drivePolar(speed, angle, 0);
     }
+    
+    public void setXboxDrive(double x, double y) {
+    	mecanumDrive.driveCartesian(y, x, 0);
+    }
+    
 }
 
