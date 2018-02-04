@@ -4,23 +4,22 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class LifterSubsystem extends Subsystem {
+public class TowerSubsystem extends Subsystem {
 	
-private static LifterSubsystem instance;
+private static TowerSubsystem instance;
 	
-	public static LifterSubsystem getInstance() {
+	public static TowerSubsystem getInstance() {
 		if(instance == null)
-			instance = new LifterSubsystem();
+			instance = new TowerSubsystem();
 		return instance;
 	}
 	
-	private WPI_TalonSRX Lifter;
-	private WPI_TalonSRX Winch;
+	private WPI_TalonSRX Elevator;
+
 	
 	
-	public LifterSubsystem() {
-		Lifter = new WPI_TalonSRX(7);
-		Winch = new WPI_TalonSRX(8);
+	public TowerSubsystem() {
+		Elevator = new WPI_TalonSRX(7);
 	}
 
 	public void setBrakeMode(boolean isBraking) {
@@ -30,7 +29,7 @@ private static LifterSubsystem instance;
 		} else {
 			mode = NeutralMode.Coast;
 		}
-		Lifter.setNeutralMode(mode);
+		Elevator.setNeutralMode(mode);
 
 		
 		
@@ -38,7 +37,7 @@ private static LifterSubsystem instance;
 	}
 	
 	public void setLiftSpeed(double speed) {
-		Lifter.set(speed);
+		Elevator.set(speed);
 	}
 	
 	@Override

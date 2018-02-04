@@ -18,7 +18,6 @@ import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
-import org.usfirst.frc.team3786.robot.util.ColorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -59,7 +58,6 @@ public class Robot extends TimedRobot {
 	
 	public ColorSensorUtil csUtil = new ColorSensorUtil();
 	public GyroUtil gUtil = GyroUtil.getInstance();
-	public ColorUtil cUtil = new ColorUtil();
 	
 
 	/**
