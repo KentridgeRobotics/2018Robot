@@ -10,7 +10,7 @@ package org.usfirst.frc.team3786.robot;
 import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3786.robot.commands.HalfSpeedCommand;
+import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
@@ -69,6 +69,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		inst = this;
+		
+		this.setPeriod(DEFAULT_PERIOD);
+		
 		m_oi = new OI();
 		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -83,7 +86,7 @@ public class Robot extends TimedRobot {
 		OI.buttonA.whenReleased(mandibleStopCommand);
 		OI.buttonB.whenPressed(new MandibleCloseCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
-		OI.buttonX.whenPressed(new HalfSpeedCommand());
+		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
 		int DriverStationNumber = DriverStation.getInstance().getLocation();
@@ -154,6 +157,9 @@ public class Robot extends TimedRobot {
 		}
 		MecanumDriveCommand.getInstance().start();
 		
+		//Testing things
+		wheelsSubsystem.setSetpointRelative(90.0);
+		
 		
 	}
 
@@ -176,7 +182,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("VelY", gUtil.getVelY());
 		SmartDashboard.putNumber("DispX", gUtil.getDispX());
 		SmartDashboard.putNumber("VelY", gUtil.getDispY());
+		
+		SmartDashboard.putData(this.wheelsSubsystem);
+		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
 	//	m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
+		
 		
 	}
 

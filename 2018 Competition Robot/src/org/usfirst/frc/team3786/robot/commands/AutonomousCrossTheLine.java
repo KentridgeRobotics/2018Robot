@@ -27,12 +27,12 @@ public class AutonomousCrossTheLine extends Command {
     protected void execute() {
     	if(StartingPosition == 1) {
     		//drive at 335 degrees
-    		WheelsSubsystem.getInstance().setDirectionSpeed(335, 1.0, 0);
+    		//WheelsSubsystem.getInstance().setDirectionSpeed(335, 1.0, 0);
     	} else if(StartingPosition == 2) {
     		//???
     	} else if(StartingPosition == 3) {
     		//drive at 25 degrees
-    		WheelsSubsystem.getInstance().setDirectionSpeed(25, 1.0, 0);
+    		//WheelsSubsystem.getInstance().setDirectionSpeed(25, 1.0, 0);
     		
     	}
     }

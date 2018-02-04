@@ -26,7 +26,7 @@ public class OI {
 	
 	private static XboxController myXbox = new XboxController(0);
 	
-	private static double deadZone = 0.1;
+	private static double deadZone = 0.13;
 	
 	public static Button buttonA = new JoystickButton(myXbox, 1); // A button
 	public static Button buttonB = new JoystickButton(myXbox, 2); // B button

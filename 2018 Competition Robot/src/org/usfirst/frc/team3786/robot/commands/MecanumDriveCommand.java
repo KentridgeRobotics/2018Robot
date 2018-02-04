@@ -5,12 +5,13 @@ import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
 
 	public static MecanumDriveCommand inst;
 
-	private boolean halfSpeed = false;
+	private boolean speedLimit = false;
 	
 	private boolean xDisable = false;
 	private boolean yDisable = false;
@@ -30,6 +31,10 @@ public class MecanumDriveCommand extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		WheelsSubsystem.getInstance();
+		WheelsSubsystem.getInstance().setSetpoint(0.0);
+		if (!Robot.wheelsSubsystem.getPIDController().isEnabled())
+			Robot.wheelsSubsystem.enable();
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -39,7 +44,7 @@ public class MecanumDriveCommand extends Command {
 		double y = OI.getLeftStickY();
 		// Turning controls
 		double turn = OI.getRightStickX();
-		if (this.halfSpeed) {
+		if (this.speedLimit) {
 			x = x / 3;
 			y = y / 3;
 			turn = turn / 3;
@@ -48,11 +53,17 @@ public class MecanumDriveCommand extends Command {
 			x = 0;
 		if (this.yDisable)
 			y = 0;
-		// Update motors with controls
-		Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
 		
-
-	}
+		Robot.wheelsSubsystem.setSetpointRelative(6*turn);
+		SmartDashboard.putBoolean("PIDTurn", Robot.wheelsSubsystem.getPIDController().isEnabled());
+		SmartDashboard.putNumber("PID Setpoint", Robot.wheelsSubsystem.getSetpoint());
+		SmartDashboard.putNumber("Turn", turn);
+		
+		// Update motors with controls
+		//Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
+		Robot.wheelsSubsystem.gyroAssistedDrive(x, -y);
+		
+		}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
@@ -68,15 +79,28 @@ public class MecanumDriveCommand extends Command {
 	protected void interrupted() {
 	}
 	
-	public void setHalfSpeed(boolean halfSpeed) {
-		this.halfSpeed = halfSpeed;
+	public boolean setSpeedLimit(boolean speedLimit) {
+		this.speedLimit = speedLimit;
+		return this.speedLimit;
 	}
 	
-	public void toggleHalfSpeed() {
-		if (this.halfSpeed)
-			this.halfSpeed = false;
+	public boolean getSpeedLimit() {
+		return this.speedLimit;
+	}
+	
+	public boolean getDisableX() {
+		return this.xDisable;
+	}
+	
+	public boolean getDisableY() {
+		return this.yDisable;
+	}
+	
+	public void toggleSpeedLimit() {
+		if (this.speedLimit)
+			this.speedLimit = false;
 		else
-			this.halfSpeed = true;
+			this.speedLimit = true;
 	}
 	
 	public void toggleX() {
