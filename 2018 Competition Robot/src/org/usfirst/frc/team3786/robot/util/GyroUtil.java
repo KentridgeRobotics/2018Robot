@@ -43,6 +43,10 @@ public class GyroUtil implements Runnable {
 		return gyro.getHeading();
 	}
 	
+	public double[] getVector() {
+		return gyro.getVector();
+	}
+	
 	public double[] getAccel() {
 		return accel.getVector();
 	}

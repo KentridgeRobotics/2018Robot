@@ -168,7 +168,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
-		SmartDashboard.putBoolean("A Button", OI.aButton());
 		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 		gUtil.run();
@@ -180,6 +179,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("VelY", gUtil.getVelY());
 		SmartDashboard.putNumber("DispX", gUtil.getDispX());
 		SmartDashboard.putNumber("VelY", gUtil.getDispY());
+		SmartDashboard.putNumberArray("Vector", gUtil.getVector());
 		
 		SmartDashboard.putData(this.wheelsSubsystem);
 		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
