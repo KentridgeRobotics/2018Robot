@@ -31,7 +31,7 @@ public class WheelsSubsystem extends PIDSubsystem {
 	private WPI_TalonSRX rightBack;
 	private WPI_TalonSRX rightFront;
 
-	private MecanumDrive mecanumDrive;
+	private ExtendedMecanumDrive mecanumDrive;
 	
 	private static double kP = 0.1;
 	private static double kI = 0.0;
@@ -90,7 +90,7 @@ public class WheelsSubsystem extends PIDSubsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
  void setDirectionSpeed(double angle, double speed, double GyroAngle) {
-		mecanumDrive.drivePolar(speed, angle, 0);
+		mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
 	}
 
 	public void setXboxDrive(double x, double y, double turn) {

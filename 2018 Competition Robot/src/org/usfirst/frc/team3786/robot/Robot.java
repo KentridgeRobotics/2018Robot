@@ -17,6 +17,7 @@ import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
@@ -161,7 +162,8 @@ public class Robot extends TimedRobot {
 		//Testing things
 		wheelsSubsystem.setSetpointRelative(90.0);
 		
-		
+		CalData cal = gUtil.getCalibration();
+		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
 
 	/**
@@ -171,20 +173,17 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
-		SmartDashboard.putBoolean("A Button", OI.aButton());
 		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
 		gUtil.run();
-		
-		SmartDashboard.putNumber("AccelX", gUtil.getAccel()[0]);
-		SmartDashboard.putNumber("AccelY", gUtil.getAccel()[1]);
 		
 		SmartDashboard.putNumber("VelX", gUtil.getVelX());
 		SmartDashboard.putNumber("VelY", gUtil.getVelY());
 		SmartDashboard.putNumber("DispX", gUtil.getDispX());
 		SmartDashboard.putNumber("VelY", gUtil.getDispY());
+		SmartDashboard.putNumberArray("Vector", gUtil.getVector());
 		
-		SmartDashboard.putData(this.wheelsSubsystem);
+		SmartDashboard.putData(Robot.wheelsSubsystem);
 		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
 	//	m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
 		
