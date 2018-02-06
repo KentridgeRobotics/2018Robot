@@ -27,16 +27,16 @@ public class GyroUtil implements Runnable {
 		velX = new double[2];
 		velY = new double[2];
 		
-		velX[0] = 0.0f;
-		velY[0] = 0.0f;
+		velX[0] = 0.0;
+		velY[0] = 0.0;
 		
 		dispX = new double[2];
 		dispY = new double[2];
 		
-		dispX[0] = 0.0f;
-		dispY[0] = 0.0f;
+		dispX[0] = 0.0;
+		dispY[0] = 0.0;
 		
-		last = 0.0f;
+		last = 0.0;
 	}
 	
 	public double getHeading() {
