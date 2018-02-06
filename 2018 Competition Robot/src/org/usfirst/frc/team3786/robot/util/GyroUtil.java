@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3786.robot.util;
 
+import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
+
 public class GyroUtil implements Runnable {
 	
 	public static GyroUtil instance;
@@ -10,8 +12,7 @@ public class GyroUtil implements Runnable {
 		return instance;
 	}
 	
-	private static BNO055 gyro;
-	private static BNO055 accel;
+	private static BNO055 imu;
 	private double accelX, accelY;
 	private double robotAccelX, robotAccelY, robotHead;
 	private double[] velX, velY,
@@ -21,34 +22,37 @@ public class GyroUtil implements Runnable {
 	
 	
 ;	public GyroUtil() {
-		gyro = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_IMUPLUS, BNO055.vector_type_t.VECTOR_EULER);
-		accel = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_IMUPLUS, BNO055.vector_type_t.VECTOR_ACCELEROMETER);
+		imu = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_IMUPLUS);
 		
 		velX = new double[2];
 		velY = new double[2];
 		
-		velX[0] = 0.0f;
-		velY[0] = 0.0f;
+		velX[0] = 0.0;
+		velY[0] = 0.0;
 		
 		dispX = new double[2];
 		dispY = new double[2];
 		
-		dispX[0] = 0.0f;
-		dispY[0] = 0.0f;
+		dispX[0] = 0.0;
+		dispY[0] = 0.0;
 		
-		last = 0.0f;
+		last = 0.0;
 	}
 	
 	public double getHeading() {
-		return gyro.getHeading();
+		return imu.getHeadingGyro();
 	}
 	
 	public double[] getVector() {
-		return gyro.getVector();
+		return imu.getVectorGyro();
 	}
 	
 	public double[] getAccel() {
-		return accel.getVector();
+		return imu.getVectorAccel();
+	}
+	
+	public CalData getCalibration() {
+		return imu.getCalibration();
 	}
 
 	@Override
