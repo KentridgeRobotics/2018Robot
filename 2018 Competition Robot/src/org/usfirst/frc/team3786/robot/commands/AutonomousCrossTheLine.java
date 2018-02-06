@@ -6,8 +6,11 @@ import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Robot Drives forward until it passes black line.
+ * Basic Code to working with 
  */
+
+
 public class AutonomousCrossTheLine extends Command {
 	private int StartingPosition;
 	
@@ -33,8 +36,9 @@ public class AutonomousCrossTheLine extends Command {
     	} else if(StartingPosition == 3) {
     		//drive at 25 degrees
     		//WheelsSubsystem.getInstance().setDirectionSpeed(25, 1.0, 0);
-    		
     	}
+    	
+    	WheelsSubsystem.getInstance().setDirectionSpeed(0, 1.0, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -47,10 +51,12 @@ public class AutonomousCrossTheLine extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	WheelsSubsystem.getInstance().setDirectionSpeed(0, 0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	
     }
 }
