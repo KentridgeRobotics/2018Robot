@@ -161,9 +161,6 @@ public class Robot extends TimedRobot {
 		}
 		MecanumDriveCommand.getInstance().start();
 
-		// Testing things
-		wheelsSubsystem.setSetpointRelative(90.0);
-
 		CalData cal = gyroUtil.getCalibration();
 		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
@@ -182,7 +179,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("VelY", gyroUtil.getVelY());
 		SmartDashboard.putNumber("DispX", gyroUtil.getDispX());
 		SmartDashboard.putNumber("VelY", gyroUtil.getDispY());
-		SmartDashboard.putNumberArray("Vector", gyroUtil.getVector());
+		SmartDashboard.putNumberArray("VectorGyro", gyroUtil.getVector());
+		SmartDashboard.putNumberArray("VectorAccel", gyroUtil.getAccel());
 		SmartDashboard.putData(Robot.wheelsSubsystem);
 		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
 
