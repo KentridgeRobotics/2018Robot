@@ -11,6 +11,7 @@ import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
+import org.usfirst.frc.team3786.robot.commands.TestDriveTwoWheels;
 import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
 import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
@@ -159,6 +160,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		// CPD: Clean up after merge is done.
 		MecanumDriveCommand.getInstance().start();
 
 		// Testing things
@@ -166,6 +168,20 @@ public class Robot extends TimedRobot {
 
 		CalData cal = gyroUtil.getCalibration();
 		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
+		//MecanumDriveCommand.getInstance().start();
+		
+		
+		
+		//
+		//    TESTING TWO WHEEL DRIVE
+		TestDriveTwoWheels.getInstance().start();
+		
+		
+		//Testing things
+		//wheelsSubsystem.setSetpointRelative(90.0);
+		
+		//CalData cal = gUtil.getCalibration();
+		//System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
 
 	/**
@@ -185,6 +201,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumberArray("Vector", gyroUtil.getVector());
 		SmartDashboard.putData(Robot.wheelsSubsystem);
 		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
+		SmartDashboard.putData(Robot.twoWheelSubsystem);
 
 	}
 

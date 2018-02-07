@@ -17,13 +17,10 @@ public class MandibleSubsystem extends Subsystem {
 			instance = new MandibleSubsystem();
 		return instance;		
 	}
-	private WPI_TalonSRX left;
-	private WPI_TalonSRX right;
+	private WPI_TalonSRX motor;
 	public MandibleSubsystem() {
-		left = new WPI_TalonSRX(5);
-		right = new WPI_TalonSRX(6);
-		left.configOpenloopRamp(0.2, 0);
-		right.configOpenloopRamp(0.2, 0);
+		motor = new WPI_TalonSRX(5);
+		motor.configOpenloopRamp(0.2, 0);
 	}
 	
 
@@ -34,16 +31,14 @@ public class MandibleSubsystem extends Subsystem {
 		} else {
 			mode = NeutralMode.Coast;
 		}
-		left.setNeutralMode(mode);
-		right.setNeutralMode(mode);
+		motor.setNeutralMode(mode);
 		
 		
 		
 	}
 
 	public void setTwoMotorSpeeds(double Speed) {
-		left.set(-Speed);
-		right.set(Speed);
+		motor.set(Speed);
 		System.out.println("Set speed: " + Speed);
 		
 	}
