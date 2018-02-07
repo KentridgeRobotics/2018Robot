@@ -22,7 +22,7 @@ public class GyroUtil implements Runnable {
 	
 	
 ;	public GyroUtil() {
-		imu = BNO055.getInstance(BNO055.opmode_t.OPERATION_MODE_IMUPLUS);
+		imu = BNO055.getInstance();
 		
 		velX = new double[2];
 		velY = new double[2];
@@ -40,11 +40,11 @@ public class GyroUtil implements Runnable {
 	}
 	
 	public double getHeading() {
-		return imu.getHeadingGyro();
+		return imu.getHeadingEuler();
 	}
 	
 	public double[] getVector() {
-		return imu.getVectorGyro();
+		return imu.getVectorEuler();
 	}
 	
 	public double[] getAccel() {
