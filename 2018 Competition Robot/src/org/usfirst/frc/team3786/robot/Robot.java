@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,69 +38,70 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 
-
-
-
 public class Robot extends TimedRobot {
-	
-	public static Robot inst;
-	
+
+	public static Robot instance;
+
 	private static int cam_fps = 30;
 	
+	private static UsbCamera camera;
+
 	public static final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
-	
+
 	public static final WheelsSubsystem wheelsSubsystem = new WheelsSubsystem();
-	
-	public int DriverStationNumber;
-	public String GameSpecificMessage;
-	
-	public static OI m_oi;
-	//public MecanumDrive m_mecanumDrive;
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+	private int driverStationNumber;
+	private String gameSpecificMessage;
+
+	public static OI oi;
+	// public MecanumDrive mecanumDrive;
+	Command autonomousCommand;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
-	
-	public ColorSensorUtil csUtil = new ColorSensorUtil();
-	public GyroUtil gUtil = GyroUtil.getInstance();
-	
+
+	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
+	public GyroUtil gyroUtil = GyroUtil.getInstance();
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		inst = this;
-		
+		instance = this;
+
 		this.setPeriod(DEFAULT_PERIOD);
+
+		// mecanumDrive = new MecanumDrive(null, null, null, null);
 		
-		m_oi = new OI();
-		//m_mecanumDrive = new MecanumDrive(null, null, null, null);
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		camera.setFPS(cam_fps);
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		
+		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Auto mode", chooser);
 		pdp = new PowerDistributionPanel();
-		OI.buttonA.whenPressed(new MandibleOpenCommand());
+		
 		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
+		oi = new OI();
+		OI.buttonA.whenPressed(new MandibleOpenCommand());
 		OI.buttonA.whenReleased(mandibleStopCommand);
 		OI.buttonB.whenPressed(new MandibleCloseCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
 		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
-		DriverStationNumber = DriverStation.getInstance().getLocation();
-		GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		
+		driverStationNumber = DriverStation.getInstance().getLocation();
+		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}
-
 
 	/**
 	 * 
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
+	 * This function is called once each time the robot enters Disabled mode. You
+	 * can use it to reset any subsystem information you want to clear when the
+	 * robot is disabled.
 	 */
 	@Override
 	public void disabledInit() {
@@ -115,29 +115,30 @@ public class Robot extends TimedRobot {
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString code to get the
+	 * auto name from the text box below the Gyro
 	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
+	 * <p>
+	 * You can add additional auto modes by adding additional commands to the
+	 * chooser code above (like the commented example) or additional comparisons to
+	 * the switch structure below with additional strings & commands.
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		autonomousCommand = chooser.getSelected();
 
 		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
+		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+		 * ExampleCommand(); break; }
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -155,15 +156,15 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 		MecanumDriveCommand.getInstance().start();
-		
-		//Testing things
+
+		// Testing things
 		wheelsSubsystem.setSetpointRelative(90.0);
-		
-		CalData cal = gUtil.getCalibration();
+
+		CalData cal = gyroUtil.getCalibration();
 		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
 
@@ -173,22 +174,18 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		gyroUtil.run();
+
+		// debug data
 		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
-		//m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
-		
-		gUtil.run();
-		
-		SmartDashboard.putNumber("VelX", gUtil.getVelX());
-		SmartDashboard.putNumber("VelY", gUtil.getVelY());
-		SmartDashboard.putNumber("DispX", gUtil.getDispX());
-		SmartDashboard.putNumber("VelY", gUtil.getDispY());
-		SmartDashboard.putNumberArray("Vector", gUtil.getVector());
-		
+		SmartDashboard.putNumber("VelX", gyroUtil.getVelX());
+		SmartDashboard.putNumber("VelY", gyroUtil.getVelY());
+		SmartDashboard.putNumber("DispX", gyroUtil.getDispX());
+		SmartDashboard.putNumber("VelY", gyroUtil.getDispY());
+		SmartDashboard.putNumberArray("Vector", gyroUtil.getVector());
 		SmartDashboard.putData(Robot.wheelsSubsystem);
 		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
-	//	m_mecanumDrive.drivePolar(Math.hypot(m_oi.getLeftStickX(), m_oi.getLeftStickY()), Math.atan2(m_oi.getLeftStickY(), m_oi.getLeftStickX()), 0);
-		
-		
+
 	}
 
 	/**
@@ -196,5 +193,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+
+	public int getDriverStationNumber() {
+		return driverStationNumber;
+	}
+
+	public String getGameSpecificMessage() {
+		return gameSpecificMessage;
 	}
 }

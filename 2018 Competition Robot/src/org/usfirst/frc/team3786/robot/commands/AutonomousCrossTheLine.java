@@ -43,7 +43,7 @@ public class AutonomousCrossTheLine extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.inst.csUtil.onBlackTape()) {
+    	if (Robot.instance.colorSenseUtil.onBlackTape()) {
     		return true;
     	}
         return false;
