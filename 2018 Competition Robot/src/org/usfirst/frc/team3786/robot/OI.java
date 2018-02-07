@@ -24,9 +24,7 @@ public class OI {
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
 	
-	private static XboxController myXbox = new XboxController(0);
-	
-	private static double deadZone = 0.13;
+	private static XboxController myXbox = new XboxController(RobotMap.xboxPort);
 	
 	public static Button buttonA = new JoystickButton(myXbox, 1); // A button
 	public static Button buttonB = new JoystickButton(myXbox, 2); // B button
@@ -41,7 +39,7 @@ public class OI {
 	
 	public static double getLeftStickY() {
 		double n = myXbox.getY(Hand.kLeft);
-		if (Math.abs(n) <= deadZone)
+		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
@@ -49,7 +47,7 @@ public class OI {
 	
 	public static double getLeftStickX() {
 		double n = myXbox.getX(Hand.kLeft);
-		if (Math.abs(n) <= deadZone)
+		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
@@ -58,7 +56,7 @@ public class OI {
 	
 	public static double getRightStickY() {
 		double n = myXbox.getY(Hand.kRight);
-		if (Math.abs(n) <= deadZone)
+		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
@@ -66,7 +64,7 @@ public class OI {
 	
 	public static double getRightStickX() {
 		double n = myXbox.getX(Hand.kRight);
-		if (Math.abs(n) <= deadZone)
+		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;

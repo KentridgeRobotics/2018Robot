@@ -41,7 +41,7 @@ public class TankDriveCommand extends Command {
     	double rightStickY = OI.getRightStickY();
     	rightStickY = rightStickY * rightStickY * rightStickY;
     	System.out.println("Right Joystick Y = " + rightStickY);
-    	Robot.twoWheelSubsystem.setTwoMotorSpeeds(leftStickY, rightStickY);
+    	Robot.twoWheelSubsystem.setMotorSpeeds(leftStickY, rightStickY);
     	
     }
 

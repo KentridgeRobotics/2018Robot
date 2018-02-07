@@ -2,7 +2,7 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,13 +25,13 @@ public class MecanumDriveCommand extends Command {
 	public MecanumDriveCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(WheelsSubsystem.getInstance());
+		requires(MecanumSubsystem.getInstance());
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		WheelsSubsystem.getInstance();
-		WheelsSubsystem.getInstance().setSetpoint(0.0);
+		MecanumSubsystem.getInstance();
+		MecanumSubsystem.getInstance().setSetpoint(0.0);
 		if (!Robot.wheelsSubsystem.getPIDController().isEnabled())
 			Robot.wheelsSubsystem.enable();
 		

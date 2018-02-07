@@ -7,16 +7,10 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
-import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
-import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
@@ -41,19 +35,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
 	public static Robot instance;
-
-	private static int cam_fps = 30;
 	
 	private static UsbCamera camera;
 
 	public static final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
 
-	public static final WheelsSubsystem wheelsSubsystem = new WheelsSubsystem();
+	public static final MecanumSubsystem wheelsSubsystem = new MecanumSubsystem();
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
 
-	public static OI oi;
 	// public MecanumDrive mecanumDrive;
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -69,29 +60,19 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		instance = this;
-
+		RobotMap.controllerMappings();
 		this.setPeriod(DEFAULT_PERIOD);
 
 		// mecanumDrive = new MecanumDrive(null, null, null, null);
 		
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
-		camera.setFPS(cam_fps);
+		camera.setFPS(30);
 		
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		pdp = new PowerDistributionPanel();
-		
-		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
-		oi = new OI();
-		OI.buttonA.whenPressed(new MandibleOpenCommand());
-		OI.buttonA.whenReleased(mandibleStopCommand);
-		OI.buttonB.whenPressed(new MandibleCloseCommand());
-		OI.buttonB.whenReleased(mandibleStopCommand);
-		OI.buttonX.whenPressed(new SpeedLimitCommand());
-		OI.buttonBack.whenPressed(new DisableXCommand());
-		OI.buttonStart.whenPressed(new DisableYCommand());
 		
 		driverStationNumber = DriverStation.getInstance().getLocation();
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,7 +16,7 @@ public class AutonomousCrossTheLine extends Command {
 	
     public AutonomousCrossTheLine(int StartingPosition) {
     	this.StartingPosition = StartingPosition;
-    	requires(WheelsSubsystem.getInstance());
+    	requires(MecanumSubsystem.getInstance());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -38,7 +38,7 @@ public class AutonomousCrossTheLine extends Command {
     		//WheelsSubsystem.getInstance().setDirectionSpeed(25, 1.0, 0);
     	}
     	
-    	WheelsSubsystem.getInstance().setDirectionSpeed(0, 1.0, 0);
+    	MecanumSubsystem.getInstance().setDirectionSpeed(0, 1.0, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,7 +51,7 @@ public class AutonomousCrossTheLine extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	WheelsSubsystem.getInstance().setDirectionSpeed(0, 0, 0);
+    	MecanumSubsystem.getInstance().setDirectionSpeed(0, 0, 0);
     }
 
     // Called when another command which requires one or more of the same
