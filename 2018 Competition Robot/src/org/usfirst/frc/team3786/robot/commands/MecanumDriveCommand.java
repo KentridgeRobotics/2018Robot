@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
 
-	public static MecanumDriveCommand inst;
+	public static MecanumDriveCommand instance;
 
 	private boolean speedLimit = false;
 	
@@ -17,9 +17,9 @@ public class MecanumDriveCommand extends Command {
 	private boolean yDisable = false;
 
 	public static MecanumDriveCommand getInstance() {
-		if (inst == null)
-			inst = new MecanumDriveCommand();
-		return inst;
+		if (instance == null)
+			instance = new MecanumDriveCommand();
+		return instance;
 	}
 
 	public MecanumDriveCommand() {

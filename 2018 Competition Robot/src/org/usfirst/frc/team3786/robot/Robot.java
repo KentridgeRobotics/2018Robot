@@ -9,6 +9,7 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
@@ -45,10 +46,9 @@ public class Robot extends TimedRobot {
 	private int driverStationNumber;
 	private String gameSpecificMessage;
 
-	// public MecanumDrive mecanumDrive;
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
-	PowerDistributionPanel pdp;
+	private Command autonomousCommand;
+	private SendableChooser<Command> chooser = new SendableChooser<>();
+	private PowerDistributionPanel pdp;
 
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
@@ -62,16 +62,14 @@ public class Robot extends TimedRobot {
 		instance = this;
 		RobotMap.controllerMappings();
 		this.setPeriod(DEFAULT_PERIOD);
-
-		// mecanumDrive = new MecanumDrive(null, null, null, null);
 		
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		camera.setFPS(30);
 		
 		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
 		pdp = new PowerDistributionPanel();
 		
 		driverStationNumber = DriverStation.getInstance().getLocation();
@@ -140,7 +138,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		MecanumDriveCommand.getInstance().start();
+		TankDriveCommand.getInstance().start();
 
 		CalData cal = gyroUtil.getCalibration();
 		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);

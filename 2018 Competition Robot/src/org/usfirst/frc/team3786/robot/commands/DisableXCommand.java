@@ -7,7 +7,7 @@ public class DisableXCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		MecanumDriveCommand.inst.toggleX();
+		MecanumDriveCommand.instance.toggleX();
 	}
 
 

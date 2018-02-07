@@ -21,7 +21,7 @@ import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
  * floating around.
  */
 public class RobotMap {
-	
+
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
@@ -31,17 +31,17 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	
+
 	// Mecanum Motors
 	public static int backLeftMotor = 3; // Purple
 	public static int backRightMotor = 1; // Blue
 	public static int frontLeftMotor = 2; // Yellow
 	public static int frontRightMotor = 4; // Orange
-	
+
 	// Two Wheel Motors
-	public static int leftMotor = 1;
-	public static int rightMotor = 2;
-	
+	public static int leftMotor = 2;
+	public static int rightMotor = 1;
+
 	// Controllers
 	public static int xboxPort = 0;
 	public static double xboxStickDeadzone = 0.13;
@@ -57,6 +57,4 @@ public class RobotMap {
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
 	}
-	
-	
 }
