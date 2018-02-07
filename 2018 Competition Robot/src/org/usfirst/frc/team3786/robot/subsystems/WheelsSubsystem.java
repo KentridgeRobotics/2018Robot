@@ -89,7 +89,7 @@ public class WheelsSubsystem extends PIDSubsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
- void setDirectionSpeed(double angle, double speed, double GyroAngle) {
+ public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
 		mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
 	}
 
