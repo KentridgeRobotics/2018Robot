@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3786.robot.util;
 
 import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
+import org.usfirst.frc.team3786.robot.util.BNO055.opmode_t;
 
 public class GyroUtil implements Runnable {
 	
@@ -22,7 +23,7 @@ public class GyroUtil implements Runnable {
 	
 	
 ;	public GyroUtil() {
-		imu = BNO055.getInstance();
+		imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
 		
 		velX = new double[2];
 		velY = new double[2];

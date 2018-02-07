@@ -77,7 +77,7 @@ public class BNO055 {
 	
 	private static I2C imu;
 	private static int _mode;
-	private static opmode_t opmode = opmode_t.OPERATION_MODE_NDOF;
+	private static opmode_t opmode;
 	
 	//State machine variables
 	private volatile int state = 0;
@@ -367,10 +367,11 @@ public class BNO055 {
 	 * @param address the address the sensor is at (0x28 or 0x29)
 	 * @return the instantiated BNO055 object
 	 */
-	public static BNO055 getInstance(I2C.Port port, byte address) {
+	public static BNO055 getInstance(opmode_t mode, I2C.Port port, byte address) {
 		if(instance == null) {
 			instance = new BNO055(port, address);
 		}
+		opmode = mode;
 		return instance;
 	}
 
@@ -383,9 +384,8 @@ public class BNO055 {
 	 *   in (if you don't know use VECTOR_EULER).
 	 * @return the instantiated BNO055 object
 	 */
-	public static BNO055 getInstance() {
-		return getInstance(I2C.Port.kOnboard,
-				BNO055_ADDRESS_A);
+	public static BNO055 getInstance(opmode_t mode) {
+		return getInstance(mode, I2C.Port.kOnboard, BNO055_ADDRESS_A);
 	}
 
 
@@ -514,153 +514,165 @@ public class BNO055 {
 		/* Convert the value to an appropriate range (section 3.6.4) */
 		/* and assign the value to the Vector type */
 		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_MAGNETOMETER.getVal(), positionVectorMag);
+		if (opmode == opmode_t.OPERATION_MODE_MAGONLY || opmode == opmode_t.OPERATION_MODE_ACCMAG || opmode == opmode_t.OPERATION_MODE_MAGGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_COMPASS || opmode == opmode_t.OPERATION_MODE_M4G || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_MAGNETOMETER.getVal(), positionVectorMag);
 
-		xMag = (short)((positionVectorMag[0] & 0xFF)
-				| ((positionVectorMag[1] << 8) & 0xFF00));
-		yMag = (short)((positionVectorMag[2] & 0xFF)
-				| ((positionVectorMag[3] << 8) & 0xFF00));
-		zMag = (short)((positionVectorMag[4] & 0xFF)
-				| ((positionVectorMag[5] << 8) & 0xFF00));
-		/* 1uT = 16 LSB */
-		posMag[0] = ((double)xMag)/16.0;
-		posMag[1] = ((double)yMag)/16.0;
-		posMag[2] = ((double)zMag)/16.0;
-		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_GYROSCOPE.getVal(), positionVectorGyro);
+			xMag = (short)((positionVectorMag[0] & 0xFF)
+					| ((positionVectorMag[1] << 8) & 0xFF00));
+			yMag = (short)((positionVectorMag[2] & 0xFF)
+					| ((positionVectorMag[3] << 8) & 0xFF00));
+			zMag = (short)((positionVectorMag[4] & 0xFF)
+					| ((positionVectorMag[5] << 8) & 0xFF00));
+			/* 1uT = 16 LSB */
+			posMag[0] = ((double)xMag)/16.0;
+			posMag[1] = ((double)yMag)/16.0;
+			posMag[2] = ((double)zMag)/16.0;
+			
+			//calculate turns
+			headingDiffMag = xyzMag[0] - posMag[0];
+			if(Math.abs(headingDiffMag) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffMag > 0) {
+					turnsMag++;
+				} else {
+					turnsMag--;
+				}
+			}
+		}
 
-		xGyro = (short)((positionVectorGyro[0] & 0xFF)
-				| ((positionVectorGyro[1] << 8) & 0xFF00));
-		yGyro = (short)((positionVectorGyro[2] & 0xFF)
-				| ((positionVectorGyro[3] << 8) & 0xFF00));
-		zGyro = (short)((positionVectorGyro[4] & 0xFF)
-				| ((positionVectorGyro[5] << 8) & 0xFF00));
-		/* 1rps = 900 LSB */
-		posGyro[0] = ((double)xGyro)/900.0;
-		posGyro[1] = ((double)yGyro)/900.0;
-		posGyro[2] = ((double)zGyro)/900.0;
-		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_ACCELEROMETER.getVal(), positionVectorAccel);
+		if (opmode == opmode_t.OPERATION_MODE_GYRONLY || opmode == opmode_t.OPERATION_MODE_ACCGYRO || opmode == opmode_t.OPERATION_MODE_MAGGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_IMUPLUS || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_GYROSCOPE.getVal(), positionVectorGyro);
 
-		xAccel = (short)((positionVectorAccel[0] & 0xFF)
-				| ((positionVectorAccel[1] << 8) & 0xFF00));
-		yAccel = (short)((positionVectorAccel[2] & 0xFF)
-				| ((positionVectorAccel[3] << 8) & 0xFF00));
-		zAccel = (short)((positionVectorAccel[4] & 0xFF)
-				| ((positionVectorAccel[5] << 8) & 0xFF00));
-		/* 1m/s^2 = 100 LSB */
-		posAccel[0] = ((double)xAccel)/100.0;
-		posAccel[1] = ((double)yAccel)/100.0;
-		posAccel[2] = ((double)zAccel)/100.0;
-		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_LINEARACCEL.getVal(), positionVectorLinAccel);
+			xGyro = (short)((positionVectorGyro[0] & 0xFF)
+					| ((positionVectorGyro[1] << 8) & 0xFF00));
+			yGyro = (short)((positionVectorGyro[2] & 0xFF)
+					| ((positionVectorGyro[3] << 8) & 0xFF00));
+			zGyro = (short)((positionVectorGyro[4] & 0xFF)
+					| ((positionVectorGyro[5] << 8) & 0xFF00));
+			/* 1rps = 900 LSB */
+			posGyro[0] = ((double)xGyro)/900.0;
+			posGyro[1] = ((double)yGyro)/900.0;
+			posGyro[2] = ((double)zGyro)/900.0;
+			
+			//calculate turns
+			headingDiffGyro = xyzGyro[0] - posGyro[0];
+			if(Math.abs(headingDiffGyro) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffGyro > 0) {
+					turnsGyro++;
+				} else {
+					turnsGyro--;
+				}
+			}
+		}
 
-		xLinAccel = (short)((positionVectorLinAccel[0] & 0xFF)
-				| ((positionVectorLinAccel[1] << 8) & 0xFF00));
-		yLinAccel = (short)((positionVectorLinAccel[2] & 0xFF)
-				| ((positionVectorLinAccel[3] << 8) & 0xFF00));
-		zLinAccel = (short)((positionVectorLinAccel[4] & 0xFF)
-				| ((positionVectorLinAccel[5] << 8) & 0xFF00));
-		/* 1m/s^2 = 100 LSB */
-		posLinAccel[0] = ((double)xLinAccel)/100.0;
-		posLinAccel[1] = ((double)yLinAccel)/100.0;
-		posLinAccel[2] = ((double)zLinAccel)/100.0;
-		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_EULER.getVal(), positionVectorEuler);
+		if (opmode == opmode_t.OPERATION_MODE_ACCONLY || opmode == opmode_t.OPERATION_MODE_ACCMAG || opmode == opmode_t.OPERATION_MODE_ACCGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_IMUPLUS || opmode == opmode_t.OPERATION_MODE_COMPASS || opmode == opmode_t.OPERATION_MODE_M4G || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_ACCELEROMETER.getVal(), positionVectorAccel);
 
-		xEuler = (short)((positionVectorEuler[0] & 0xFF)
-				| ((positionVectorEuler[1] << 8) & 0xFF00));
-		yEuler = (short)((positionVectorEuler[2] & 0xFF)
-				| ((positionVectorEuler[3] << 8) & 0xFF00));
-		zEuler = (short)((positionVectorEuler[4] & 0xFF)
-				| ((positionVectorEuler[5] << 8) & 0xFF00));
-		/* 1 degree = 16 LSB */
-		posEuler[0] = ((double)xEuler)/16.0;
-		posEuler[1] = ((double)yEuler)/16.0;
-		posEuler[2] = ((double)zEuler)/16.0;
-		
-		// Read vector data (6 bytes)
-		readLen(vector_type_t.VECTOR_GRAVITY.getVal(), positionVectorGrav);
+			xAccel = (short)((positionVectorAccel[0] & 0xFF)
+					| ((positionVectorAccel[1] << 8) & 0xFF00));
+			yAccel = (short)((positionVectorAccel[2] & 0xFF)
+					| ((positionVectorAccel[3] << 8) & 0xFF00));
+			zAccel = (short)((positionVectorAccel[4] & 0xFF)
+					| ((positionVectorAccel[5] << 8) & 0xFF00));
+			/* 1m/s^2 = 100 LSB */
+			posAccel[0] = ((double)xAccel)/100.0;
+			posAccel[1] = ((double)yAccel)/100.0;
+			posAccel[2] = ((double)zAccel)/100.0;
+			
+			//calculate turns
+			headingDiffAccel = xyzAccel[0] - posAccel[0];
+			if(Math.abs(headingDiffAccel) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffAccel > 0) {
+					turnsAccel++;
+				} else {
+					turnsAccel--;
+				}
+			}
+		}
 
-		xGrav = (short)((positionVectorGrav[0] & 0xFF)
-				| ((positionVectorGrav[1] << 8) & 0xFF00));
-		yGrav = (short)((positionVectorGrav[2] & 0xFF)
-				| ((positionVectorGrav[3] << 8) & 0xFF00));
-		zGrav = (short)((positionVectorGrav[4] & 0xFF)
-				| ((positionVectorGrav[5] << 8) & 0xFF00));
-		/* 1m/s^2 = 100 LSB */
-		posGrav[0] = ((double)xGrav)/100.0;
-		posGrav[1] = ((double)yGrav)/100.0;
-		posGrav[2] = ((double)zGrav)/100.0;
-		
-		//calculate turns
-		headingDiffMag = xyzMag[0] - posMag[0];
-		if(Math.abs(headingDiffMag) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffMag > 0) {
-				turnsMag++;
-			} else {
-				turnsMag--;
+		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_LINEARACCEL.getVal(), positionVectorLinAccel);
+
+			xLinAccel = (short)((positionVectorLinAccel[0] & 0xFF)
+					| ((positionVectorLinAccel[1] << 8) & 0xFF00));
+			yLinAccel = (short)((positionVectorLinAccel[2] & 0xFF)
+					| ((positionVectorLinAccel[3] << 8) & 0xFF00));
+			zLinAccel = (short)((positionVectorLinAccel[4] & 0xFF)
+					| ((positionVectorLinAccel[5] << 8) & 0xFF00));
+			/* 1m/s^2 = 100 LSB */
+			posLinAccel[0] = ((double)xLinAccel)/100.0;
+			posLinAccel[1] = ((double)yLinAccel)/100.0;
+			posLinAccel[2] = ((double)zLinAccel)/100.0;
+			
+			//calculate turns
+			headingDiffLinAccel = xyzLinAccel[0] - posLinAccel[0];
+			if(Math.abs(headingDiffLinAccel) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffLinAccel > 0) {
+					turnsLinAccel++;
+				} else {
+					turnsLinAccel--;
+				}
 			}
 		}
 		
-		//calculate turns
-		headingDiffGyro = xyzGyro[0] - posGyro[0];
-		if(Math.abs(headingDiffGyro) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffGyro > 0) {
-				turnsGyro++;
-			} else {
-				turnsGyro--;
+		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_EULER.getVal(), positionVectorEuler);
+
+			xEuler = (short)((positionVectorEuler[0] & 0xFF)
+					| ((positionVectorEuler[1] << 8) & 0xFF00));
+			yEuler = (short)((positionVectorEuler[2] & 0xFF)
+					| ((positionVectorEuler[3] << 8) & 0xFF00));
+			zEuler = (short)((positionVectorEuler[4] & 0xFF)
+					| ((positionVectorEuler[5] << 8) & 0xFF00));
+			/* 1 degree = 16 LSB */
+			posEuler[0] = ((double)xEuler)/16.0;
+			posEuler[1] = ((double)yEuler)/16.0;
+			posEuler[2] = ((double)zEuler)/16.0;
+			
+			//calculate turns
+			headingDiffEuler = xyzEuler[0] - posEuler[0];
+			if(Math.abs(headingDiffEuler) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffEuler > 0) {
+					turnsEuler++;
+				} else {
+					turnsEuler--;
+				}
 			}
 		}
 		
-		//calculate turns
-		headingDiffAccel = xyzAccel[0] - posAccel[0];
-		if(Math.abs(headingDiffAccel) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffAccel > 0) {
-				turnsAccel++;
-			} else {
-				turnsAccel--;
-			}
-		}
-		
-		//calculate turns
-		headingDiffLinAccel = xyzLinAccel[0] - posLinAccel[0];
-		if(Math.abs(headingDiffLinAccel) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffLinAccel > 0) {
-				turnsLinAccel++;
-			} else {
-				turnsLinAccel--;
-			}
-		}
-		
-		//calculate turns
-		headingDiffEuler = xyzEuler[0] - posEuler[0];
-		if(Math.abs(headingDiffEuler) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffEuler > 0) {
-				turnsEuler++;
-			} else {
-				turnsEuler--;
-			}
-		}
-		
-		//calculate turns
-		headingDiffGrav = xyzGrav[0] - posGrav[0];
-		if(Math.abs(headingDiffGrav) >= 350) {
-			//We've traveled past the zero heading position
-			if(headingDiffGrav > 0) {
-				turnsGrav++;
-			} else {
-				turnsGrav--;
+		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+			// Read vector data (6 bytes)
+			readLen(vector_type_t.VECTOR_GRAVITY.getVal(), positionVectorGrav);
+
+			xGrav = (short)((positionVectorGrav[0] & 0xFF)
+					| ((positionVectorGrav[1] << 8) & 0xFF00));
+			yGrav = (short)((positionVectorGrav[2] & 0xFF)
+					| ((positionVectorGrav[3] << 8) & 0xFF00));
+			zGrav = (short)((positionVectorGrav[4] & 0xFF)
+					| ((positionVectorGrav[5] << 8) & 0xFF00));
+			/* 1m/s^2 = 100 LSB */
+			posGrav[0] = ((double)xGrav)/100.0;
+			posGrav[1] = ((double)yGrav)/100.0;
+			posGrav[2] = ((double)zGrav)/100.0;
+			
+			//calculate turns
+			headingDiffGrav = xyzGrav[0] - posGrav[0];
+			if(Math.abs(headingDiffGrav) >= 350) {
+				//We've traveled past the zero heading position
+				if(headingDiffGrav > 0) {
+					turnsGrav++;
+				} else {
+					turnsGrav--;
+				}
 			}
 		}
 		
@@ -673,7 +685,7 @@ public class BNO055 {
 		xyzGrav = posGrav;
 	}
 	
-	private void setMode(opmode_t mode) {
+	public void setMode(opmode_t mode) {
 		setMode(mode.getVal());
 	}
 
