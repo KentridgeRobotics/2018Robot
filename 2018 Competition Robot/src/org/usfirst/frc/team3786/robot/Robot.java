@@ -51,6 +51,10 @@ public class Robot extends TimedRobot {
 	public static final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
 	
 	public static final WheelsSubsystem wheelsSubsystem = new WheelsSubsystem();
+	
+	public int DriverStationNumber;
+	public String GameSpecificMessage;
+	
 	public static OI m_oi;
 	//public MecanumDrive m_mecanumDrive;
 	Command m_autonomousCommand;
@@ -88,8 +92,8 @@ public class Robot extends TimedRobot {
 		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
-		int DriverStationNumber = DriverStation.getInstance().getLocation();
-		String GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		DriverStationNumber = DriverStation.getInstance().getLocation();
+		GameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 	}
 
 
