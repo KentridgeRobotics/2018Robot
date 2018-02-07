@@ -61,7 +61,8 @@ public class TwoWheelSubsystem extends Subsystem {
 	}
 
 	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
-		// TODO Auto-generated method stub
+		left.set(leftSpeed);
+		right.set(rightSpeed);
 	}
 
 }

@@ -55,7 +55,6 @@ public class Robot extends TimedRobot {
 	private String gameSpecificMessage;
 
 	public static OI oi;
-	// public MecanumDrive mecanumDrive;
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	PowerDistributionPanel pdp;
@@ -73,14 +72,12 @@ public class Robot extends TimedRobot {
 
 		this.setPeriod(DEFAULT_PERIOD);
 
-		// mecanumDrive = new MecanumDrive(null, null, null, null);
 		
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		camera.setFPS(cam_fps);
 		
 		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		pdp = new PowerDistributionPanel();
 		
@@ -168,20 +165,16 @@ public class Robot extends TimedRobot {
 
 		CalData cal = gyroUtil.getCalibration();
 		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
-		//MecanumDriveCommand.getInstance().start();
+	
 		
 		
 		
-		//
+		
 		//    TESTING TWO WHEEL DRIVE
 		TestDriveTwoWheels.getInstance().start();
 		
 		
-		//Testing things
-		//wheelsSubsystem.setSetpointRelative(90.0);
 		
-		//CalData cal = gUtil.getCalibration();
-		//System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
 
 	/**
