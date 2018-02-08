@@ -10,7 +10,6 @@ public class DisableXCommand extends Command {
 		MecanumDriveCommand.instance.toggleX();
 	}
 
-
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
@@ -18,4 +17,3 @@ public class DisableXCommand extends Command {
 	}
 
 }
-	

@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TwoWheelSubsystem extends Subsystem {
+	
 	private static TwoWheelSubsystem instance;
 
 	public static TwoWheelSubsystem getInstance() {
@@ -24,8 +25,10 @@ public class TwoWheelSubsystem extends Subsystem {
 
 	public TwoWheelSubsystem() {
 		left = new WPI_TalonSRX(RobotMap.leftMotor);
-		right  = new WPI_TalonSRX(RobotMap.rightMotor);
-
+		right = new WPI_TalonSRX(RobotMap.rightMotor);
+		
+		left.configOpenloopRamp(0.2, 0);
+		right.configOpenloopRamp(0.2, 0);
 	}
 
 	public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
@@ -35,21 +38,17 @@ public class TwoWheelSubsystem extends Subsystem {
 
 	public void setBrakeMode(boolean isBraking) {
 		NeutralMode mode;
-		if (isBraking) {
+		if (isBraking)
 			mode = NeutralMode.Brake;
-		} else {
+		else
 			mode = NeutralMode.Coast;
-		}
 		left.setNeutralMode(mode);
 		right.setNeutralMode(mode);
-
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		left.configOpenloopRamp(0.2, 0);
-		right.configOpenloopRamp(0.2, 0);
 	}
 
 }

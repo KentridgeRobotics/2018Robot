@@ -7,18 +7,15 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import org.usfirst.frc.team3786.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.AutonomousCrossTheLineCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
-import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -36,19 +33,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
 	public static Robot instance;
-	
-	private static UsbCamera camera;
 
-	public static final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
+	private UsbCamera camera;
 
-	public static final MecanumSubsystem wheelsSubsystem = new MecanumSubsystem();
+	public final TwoWheelSubsystem twoWheelSubsystem = new TwoWheelSubsystem();
+
+	public final MecanumSubsystem mecanumSubsystem = new MecanumSubsystem();
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
 
 	private Command autonomousCommand;
 	private SendableChooser<Command> chooser = new SendableChooser<>();
-	private PowerDistributionPanel pdp;
 
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
@@ -63,17 +59,16 @@ public class Robot extends TimedRobot {
 		RobotMap.controllerMappings();
 		this.setPeriod(DEFAULT_PERIOD);
 		
+		driverStationNumber = DriverStation.getInstance().getLocation();
+		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		camera.setFPS(30);
-		
-		chooser.addDefault("Default Auto", new ExampleCommand());
+
+		chooser.addDefault("Default Auto", new AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", chooser);
-		
-		pdp = new PowerDistributionPanel();
-		
-		driverStationNumber = DriverStation.getInstance().getLocation();
-		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+
 	}
 
 	/**
@@ -139,9 +134,6 @@ public class Robot extends TimedRobot {
 			autonomousCommand.cancel();
 		}
 		TankDriveCommand.getInstance().start();
-
-		CalData cal = gyroUtil.getCalibration();
-		System.out.println("CALIBRATION: Sys=" + cal.sys + " Gyro=" + cal.gyro + " Accel=" + cal.accel + " Mag=" + cal.mag);
 	}
 
 	/**
@@ -153,15 +145,9 @@ public class Robot extends TimedRobot {
 		gyroUtil.run();
 
 		// debug data
-		SmartDashboard.putNumber("Battery Voltage", pdp.getVoltage());
-		SmartDashboard.putNumber("VelX", gyroUtil.getVelX());
-		SmartDashboard.putNumber("VelY", gyroUtil.getVelY());
-		SmartDashboard.putNumber("DispX", gyroUtil.getDispX());
-		SmartDashboard.putNumber("VelY", gyroUtil.getDispY());
 		SmartDashboard.putNumberArray("VectorGyro", gyroUtil.getVector());
 		SmartDashboard.putNumberArray("VectorAccel", gyroUtil.getAccel());
-		SmartDashboard.putData(Robot.wheelsSubsystem);
-		SmartDashboard.putNumber("PID Error", wheelsSubsystem.getPIDController().getError());
+		SmartDashboard.putNumber("PID Error", mecanumSubsystem.getPIDController().getError());
 
 	}
 

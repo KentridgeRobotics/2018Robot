@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -23,104 +24,104 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-	
-	private static XboxController myXbox = new XboxController(RobotMap.xboxPort);
-	
-	public static Button buttonA = new JoystickButton(myXbox, 1); // A button
-	public static Button buttonB = new JoystickButton(myXbox, 2); // B button
-	public static Button buttonX = new JoystickButton(myXbox, 3); // X button
-	public static Button buttonY = new JoystickButton(myXbox, 4); // Y button
-	public static Button bumperL = new JoystickButton(myXbox, 5); // Left bumper
-	public static Button bumperR = new JoystickButton(myXbox, 6); // Right bumper
-	public static Button buttonBack = new JoystickButton(myXbox, 7); // Back button
-	public static Button buttonStart = new JoystickButton(myXbox, 8); // Start button
-	public static Button buttonLCenter = new JoystickButton(myXbox, 9); // Left Center button
-	public static Button buttonRCenter = new JoystickButton(myXbox, 10); // Right Center button
-	
+
+	private static XboxController xboxCon = new XboxController(RobotMap.xboxPort);
+
+	public static Button buttonA = new JoystickButton(xboxCon, 1); // A button
+	public static Button buttonB = new JoystickButton(xboxCon, 2); // B button
+	public static Button buttonX = new JoystickButton(xboxCon, 3); // X button
+	public static Button buttonY = new JoystickButton(xboxCon, 4); // Y button
+	public static Button bumperL = new JoystickButton(xboxCon, 5); // Left bumper
+	public static Button bumperR = new JoystickButton(xboxCon, 6); // Right bumper
+	public static Button buttonBack = new JoystickButton(xboxCon, 7); // Back button
+	public static Button buttonStart = new JoystickButton(xboxCon, 8); // Start button
+	public static Button buttonLCenter = new JoystickButton(xboxCon, 9); // Left Center button
+	public static Button buttonRCenter = new JoystickButton(xboxCon, 10); // Right Center button
+
 	public static double getLeftStickY() {
-		double n = myXbox.getY(Hand.kLeft);
+		double n = xboxCon.getY(Hand.kLeft);
 		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
 	}
-	
+
 	public static double getLeftStickX() {
-		double n = myXbox.getX(Hand.kLeft);
+		double n = xboxCon.getX(Hand.kLeft);
 		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
-		
+
 	}
-	
+
 	public static double getRightStickY() {
-		double n = myXbox.getY(Hand.kRight);
+		double n = xboxCon.getY(Hand.kRight);
 		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
 	}
-	
+
 	public static double getRightStickX() {
-		double n = myXbox.getX(Hand.kRight);
+		double n = xboxCon.getX(Hand.kRight);
 		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
 			return 0.0;
 		else
 			return n;
 	}
-	
+
 	public static double getLeftTrigger() {
-		double n = myXbox.getTriggerAxis(Hand.kLeft);
+		double n = xboxCon.getTriggerAxis(Hand.kLeft);
 		return n;
 	}
-	
+
 	public static double getRightTrigger() {
-		double n = myXbox.getTriggerAxis(Hand.kRight);
+		double n = xboxCon.getTriggerAxis(Hand.kRight);
 		return n;
 	}
-	
+
 	public static boolean aButton() {
-		
-		return myXbox.getAButton();
+
+		return xboxCon.getAButton();
 	}
-	
+
 	public static boolean bButton() {
-		return myXbox.getBButton();
+		return xboxCon.getBButton();
 	}
-	
+
 	public static boolean xButton() {
-		return myXbox.getXButton();
+		return xboxCon.getXButton();
 	}
-	
+
 	public static boolean yButton() {
-		return myXbox.getYButton();
+		return xboxCon.getYButton();
 	}
-	
+
 	public static boolean backButton() {
-		return myXbox.getBackButton();
+		return xboxCon.getBackButton();
 	}
-	
+
 	public static boolean startButton() {
-		return myXbox.getStartButton();
+		return xboxCon.getStartButton();
 	}
-	
+
 	public static boolean leftCenter() {
-		return myXbox.getStickButton(Hand.kLeft);
+		return xboxCon.getStickButton(Hand.kLeft);
 	}
-	
+
 	public static boolean rightCenter() {
-		return myXbox.getStickButton(Hand.kRight);
+		return xboxCon.getStickButton(Hand.kRight);
 	}
-	
+
 	public static boolean leftBumper() {
-		return myXbox.getBumper(Hand.kLeft);
+		return xboxCon.getBumper(Hand.kLeft);
 	}
-	
+
 	public static boolean rightBumper() {
-		return myXbox.getBumper(Hand.kRight);
+		return xboxCon.getBumper(Hand.kRight);
 	}
-	
+
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.

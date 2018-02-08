@@ -51,7 +51,6 @@ public class MecanumSubsystem extends PIDSubsystem {
 		leftBack.configOpenloopRamp(0.2, 0);
 		rightBack.configOpenloopRamp(0.2, 0);
 		rightFront.configOpenloopRamp(0.2, 0);
-
 	}
 
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed,
@@ -64,11 +63,10 @@ public class MecanumSubsystem extends PIDSubsystem {
 
 	public void setBrakeMode(boolean isBraking) {
 		NeutralMode mode;
-		if (isBraking) {
+		if (isBraking)
 			mode = NeutralMode.Brake;
-		} else {
+		else
 			mode = NeutralMode.Coast;
-		}
 		leftFront.setNeutralMode(mode);
 		leftBack.setNeutralMode(mode);
 		rightBack.setNeutralMode(mode);

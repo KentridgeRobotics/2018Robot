@@ -9,9 +9,9 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleCloseCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleOpenCommand;
-import org.usfirst.frc.team3786.robot.commands.MandibleStopCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerCloseCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerOpenCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
 import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
 
 /**
@@ -41,17 +41,26 @@ public class RobotMap {
 	// Two Wheel Motors
 	public static int leftMotor = 2;
 	public static int rightMotor = 1;
+	
+	// Hugger Motor
+	public static int huggerMotor = 5;
+	
+	// Tower Motor
+	public static int towerMotor = 6;
+	
+	// Lift Motor
+	public static int liftMotor = 7;
 
 	// Controllers
 	public static int xboxPort = 0;
 	public static double xboxStickDeadzone = 0.13;
 	public static int joystickPort = 1;
-	
+
 	public static void controllerMappings() {
-		MandibleStopCommand mandibleStopCommand = new MandibleStopCommand();
-		OI.buttonA.whenPressed(new MandibleOpenCommand());
+		HuggerStopCommand mandibleStopCommand = new HuggerStopCommand();
+		OI.buttonA.whenPressed(new HuggerOpenCommand());
 		OI.buttonA.whenReleased(mandibleStopCommand);
-		OI.buttonB.whenPressed(new MandibleCloseCommand());
+		OI.buttonB.whenPressed(new HuggerCloseCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
 		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());
