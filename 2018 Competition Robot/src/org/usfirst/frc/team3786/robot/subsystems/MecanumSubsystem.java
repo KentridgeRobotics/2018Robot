@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.RobotMap;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
@@ -35,6 +36,7 @@ public class MecanumSubsystem extends PIDSubsystem {
 	private static double kI = 0.0;
 	private static double kD = 0.0;
 	private double pidTurnOutput = 0.0;
+	private static double currentHeading = 0.0;
 
 	public MecanumSubsystem() {
 		super("Wheels", kP, kI, kD);
@@ -73,11 +75,6 @@ public class MecanumSubsystem extends PIDSubsystem {
 		rightFront.setNeutralMode(mode);
 	}
 
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-	}
-
 	public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
 		mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
 	}
@@ -87,11 +84,22 @@ public class MecanumSubsystem extends PIDSubsystem {
 		mecanumDrive.driveCartesian(x, y, turn, heading);
 	}
 
-	public void gyroAssistedDrive(double x, double y) {
+	public void gyroAssistedDrive(double x, double y, double heading) {
 		SmartDashboard.putBoolean("Speed Limit", MecanumDriveCommand.instance.getSpeedLimit());
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
+		
+		setRobotHeading(heading);
 		mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
+	}
+	
+	/**
+	 * Update the current heading and feed the value into the PID Controller in charge of turning
+	 * @param heading the heading the robot should be at
+	 */
+	private void setRobotHeading(double heading) {
+		currentHeading += heading;
+		this.setSetpoint(currentHeading);
 	}
 
 	@Override
@@ -102,6 +110,9 @@ public class MecanumSubsystem extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		this.pidTurnOutput = output;
+	}
+	
+	public void initDefaultCommand() {
 	}
 
 }

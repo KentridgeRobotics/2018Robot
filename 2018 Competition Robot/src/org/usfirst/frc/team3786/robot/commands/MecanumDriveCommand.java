@@ -47,21 +47,19 @@ public class MecanumDriveCommand extends Command {
 		if (this.speedLimit) {
 			x = x / 3;
 			y = y / 3;
-			turn = turn / 3;
+			turn *= 3; // The number is the "turn gain"
 		}
 		if (this.xDisable)
 			x = 0;
 		if (this.yDisable)
 			y = 0;
 
-		Robot.instance.mecanumSubsystem.setSetpointRelative(6 * turn);
 		SmartDashboard.putBoolean("PIDTurn", Robot.instance.mecanumSubsystem.getPIDController().isEnabled());
 		SmartDashboard.putNumber("PID Setpoint", Robot.instance.mecanumSubsystem.getSetpoint());
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		// Robot.wheelsSubsystem.setXboxDrive(x, -y, turn);
-		Robot.instance.mecanumSubsystem.gyroAssistedDrive(x, -y);
+		Robot.instance.mecanumSubsystem.gyroAssistedDrive(x, -y, turn);
 
 	}
 
