@@ -81,45 +81,49 @@ public class OI {
 		return n;
 	}
 
-	public static boolean aButton() {
+	public static boolean buttonA() {
 
 		return xboxCon.getAButton();
 	}
 
-	public static boolean bButton() {
+	public static boolean buttonB() {
 		return xboxCon.getBButton();
 	}
 
-	public static boolean xButton() {
+	public static boolean buttonX() {
 		return xboxCon.getXButton();
 	}
 
-	public static boolean yButton() {
+	public static boolean buttonY() {
 		return xboxCon.getYButton();
 	}
 
-	public static boolean backButton() {
+	public static boolean buttonBack() {
 		return xboxCon.getBackButton();
 	}
 
-	public static boolean startButton() {
+	public static boolean buttonStart() {
 		return xboxCon.getStartButton();
 	}
 
-	public static boolean leftCenter() {
+	public static boolean buttonLeftCenter() {
 		return xboxCon.getStickButton(Hand.kLeft);
 	}
 
-	public static boolean rightCenter() {
+	public static boolean buttonRightCenter() {
 		return xboxCon.getStickButton(Hand.kRight);
 	}
 
-	public static boolean leftBumper() {
+	public static boolean bumperLeft() {
 		return xboxCon.getBumper(Hand.kLeft);
 	}
 
-	public static boolean rightBumper() {
+	public static boolean bumperRight() {
 		return xboxCon.getBumper(Hand.kRight);
+	}
+	
+	public static int pov() {
+		return xboxCon.getPOV();
 	}
 
 	// There are a few additional built in buttons you can use. Additionally,
