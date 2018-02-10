@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
-import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.RobotMap;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;

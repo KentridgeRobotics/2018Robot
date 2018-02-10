@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
-
 	public static MecanumDriveCommand instance;
 
-	private boolean speedLimit = false;
+	private boolean speedLimit = true;
 
 	private boolean xDisable = false;
 	private boolean yDisable = false;
@@ -44,6 +43,8 @@ public class MecanumDriveCommand extends Command {
 		double y = OI.getLeftStickY();
 		// Turning controls
 		double turn = OI.getRightStickX();
+		double limit = OI.getRightTrigger();
+		System.out.println(limit);
 		if (this.speedLimit) {
 			x = x / 3;
 			y = y / 3;
@@ -80,6 +81,16 @@ public class MecanumDriveCommand extends Command {
 	public boolean setSpeedLimit(boolean speedLimit) {
 		this.speedLimit = speedLimit;
 		return this.speedLimit;
+	}
+
+	public boolean setDisableX(boolean disableX) {
+		this.xDisable = disableX;
+		return this.xDisable;
+	}
+
+	public boolean setDisableY(boolean disableY) {
+		this.yDisable = disableY;
+		return this.yDisable;
 	}
 
 	public boolean getSpeedLimit() {

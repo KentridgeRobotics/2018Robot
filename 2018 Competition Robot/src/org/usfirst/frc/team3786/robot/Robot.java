@@ -9,8 +9,8 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.AutonomousCrossTheLineCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
-import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import edu.wpi.cscore.UsbCamera;
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 		instance = this;
 		RobotMap.controllerMappings();
 		this.setPeriod(DEFAULT_PERIOD);
-		
+
 		driverStationNumber = DriverStation.getInstance().getLocation();
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 
@@ -68,7 +68,6 @@ public class Robot extends TimedRobot {
 
 		chooser.addDefault("Default Auto", new AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", chooser);
-
 	}
 
 	/**
@@ -79,7 +78,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		/**
+		MecanumDriveCommand.instance.setDisableX(false);
+		MecanumDriveCommand.instance.setDisableY(false);
+		MecanumDriveCommand.instance.setSpeedLimit(true);
+		**/
 	}
 
 	@Override
@@ -143,11 +146,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		gyroUtil.run();
-
-		// debug data
-		SmartDashboard.putNumberArray("VectorGyro", gyroUtil.getVector());
-		SmartDashboard.putNumberArray("VectorAccel", gyroUtil.getAccel());
-		SmartDashboard.putNumber("PID Error", mecanumSubsystem.getPIDController().getError());
 	}
 
 	/**
