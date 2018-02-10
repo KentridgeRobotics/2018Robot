@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -45,7 +45,7 @@ public class AutonomousComplexDecisions extends Command {
     	this.targetNumber = targetNumber;
     	colorPositions = gameSpecificMessage;
     	
-    	requires(WheelsSubsystem.getInstance());
+    	requires(MecanumSubsystem.getInstance());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }

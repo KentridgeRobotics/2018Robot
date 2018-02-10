@@ -3,7 +3,7 @@ package org.usfirst.frc.team3786.robot.commands;
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
-import org.usfirst.frc.team3786.robot.subsystems.WheelsSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,7 +37,7 @@ public class TestDriveTwoWheels extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		isRunning = true;
-		subSystemInst = Robot.twoWheelSubsystem.getInstance();
+		subSystemInst = TwoWheelSubsystem.getInstance();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
