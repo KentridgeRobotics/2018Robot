@@ -18,8 +18,6 @@ public class SwitchDrive extends Command {
 
 	public SwitchDrive() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.instance.twoWheelSubsystem);
-		requires(Robot.instance.mecanumSubsystem);
 	}
 
 	// Called just before this Command runs the first time

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3786.robot.commands;
 
-import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+import org.usfirst.frc.team3786.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -44,7 +44,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 		this.targetNumber = targetNumber;
 		colorPositions = gameSpecificMessage;
 
-		requires(MecanumSubsystem.getInstance());
+		requires(Robot.instance.getMecanumSubsystem());
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -59,7 +59,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		MecanumSubsystem.getInstance().setDirectionSpeed(0, 1.0, 0);
+		Robot.instance.getMecanumSubsystem().setDirectionSpeed(0, 1.0, 0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

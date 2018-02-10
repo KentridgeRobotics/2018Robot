@@ -11,14 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TwoWheelSubsystem extends Subsystem {
-	
-	private static TwoWheelSubsystem instance;
-
-	public static TwoWheelSubsystem getInstance() {
-		if (instance == null)
-			instance = new TwoWheelSubsystem();
-		return instance;
-	}
 
 	private WPI_TalonSRX left;
 	private WPI_TalonSRX right;
@@ -26,9 +18,6 @@ public class TwoWheelSubsystem extends Subsystem {
 	public TwoWheelSubsystem() {
 		left = new WPI_TalonSRX(RobotMap.leftMotor);
 		right = new WPI_TalonSRX(RobotMap.rightMotor);
-		
-		left.configOpenloopRamp(0.2, 0);
-		right.configOpenloopRamp(0.2, 0);
 	}
 
 	public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
