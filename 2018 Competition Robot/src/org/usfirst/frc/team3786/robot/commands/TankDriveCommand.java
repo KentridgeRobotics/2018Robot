@@ -36,9 +36,9 @@ public class TankDriveCommand extends Command {
 		// When the number is positive, the wheels go backwards.
 		double leftStickY = OI.getLeftStickY();
 		double rightStickY = OI.getRightStickY();
-		double limit = OI.getRightTrigger();
-		leftStickY = leftStickY / (limit * 1.5);
-		rightStickY = rightStickY / (limit * 1.5);
+		double limit = OI.getLeftTrigger();
+		leftStickY = leftStickY / (limit * 1.2);
+		rightStickY = rightStickY / (limit * 1.2);
 		leftStickY = Math.pow(leftStickY, 5);
 		rightStickY = Math.pow(rightStickY, 5);
 		Robot.instance.twoWheelSubsystem.setMotorSpeeds(-leftStickY, rightStickY);
