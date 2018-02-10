@@ -44,12 +44,9 @@ public class MecanumDriveCommand extends Command {
 		// Turning controls
 		double turn = OI.getRightStickX();
 		double limit = OI.getRightTrigger();
-		System.out.println(limit);
-		if (this.speedLimit) {
-			x = x / 3;
-			y = y / 3;
-			turn *= 3; // The number is the "turn gain"
-		}
+		x = x / (limit * 4);
+		y = y / (limit * 4);
+		turn *= (limit * 4); // The number is the "turn gain"
 		if (this.xDisable)
 			x = 0;
 		if (this.yDisable)

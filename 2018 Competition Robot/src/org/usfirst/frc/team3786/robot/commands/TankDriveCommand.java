@@ -38,8 +38,6 @@ public class TankDriveCommand extends Command {
 		double rightStickY = OI.getRightStickY();
 		leftStickY = leftStickY * leftStickY * leftStickY;
 		rightStickY = rightStickY * rightStickY * rightStickY;
-		double limit = OI.getRightTrigger();
-		System.out.println(limit);
 		Robot.instance.twoWheelSubsystem.setMotorSpeeds(-leftStickY, rightStickY);
 
 	}
