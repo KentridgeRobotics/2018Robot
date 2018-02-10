@@ -56,11 +56,11 @@ public class RobotMap {
 	public static int joystickPort = 1;
 
 	public static void controllerMappings() {
-		HuggerStopCommand mandibleStopCommand = new HuggerStopCommand();
+		HuggerStopCommand huggerStopCommand = new HuggerStopCommand();
 		OI.bumperL.whenPressed(new HuggerOutCommand());
-		OI.buttonA.whenReleased(mandibleStopCommand);
+		OI.bumperL.whenReleased(huggerStopCommand);
 		OI.bumperR.whenPressed(new HuggerInCommand());
-		OI.buttonB.whenReleased(mandibleStopCommand);
+		OI.bumperR.whenReleased(huggerStopCommand);
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
 	}
