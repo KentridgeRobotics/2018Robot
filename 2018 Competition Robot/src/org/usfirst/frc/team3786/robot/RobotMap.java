@@ -9,8 +9,8 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
-import org.usfirst.frc.team3786.robot.commands.HuggerCloseCommand;
-import org.usfirst.frc.team3786.robot.commands.HuggerOpenCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
 import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
 
@@ -58,9 +58,9 @@ public class RobotMap {
 
 	public static void controllerMappings() {
 		HuggerStopCommand mandibleStopCommand = new HuggerStopCommand();
-		OI.buttonA.whenPressed(new HuggerOpenCommand());
+		OI.buttonA.whenPressed(new HuggerOutCommand());
 		OI.buttonA.whenReleased(mandibleStopCommand);
-		OI.buttonB.whenPressed(new HuggerCloseCommand());
+		OI.buttonB.whenPressed(new HuggerInCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
 		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());

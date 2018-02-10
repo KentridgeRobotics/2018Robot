@@ -4,9 +4,9 @@ import org.usfirst.frc.team3786.robot.subsystems.HuggerSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HuggerOpenCommand extends Command {
+public class HuggerInCommand extends Command {
 
-	public HuggerOpenCommand() {
+	public HuggerInCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(HuggerSubsystem.getInstance());
 	}
@@ -15,7 +15,7 @@ public class HuggerOpenCommand extends Command {
 	@Override
 	protected void initialize() {
 		HuggerSubsystem.getInstance().setBrakeMode(false);
-		HuggerSubsystem.getInstance().setMotorSpeed(1.0);
+		HuggerSubsystem.getInstance().setMotorSpeed(-1.0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -23,5 +23,4 @@ public class HuggerOpenCommand extends Command {
 	protected boolean isFinished() {
 		return false;
 	}
-
 }
