@@ -45,10 +45,19 @@ public class AutonomousCrossTheLine extends Command {
     protected boolean isFinished() {
     	if (Robot.instance.colorSenseUtil.onBlackTape()) {
     		return true;
+    	}else if (Danger() == false) {
+    		return true;
     	}
         return false;
     }
-
+    
+    protected boolean Danger() {
+    	if (Robot.instance.distanceSensor.GetDistanceFromObstacleInInches() <= 12) {
+    		return true;
+    	}
+    	return false; 
+    }
+    
     // Called once after isFinished returns true
     protected void end() {
     	//WheelsSubsystem.getInstance().setDirectionSpeed(0, 0, 0);

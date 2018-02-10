@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
 
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
+	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
