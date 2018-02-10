@@ -7,7 +7,7 @@ public class DisableYCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		MecanumDriveCommand.inst.toggleY();
+		MecanumDriveCommand.instance.toggleY();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -17,4 +17,3 @@ public class DisableYCommand extends Command {
 	}
 
 }
-	

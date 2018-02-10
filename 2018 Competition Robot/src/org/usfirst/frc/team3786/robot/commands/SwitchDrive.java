@@ -9,26 +9,23 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.OI;
 
 /**
- * An example command.  You can replace me with your own command.
+ * An example command. You can replace me with your own command.
  */
 public class SwitchDrive extends Command {
-	
-	private static int switchDrive = 0;
-	
+
 	public SwitchDrive() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.twoWheelSubsystem);
-		requires(Robot.wheelsSubsystem);
+		requires(Robot.instance.twoWheelSubsystem);
+		requires(Robot.instance.mecanumSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -37,9 +34,9 @@ public class SwitchDrive extends Command {
 		double x = OI.getLeftStickX();
 		double y = OI.getLeftStickY();
 		double r = Math.hypot(x, y);
-		double theta = Math.atan2(y,x);
-		
-		System.out.println("r = " + r +"theta = " + theta);
+		double theta = Math.atan2(y, x);
+
+		System.out.println("r = " + r + "theta = " + theta);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

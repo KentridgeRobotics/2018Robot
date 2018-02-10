@@ -287,28 +287,52 @@ public class BNO055 {
 
 	public enum opmode_t {
 		/* Operation mode settings*/
-		OPERATION_MODE_CONFIG                                   (0X00),
-		OPERATION_MODE_ACCONLY                                  (0X01),
-		OPERATION_MODE_MAGONLY                                  (0X02),
-		OPERATION_MODE_GYRONLY                                  (0X03),
-		OPERATION_MODE_ACCMAG                                   (0X04),
-		OPERATION_MODE_ACCGYRO                                  (0X05),
-		OPERATION_MODE_MAGGYRO                                  (0X06),
-		OPERATION_MODE_AMG                                      (0X07),
-		OPERATION_MODE_IMUPLUS                                  (0X08),
-		OPERATION_MODE_COMPASS                                  (0X09),
-		OPERATION_MODE_M4G                                      (0X0A),
-		OPERATION_MODE_NDOF_FMC_OFF                             (0X0B),
-		OPERATION_MODE_NDOF                                     (0X0C);
+		OPERATION_MODE_CONFIG                                   (0X00, false, false, false, false),
+		OPERATION_MODE_ACCONLY                                  (0X01, true, false, false, false),
+		OPERATION_MODE_MAGONLY                                  (0X02, false, true, false, false),
+		OPERATION_MODE_GYRONLY                                  (0X03, false, false, true,false),
+		OPERATION_MODE_ACCMAG                                   (0X04, true, true, false, false),
+		OPERATION_MODE_ACCGYRO                                  (0X05, true, false, true, false),
+		OPERATION_MODE_MAGGYRO                                  (0X06, false, true, true, false),
+		OPERATION_MODE_AMG                                      (0X07, true, true, true, false),
+		OPERATION_MODE_IMUPLUS                                  (0X08, true, false, true, false),
+		OPERATION_MODE_COMPASS                                  (0X09, true, true, false, false),
+		OPERATION_MODE_M4G                                      (0X0A, true, true, false, false),
+		OPERATION_MODE_NDOF_FMC_OFF                             (0X0B, true, true, true, true),
+		OPERATION_MODE_NDOF                                     (0X0C, true, true, true, true);
 
 		private final int val;
+		private final boolean accel;
+		private final boolean mag;
+		private final boolean gyro;
+		private final boolean fusion;
 
-		opmode_t(int val) {
+		opmode_t(int val, boolean accel, boolean mag, boolean gyro, boolean fusion) {
 			this.val = val;
+			this.accel = accel;
+			this.mag = mag;
+			this.gyro = gyro;
+			this.fusion = fusion;
 		}
 
 		public int getVal() {
 			return val;
+		}
+		
+		public boolean isAccel() {
+			return accel;
+		}
+		
+		public boolean isMag() {
+			return mag;
+		}
+		
+		public boolean isGyro() {
+			return gyro;
+		}
+		
+		public boolean isFusion() {
+			return fusion;
 		}
 	}
 
@@ -514,7 +538,7 @@ public class BNO055 {
 		/* Convert the value to an appropriate range (section 3.6.4) */
 		/* and assign the value to the Vector type */
 		
-		if (opmode == opmode_t.OPERATION_MODE_MAGONLY || opmode == opmode_t.OPERATION_MODE_ACCMAG || opmode == opmode_t.OPERATION_MODE_MAGGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_COMPASS || opmode == opmode_t.OPERATION_MODE_M4G || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isMag()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_MAGNETOMETER.getVal(), positionVectorMag);
 
@@ -541,7 +565,7 @@ public class BNO055 {
 			}
 		}
 
-		if (opmode == opmode_t.OPERATION_MODE_GYRONLY || opmode == opmode_t.OPERATION_MODE_ACCGYRO || opmode == opmode_t.OPERATION_MODE_MAGGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_IMUPLUS || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isGyro()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_GYROSCOPE.getVal(), positionVectorGyro);
 
@@ -568,7 +592,7 @@ public class BNO055 {
 			}
 		}
 
-		if (opmode == opmode_t.OPERATION_MODE_ACCONLY || opmode == opmode_t.OPERATION_MODE_ACCMAG || opmode == opmode_t.OPERATION_MODE_ACCGYRO || opmode == opmode_t.OPERATION_MODE_AMG || opmode == opmode_t.OPERATION_MODE_IMUPLUS || opmode == opmode_t.OPERATION_MODE_COMPASS || opmode == opmode_t.OPERATION_MODE_M4G || opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isAccel()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_ACCELEROMETER.getVal(), positionVectorAccel);
 
@@ -595,7 +619,7 @@ public class BNO055 {
 			}
 		}
 
-		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isFusion()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_LINEARACCEL.getVal(), positionVectorLinAccel);
 
@@ -622,7 +646,7 @@ public class BNO055 {
 			}
 		}
 		
-		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isFusion()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_EULER.getVal(), positionVectorEuler);
 
@@ -649,7 +673,7 @@ public class BNO055 {
 			}
 		}
 		
-		if (opmode == opmode_t.OPERATION_MODE_NDOF_FMC_OFF || opmode == opmode_t.OPERATION_MODE_NDOF) {
+		if (opmode.isFusion()) {
 			// Read vector data (6 bytes)
 			readLen(vector_type_t.VECTOR_GRAVITY.getVal(), positionVectorGrav);
 

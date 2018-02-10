@@ -1,21 +1,21 @@
 package org.usfirst.frc.team3786.robot.commands;
 
-import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.HuggerSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TowerRaiseCommand extends Command {
+public class HuggerCloseCommand extends Command {
 
-	public TowerRaiseCommand() {
+	public HuggerCloseCommand() {
 		// Use requires() here to declare subsystem dependencies
-		requires(TowerSubsystem.getInstance());
+		requires(HuggerSubsystem.getInstance());
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		TowerSubsystem.getInstance().setBrakeMode(false);
-		TowerSubsystem.getInstance().setMotorSpeed(1.0);
+		HuggerSubsystem.getInstance().setBrakeMode(false);
+		HuggerSubsystem.getInstance().setMotorSpeed(-1.0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

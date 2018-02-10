@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
 import org.usfirst.frc.team3786.robot.Robot;
+import org.usfirst.frc.team3786.robot.RobotMap;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
@@ -9,20 +10,18 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class WheelsSubsystem extends PIDSubsystem {
+public class MecanumSubsystem extends PIDSubsystem {
 
-	public static WheelsSubsystem instance;
+	public static MecanumSubsystem instance;
 
-	public static WheelsSubsystem getInstance() {
+	public static MecanumSubsystem getInstance() {
 		if (instance == null)
-			instance = new WheelsSubsystem();
+			instance = new MecanumSubsystem();
 		return instance;
 	}
 
@@ -32,64 +31,51 @@ public class WheelsSubsystem extends PIDSubsystem {
 	private WPI_TalonSRX rightFront;
 
 	private ExtendedMecanumDrive mecanumDrive;
-	
+
 	private static double kP = 0.1;
 	private static double kI = 0.0;
 	private static double kD = 0.0;
 	private double pidTurnOutput = 0.0;
+	private static double currentHeading = 0.0;
 
-	public WheelsSubsystem() {
+	public MecanumSubsystem() {
 		super("Wheels", kP, kI, kD);
 		super.getPIDController().setOutputRange(-1.0, 1.0);
 		super.getPIDController().setPercentTolerance(10.0);
-		
-		leftFront = new WPI_TalonSRX(2); // Yellow
-		leftBack = new WPI_TalonSRX(3); // Purple
-		rightBack = new WPI_TalonSRX(1); // Blue
-		rightFront = new WPI_TalonSRX(4); // Orange
+
+		leftFront = new WPI_TalonSRX(RobotMap.frontLeftMotor);
+		leftBack = new WPI_TalonSRX(RobotMap.backLeftMotor);
+		rightBack = new WPI_TalonSRX(RobotMap.backRightMotor);
+		rightFront = new WPI_TalonSRX(RobotMap.frontRightMotor);
 		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
-				
+
 		leftFront.configOpenloopRamp(0.2, 0);
 		leftBack.configOpenloopRamp(0.2, 0);
 		rightBack.configOpenloopRamp(0.2, 0);
 		rightFront.configOpenloopRamp(0.2, 0);
-		
 	}
 
-	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed, double rightFrontSpeed) {
+	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed,
+			double rightFrontSpeed) {
 		leftFront.set(leftFrontSpeed);
 		leftBack.set(leftBackSpeed);
 		rightBack.set(rightBackSpeed);
 		rightFront.set(rightFrontSpeed);
-
-	}
-
-	public void setTwoMotorSpeeds(double leftSpeed, double rightSpeed) {
-		leftFront.set(leftSpeed);
-		leftBack.set(leftSpeed);
-		rightBack.set(rightSpeed);
-		rightFront.set(rightSpeed);
-
 	}
 
 	public void setBrakeMode(boolean isBraking) {
 		NeutralMode mode;
-		if (isBraking) {
+		if (isBraking)
 			mode = NeutralMode.Brake;
-		} else {
+		else
 			mode = NeutralMode.Coast;
-		}
 		leftFront.setNeutralMode(mode);
 		leftBack.setNeutralMode(mode);
 		rightBack.setNeutralMode(mode);
 		rightFront.setNeutralMode(mode);
 	}
 
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-	}
- public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
+	public void setDirectionSpeed(double angle, double speed, double GyroAngle) {
 		mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
 	}
 
@@ -97,12 +83,23 @@ public class WheelsSubsystem extends PIDSubsystem {
 		double heading = GyroUtil.getInstance().getHeading();
 		mecanumDrive.driveCartesian(x, y, turn, heading);
 	}
-	
-	public void gyroAssistedDrive(double x, double y) {
-		SmartDashboard.putBoolean("Speed Limit", MecanumDriveCommand.inst.getSpeedLimit());
-		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.inst.getDisableX());
-		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.inst.getDisableY());
+
+	public void gyroAssistedDrive(double x, double y, double heading) {
+		SmartDashboard.putBoolean("Speed Limit", MecanumDriveCommand.instance.getSpeedLimit());
+		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
+		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
+		
+		setRobotHeading(heading);
 		mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
+	}
+	
+	/**
+	 * Update the current heading and feed the value into the PID Controller in charge of turning
+	 * @param heading the heading the robot should be at
+	 */
+	private void setRobotHeading(double heading) {
+		currentHeading += heading;
+		this.setSetpoint(currentHeading);
 	}
 
 	@Override
@@ -113,6 +110,9 @@ public class WheelsSubsystem extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		this.pidTurnOutput = output;
+	}
+	
+	public void initDefaultCommand() {
 	}
 
 }
