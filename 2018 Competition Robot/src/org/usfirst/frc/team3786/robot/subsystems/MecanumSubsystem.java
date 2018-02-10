@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
+import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.RobotMap;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
@@ -84,7 +85,7 @@ public class MecanumSubsystem extends PIDSubsystem {
 	}
 
 	public void gyroAssistedDrive(double x, double y, double heading) {
-		SmartDashboard.putBoolean("Speed Limit", MecanumDriveCommand.instance.getSpeedLimit());
+		SmartDashboard.putNumber("Speed Limit", OI.getRightTrigger() * 4);
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
 		

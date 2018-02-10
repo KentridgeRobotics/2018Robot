@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class MecanumDriveCommand extends Command {
 	public static MecanumDriveCommand instance;
 
-	private boolean speedLimit = true;
-
 	private boolean xDisable = false;
 	private boolean yDisable = false;
 
@@ -75,11 +73,6 @@ public class MecanumDriveCommand extends Command {
 	protected void interrupted() {
 	}
 
-	public boolean setSpeedLimit(boolean speedLimit) {
-		this.speedLimit = speedLimit;
-		return this.speedLimit;
-	}
-
 	public boolean setDisableX(boolean disableX) {
 		this.xDisable = disableX;
 		return this.xDisable;
@@ -90,23 +83,12 @@ public class MecanumDriveCommand extends Command {
 		return this.yDisable;
 	}
 
-	public boolean getSpeedLimit() {
-		return this.speedLimit;
-	}
-
 	public boolean getDisableX() {
 		return this.xDisable;
 	}
 
 	public boolean getDisableY() {
 		return this.yDisable;
-	}
-
-	public void toggleSpeedLimit() {
-		if (this.speedLimit)
-			this.speedLimit = false;
-		else
-			this.speedLimit = true;
 	}
 
 	public void toggleX() {

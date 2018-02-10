@@ -12,7 +12,6 @@ import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
-import org.usfirst.frc.team3786.robot.commands.SpeedLimitCommand;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -62,7 +61,6 @@ public class RobotMap {
 		OI.buttonA.whenReleased(mandibleStopCommand);
 		OI.buttonB.whenPressed(new HuggerInCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
-		OI.buttonX.whenPressed(new SpeedLimitCommand());
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
 	}
