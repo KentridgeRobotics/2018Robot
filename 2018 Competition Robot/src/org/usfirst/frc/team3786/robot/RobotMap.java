@@ -38,8 +38,8 @@ public class RobotMap {
 	public static int frontRightMotor = 4; // Orange
 
 	// Two Wheel Motors
-	public static int leftMotor = 2;
-	public static int rightMotor = 1;
+	public static int leftMotor = 1;
+	public static int rightMotor = 2;
 	
 	// Hugger Motor
 	public static int huggerMotor = 5;
@@ -57,11 +57,12 @@ public class RobotMap {
 
 	public static void controllerMappings() {
 		HuggerStopCommand mandibleStopCommand = new HuggerStopCommand();
-		OI.buttonA.whenPressed(new HuggerOutCommand());
+		OI.bumperL.whenPressed(new HuggerOutCommand());
 		OI.buttonA.whenReleased(mandibleStopCommand);
-		OI.buttonB.whenPressed(new HuggerInCommand());
+		OI.bumperR.whenPressed(new HuggerInCommand());
 		OI.buttonB.whenReleased(mandibleStopCommand);
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
 	}
+	// System.out.println(NetworkTableInstance.getDefault().getTable("SmartDashboard").getEntry("cubeR").getDouble(0.0));
 }
