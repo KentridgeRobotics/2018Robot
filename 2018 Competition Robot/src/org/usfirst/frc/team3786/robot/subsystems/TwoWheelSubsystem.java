@@ -18,6 +18,9 @@ public class TwoWheelSubsystem extends Subsystem {
 	public TwoWheelSubsystem() {
 		left = new WPI_TalonSRX(RobotMap.leftMotor);
 		right = new WPI_TalonSRX(RobotMap.rightMotor);
+
+		left.configOpenloopRamp(0.3, 0);
+		right.configOpenloopRamp(0.3, 0);
 	}
 
 	public void setMotorSpeeds(double leftSpeed, double rightSpeed) {

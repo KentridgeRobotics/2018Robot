@@ -39,6 +39,12 @@ public class MecanumSubsystem extends PIDSubsystem {
 		leftBack = new WPI_TalonSRX(RobotMap.backLeftMotor);
 		rightBack = new WPI_TalonSRX(RobotMap.backRightMotor);
 		rightFront = new WPI_TalonSRX(RobotMap.frontRightMotor);
+
+		leftFront.configOpenloopRamp(0.2, 0);
+		leftBack.configOpenloopRamp(0.2, 0);
+		rightFront.configOpenloopRamp(0.2, 0);
+		rightBack.configOpenloopRamp(0.2, 0);
+		
 		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 

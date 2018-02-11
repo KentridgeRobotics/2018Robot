@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import org.usfirst.frc.team3786.robot.commands.AutonomousCrossTheLineCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
