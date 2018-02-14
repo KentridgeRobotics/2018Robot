@@ -32,10 +32,10 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 
 	// Mecanum Motors
-	public static int backLeftMotor = 3; // Purple
+	public static int backLeftMotor = 2; // Purple
 	public static int backRightMotor = 1; // Blue
-	public static int frontLeftMotor = 2; // Yellow
-	public static int frontRightMotor = 4; // Orange
+	public static int frontLeftMotor = 4; // Yellow
+	public static int frontRightMotor = 3; // Orange
 
 	// Two Wheel Motors
 	public static int leftMotor = 1;

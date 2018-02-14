@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
 
 	private MecanumSubsystem mecanumSubsystem;
 	
-	private DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
+	private DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -79,11 +80,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		/**
-		MecanumDriveCommand.instance.setDisableX(false);
-		MecanumDriveCommand.instance.setDisableY(false);
-		MecanumDriveCommand.instance.setSpeedLimit(true);
-		**/
+		if (drivetrainType == DrivetrainType.MECANUM) {
+			MecanumDriveCommand.instance.setDisableX(false);
+			MecanumDriveCommand.instance.setDisableY(false);
+		}
 	}
 
 	@Override
@@ -137,7 +137,10 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		TankDriveCommand.getInstance().start();
+		if (drivetrainType == DrivetrainType.MECANUM)
+			MecanumDriveCommand.getInstance().start();
+		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
+			TankDriveCommand.getInstance().start();
 	}
 
 	/**
