@@ -2,7 +2,6 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,15 +21,14 @@ public class MecanumDriveCommand extends Command {
 	public MecanumDriveCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(MecanumSubsystem.getInstance());
+		requires(Robot.instance.getMecanumSubsystem());
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		MecanumSubsystem.getInstance();
-		MecanumSubsystem.getInstance().setSetpoint(0.0);
-		if (!Robot.instance.mecanumSubsystem.getPIDController().isEnabled())
-			Robot.instance.mecanumSubsystem.enable();
+		Robot.instance.getMecanumSubsystem().setSetpoint(0.0);
+		if (!Robot.instance.getMecanumSubsystem().getPIDController().isEnabled())
+			Robot.instance.getMecanumSubsystem().enable();
 
 	}
 
@@ -41,7 +39,7 @@ public class MecanumDriveCommand extends Command {
 		double y = OI.getLeftStickY();
 		// Turning controls
 		double turn = OI.getRightStickX();
-		double limit = OI.getRightTrigger();
+		double limit = OI.getLeftTrigger();
 		x = x / (limit * 4);
 		y = y / (limit * 4);
 		turn *= (limit * 4); // The number is the "turn gain"
@@ -50,12 +48,12 @@ public class MecanumDriveCommand extends Command {
 		if (this.yDisable)
 			y = 0;
 
-		SmartDashboard.putBoolean("PIDTurn", Robot.instance.mecanumSubsystem.getPIDController().isEnabled());
-		SmartDashboard.putNumber("PID Setpoint", Robot.instance.mecanumSubsystem.getSetpoint());
+		SmartDashboard.putBoolean("PIDTurn", Robot.instance.getMecanumSubsystem().getPIDController().isEnabled());
+		SmartDashboard.putNumber("PID Setpoint", Robot.instance.getMecanumSubsystem().getSetpoint());
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		Robot.instance.mecanumSubsystem.gyroAssistedDrive(x, -y, turn);
+		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(x, -y, turn);
 
 	}
 

@@ -2,7 +2,6 @@ package org.usfirst.frc.team3786.robot.commands;
 
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -21,13 +20,12 @@ public class TankDriveCommand extends Command {
 	public TankDriveCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(TwoWheelSubsystem.getInstance());
+		requires(Robot.instance.getTwoWheelSubsystem());
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		TwoWheelSubsystem.getInstance();
-		Robot.instance.twoWheelSubsystem.setBrakeMode(true);
+		Robot.instance.getTwoWheelSubsystem().setBrakeMode(true);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -36,12 +34,12 @@ public class TankDriveCommand extends Command {
 		// When the number is positive, the wheels go backwards.
 		double leftStickY = OI.getLeftStickY();
 		double rightStickY = OI.getRightStickY();
-		double limit = OI.getRightTrigger();
-		leftStickY = leftStickY / (limit * 1.5);
-		rightStickY = rightStickY / (limit * 1.5);
+		double limit = OI.getLeftTrigger();
+		leftStickY = leftStickY / (limit * 1.2);
+		rightStickY = rightStickY / (limit * 1.2);
 		leftStickY = Math.pow(leftStickY, 5);
 		rightStickY = Math.pow(rightStickY, 5);
-		Robot.instance.twoWheelSubsystem.setMotorSpeeds(-leftStickY, rightStickY);
+		Robot.instance.getTwoWheelSubsystem().setMotorSpeeds(-leftStickY, rightStickY);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

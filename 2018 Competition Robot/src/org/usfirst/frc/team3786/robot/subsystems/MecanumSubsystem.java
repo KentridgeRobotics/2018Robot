@@ -17,14 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MecanumSubsystem extends PIDSubsystem {
 
-	public static MecanumSubsystem instance;
-
-	public static MecanumSubsystem getInstance() {
-		if (instance == null)
-			instance = new MecanumSubsystem();
-		return instance;
-	}
-
 	private WPI_TalonSRX leftFront;
 	private WPI_TalonSRX leftBack;
 	private WPI_TalonSRX rightBack;
@@ -47,12 +39,13 @@ public class MecanumSubsystem extends PIDSubsystem {
 		leftBack = new WPI_TalonSRX(RobotMap.backLeftMotor);
 		rightBack = new WPI_TalonSRX(RobotMap.backRightMotor);
 		rightFront = new WPI_TalonSRX(RobotMap.frontRightMotor);
-		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
 
 		leftFront.configOpenloopRamp(0.2, 0);
 		leftBack.configOpenloopRamp(0.2, 0);
-		rightBack.configOpenloopRamp(0.2, 0);
 		rightFront.configOpenloopRamp(0.2, 0);
+		rightBack.configOpenloopRamp(0.2, 0);
+		
+		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed,
