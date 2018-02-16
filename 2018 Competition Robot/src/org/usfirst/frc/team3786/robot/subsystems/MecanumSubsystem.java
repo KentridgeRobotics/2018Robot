@@ -81,11 +81,10 @@ public class MecanumSubsystem extends PIDSubsystem {
 	 * Update the current heading and feed the value into the PID Controller in
 	 * charge of turning
 	 * 
-	 * @param heading
-	 *            the heading the robot should be at
+	 * @param turnRate the heading offset the robot should turn to
 	 */
-	private void setRobotHeading(double heading) {
-		this.setSetpointRelative(heading);
+	private void setRobotHeading(double turnRate) {
+		this.setSetpointRelative(turnRate);
 	}
 
 	@Override
