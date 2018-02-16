@@ -61,10 +61,6 @@ public class MecanumSubsystem extends Subsystem {
 		mecanumDrive.drivePolar(speed, angle, 0, GyroAngle);
 	}
 
-	public void setXboxDrive(double x, double y, double turn) {
-		double heading = GyroUtil.getInstance().getHeading();
-		mecanumDrive.driveCartesian(x, y, turn, heading);
-	}
 
 	public void gyroAssistedDrive(double x, double y, double heading) {
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
