@@ -26,10 +26,6 @@ public class MecanumDriveCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.instance.getMecanumSubsystem().setSetpoint(0.0);
-		if (!Robot.instance.getMecanumSubsystem().getPIDController().isEnabled())
-			Robot.instance.getMecanumSubsystem().enable();
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -40,20 +36,19 @@ public class MecanumDriveCommand extends Command {
 		// Turning controls
 		double turn = OI.getRightStickX();
 		double limit = OI.getLeftTrigger();
-		x = x / (limit * 4);
-		y = y / (limit * 4);
-		turn *= (limit * 4); // The number is the "turn gain"
+		if (limit > 0) {
+			x /= (limit * 4);
+			y /= (limit * 4);
+			turn /= (limit * 4); // The number is the "turn gain"
+		}
 		if (this.xDisable)
 			x = 0;
 		if (this.yDisable)
 			y = 0;
-
-		SmartDashboard.putBoolean("PIDTurn", Robot.instance.getMecanumSubsystem().getPIDController().isEnabled());
-		SmartDashboard.putNumber("PID Setpoint", Robot.instance.getMecanumSubsystem().getSetpoint());
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(x, -y, turn);
+		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(-x, y, turn);
 
 	}
 
