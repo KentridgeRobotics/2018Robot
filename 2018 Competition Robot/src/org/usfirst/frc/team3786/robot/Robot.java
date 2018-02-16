@@ -71,6 +71,10 @@ public class Robot extends TimedRobot {
 
 		//chooser.addDefault("Default Auto", new AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", chooser);
+		if (drivetrainType == DrivetrainType.MECANUM)
+			MecanumDriveCommand.getInstance();
+		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
+			TankDriveCommand.getInstance();
 	}
 
 	/**
