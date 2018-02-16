@@ -1038,6 +1038,72 @@ public class BNO055 {
 	 *   format if required.
 	 * @return heading in degrees
 	 */
+	public double getTurnsMag() {
+		return turnsMag;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
+	public double getTurnsGyro() {
+		return turnsGyro;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
+	public double getTurnsAccel() {
+		return turnsAccel;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
+	public double getTurnsLinAccel() {
+		return turnsLinAccel;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
+	public double getTurnsEuler() {
+		return turnsEuler;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
+	public double getTurnsGrav() {
+		return turnsGrav;
+	}
+	
+	/**
+	 * The heading of the sensor (x axis) in continuous format. Eg rotating the
+	 *   sensor clockwise two full rotations will return a value of 720 degrees.
+	 * The getVector method will return heading in a constrained 0 - 360 deg
+	 *   format if required.
+	 * @return heading in degrees
+	 */
 	public double getHeadingMag() {
 		return xyzMag[0] + turnsMag * 360;
 	}

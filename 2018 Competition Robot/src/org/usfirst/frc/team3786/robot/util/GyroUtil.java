@@ -38,8 +38,12 @@ public class GyroUtil implements Runnable {
 		last = 0.0;
 	}
 
+	public double getHeadingContinuous() {
+		return -imu.getHeadingEuler();
+	}
+
 	public double getHeading() {
-		return imu.getVectorEuler()[0];
+		return 360 - imu.getVectorEuler()[0];
 	}
 
 	public double[] getVector() {

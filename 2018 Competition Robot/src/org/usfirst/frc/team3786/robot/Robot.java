@@ -154,6 +154,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumberArray("Gyroscope", GyroUtil.getInstance().getVector());
+		SmartDashboard.putNumber("Heading", GyroUtil.getInstance().getHeading());
 		//gyroUtil.run();
 	}
 
