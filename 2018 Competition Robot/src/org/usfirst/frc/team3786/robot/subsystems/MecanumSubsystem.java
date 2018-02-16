@@ -74,7 +74,7 @@ public class MecanumSubsystem extends PIDSubsystem {
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
 		setRobotHeading(turnRate);
-		mecanumDrive.driveCartesian(x, y, pidTurnOutput);
+		mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class MecanumSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		SmartDashboard.putString("PID output", ""+output);
+		SmartDashboard.putNumber("PID output", output);
 		
 		this.pidTurnOutput = output;
 	}
