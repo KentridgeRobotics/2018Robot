@@ -5,7 +5,7 @@ import org.usfirst.frc.team3786.robot.util.BNO055.opmode_t;
 
 public class GyroUtil implements Runnable {
 
-	public static GyroUtil instance;
+	private static GyroUtil instance;
 
 	public static GyroUtil getInstance() {
 		if (instance == null)
@@ -39,7 +39,7 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double getHeading() {
-		return imu.getHeadingEuler();
+		return imu.getVectorEuler()[0];
 	}
 
 	public double[] getVector() {
