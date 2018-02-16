@@ -29,7 +29,8 @@ public class MecanumSubsystem extends PIDSubsystem {
 	public MecanumSubsystem() {
 		super("Wheels", kP, kI, kD);
 		super.getPIDController().setOutputRange(-1.0, 1.0);
-		super.getPIDController().setPercentTolerance(10.0);
+		super.getPIDController().setPercentTolerance(15.0);
+		super.enable();
 
 		leftFront = new WPI_TalonSRX(RobotMap.frontLeftMotor);
 		leftBack = new WPI_TalonSRX(RobotMap.backLeftMotor);
