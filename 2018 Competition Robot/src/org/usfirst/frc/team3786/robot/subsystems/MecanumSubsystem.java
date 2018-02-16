@@ -94,6 +94,8 @@ public class MecanumSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
+		SmartDashboard.putString("PID output", ""+output);
+		
 		this.pidTurnOutput = output;
 	}
 
