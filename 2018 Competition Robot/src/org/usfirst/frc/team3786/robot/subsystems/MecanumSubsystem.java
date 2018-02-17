@@ -82,7 +82,7 @@ public class MecanumSubsystem extends PIDSubsystem {
 			setRobotHeading(turnRate);
 			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
 		} else
-			mecanumDrive.driveCartesian(x, y, turnRate, GyroUtil.getInstance().getHeading());
+			mecanumDrive.driveCartesian(x, y, turnRate);
 	}
 
 	/**
