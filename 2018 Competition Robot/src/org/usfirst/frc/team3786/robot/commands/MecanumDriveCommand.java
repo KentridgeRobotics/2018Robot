@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
-	public static MecanumDriveCommand instance;
+	private static MecanumDriveCommand instance;
 
 	private boolean xDisable = false;
 	private boolean yDisable = false;

@@ -13,6 +13,8 @@ import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
+import org.usfirst.frc.team3786.robot.util.LED;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -86,9 +88,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		if (drivetrainType == DrivetrainType.MECANUM) {
-			MecanumDriveCommand.instance.setDisableX(false);
-			MecanumDriveCommand.instance.setDisableY(false);
+			MecanumDriveCommand.getInstance().setDisableX(false);
+			MecanumDriveCommand.getInstance().setDisableY(false);
 		}
+		LED.setRGB(0, 0, 0);
 	}
 
 	@Override
@@ -156,7 +159,6 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumberArray("Gyroscope", GyroUtil.getInstance().getVector());
 		SmartDashboard.putNumber("Heading", GyroUtil.getInstance().getHeading());
-		//gyroUtil.run();
 	}
 
 	/**

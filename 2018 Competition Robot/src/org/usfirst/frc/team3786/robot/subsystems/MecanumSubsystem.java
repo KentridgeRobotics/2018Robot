@@ -76,8 +76,8 @@ public class MecanumSubsystem extends PIDSubsystem {
 	}
 	
 	public void gyroAssistedDrive(double x, double y, double turnRate) {
-		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
-		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
+		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.getInstance().getDisableX());
+		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.getInstance().getDisableY());
 		if (usePID) {
 			setRobotHeading(turnRate);
 			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
