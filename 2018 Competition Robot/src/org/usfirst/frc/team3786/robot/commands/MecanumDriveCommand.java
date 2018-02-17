@@ -36,11 +36,9 @@ public class MecanumDriveCommand extends Command {
 		// Turning controls
 		double turn = OI.getRightStickX();
 		double limit = OI.getLeftTrigger();
-		if (limit > 0) {
-//			x /= (limit * 4);
-//			y /= (limit * 4);
-//			turn /= (limit * 4); // The number is the "turn gain"
-		}
+		x *= (1 - limit/1.25);
+		y *= (1 - limit/1.25);
+		turn *= (1 - limit/1.25);
 		if (this.xDisable)
 			x = 0;
 		if (this.yDisable)
@@ -48,7 +46,7 @@ public class MecanumDriveCommand extends Command {
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(-x, y, turn);
+		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(-x, y, -turn);
 
 	}
 

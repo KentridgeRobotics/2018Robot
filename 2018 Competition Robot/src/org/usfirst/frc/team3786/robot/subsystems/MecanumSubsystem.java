@@ -20,27 +20,31 @@ public class MecanumSubsystem extends PIDSubsystem {
 	private WPI_TalonSRX rightFront;
 
 	private ExtendedMecanumDrive mecanumDrive;
+	
+	private static boolean usePID = false;
 
 	private static double kP = 1.0;
 	private static double kI = 0.0;
-	private static double kD = 0.0;
+	private static double kD = 0.01;
 	private double pidTurnOutput = 0.0;
 
 	public MecanumSubsystem() {
 		super("Wheels", kP, kI, kD);
 		super.getPIDController().setOutputRange(-1.0, 1.0);
-		super.getPIDController().setPercentTolerance(15.0);
-		super.enable();
+		super.getPIDController().setPercentTolerance(10.0);
+		if (usePID) {
+			super.enable();
+		}
 
 		leftFront = new WPI_TalonSRX(RobotMap.frontLeftMotor);
 		leftBack = new WPI_TalonSRX(RobotMap.backLeftMotor);
 		rightBack = new WPI_TalonSRX(RobotMap.backRightMotor);
 		rightFront = new WPI_TalonSRX(RobotMap.frontRightMotor);
 
-		leftFront.configOpenloopRamp(0.2, 0);
-		leftBack.configOpenloopRamp(0.2, 0);
-		rightFront.configOpenloopRamp(0.2, 0);
-		rightBack.configOpenloopRamp(0.2, 0);
+		//leftFront.configOpenloopRamp(0.2, 0);
+		//leftBack.configOpenloopRamp(0.2, 0);
+		//rightFront.configOpenloopRamp(0.2, 0);
+		//rightBack.configOpenloopRamp(0.2, 0);
 
 		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
 		
@@ -74,8 +78,11 @@ public class MecanumSubsystem extends PIDSubsystem {
 	public void gyroAssistedDrive(double x, double y, double turnRate) {
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.instance.getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.instance.getDisableY());
-		setRobotHeading(turnRate);
-		mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
+		if (usePID) {
+			setRobotHeading(turnRate);
+			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
+		} else
+			mecanumDrive.driveCartesian(x, y, turnRate, GyroUtil.getInstance().getHeading());
 	}
 
 	/**
