@@ -162,6 +162,7 @@ public class Robot extends TimedRobot {
 		GyroUtil.getInstance().runold();
 		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
+		LED.colorCycle();
 	}
 
 	/**
@@ -169,6 +170,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		LED.colorCycle();
 	}
 
 	public int getDriverStationNumber() {

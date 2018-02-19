@@ -35,14 +35,14 @@ public class RobotMap {
 	public static int backLeftMotor = 2;
 	public static int backRightMotor = 1;
 	public static int frontLeftMotor = 4;
-	public static int frontRightMotor = 3;
+	public static int frontRightMotor = 5;
 
 	// Two Wheel Motors
 	public static int leftMotor = 1;
 	public static int rightMotor = 2;
 	
 	// Hugger Motor
-	public static int huggerMotor = 5;
+	public static int huggerMotor = 3;
 	
 	// Tower Motor
 	public static int towerMotor = 6;
