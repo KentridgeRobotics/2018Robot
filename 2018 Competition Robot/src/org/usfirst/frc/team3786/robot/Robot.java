@@ -159,6 +159,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumberArray("Gyroscope", GyroUtil.getInstance().getVector());
 		SmartDashboard.putNumber("Heading", GyroUtil.getInstance().getHeading());
+		LED.colorCycle();
 	}
 
 	/**
@@ -166,6 +167,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		LED.colorCycle();
 	}
 
 	public int getDriverStationNumber() {
