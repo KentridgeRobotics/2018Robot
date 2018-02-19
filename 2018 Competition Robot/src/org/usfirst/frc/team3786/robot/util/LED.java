@@ -2,8 +2,6 @@ package org.usfirst.frc.team3786.robot.util;
 
 import java.awt.Color;
 
-import org.usfirst.frc.team3786.robot.OI;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LED {
@@ -25,7 +23,7 @@ public class LED {
 				hue = 0;
 			}
 			hueUpdate = -1;
-			int rgb = Color.HSBtoRGB(hue / 360, 1.0f, 1.0f - (float) OI.getRightTrigger());
+			int rgb = Color.HSBtoRGB(hue / 360, 1.0f, 1.0f);
 			LED.setRGB((rgb>>16)&0xFF, (rgb>>8)&0xFF, rgb&0xFF);
 		}
 	}
