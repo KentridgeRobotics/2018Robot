@@ -159,6 +159,9 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumberArray("Gyroscope", GyroUtil.getInstance().getVector());
 		SmartDashboard.putNumber("Heading", GyroUtil.getInstance().getHeading());
+		GyroUtil.getInstance().runold();
+		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
+		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 	}
 
 	/**

@@ -3,6 +3,8 @@ package org.usfirst.frc.team3786.robot.util;
 import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
 import org.usfirst.frc.team3786.robot.util.BNO055.opmode_t;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class GyroUtil implements Runnable {
 
 	private static GyroUtil instance;
@@ -36,6 +38,7 @@ public class GyroUtil implements Runnable {
 		dispY[0] = 0.0;
 
 		last = 0.0;
+		lastCheckNanos = System.nanoTime();
 	}
 
 	public double getHeadingContinuous() {
@@ -43,7 +46,7 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double getHeading() {
-		return 360 - imu.getVectorEuler()[0];
+		return imu.getVectorEuler()[0];
 	}
 
 	public double[] getVector() {
@@ -58,15 +61,19 @@ public class GyroUtil implements Runnable {
 		return imu.getCalibration();
 	}
 
-	@Override
-	public void run() {
+	public void runold() {
 		now = System.currentTimeMillis() * 1000;
 		dT = now - last;
 
 		robotAccelX = getAccel()[0];
 		robotAccelY = getAccel()[1];
+		
+		SmartDashboard.putNumber("AccelX", accelX);
+		SmartDashboard.putNumber("AccelY", accelY);
+		
 		robotHead = getHeading();
-
+		SmartDashboard.putNumber("Heading", robotHead);
+		
 		accelX = (float) (Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY);
 		accelY = (float) (-Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY);
 
@@ -86,6 +93,44 @@ public class GyroUtil implements Runnable {
 
 	}
 
+	long lastCheckNanos;
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		// What is our position now?
+		// We need to know:
+		// - previous position (x and y)
+		// - previous velocity (dx and dy)
+		// - new veolocity (dxNext and dyNext)
+		// Our new position is :
+		// xNew = x + dt * (dx + dxNext)/2.0
+		long now = System.nanoTime();
+		dx_next = x + dT * (dx + dx_next) / 2.0;
+		dy_next = y + dT * (dy + dy_next) / 2.0;
+		
+		dx = dx_next;
+		dy = dy_next;		
+	}
+	
+	// Current value on x
+	private double x;
+	
+	// Current value on y
+	private double y;
+	
+	// Current velocity on x
+	private double dx;
+	
+	// Current velocity on y
+	private double dy;
+	
+	// New value from dx
+	private double dx_next;
+	
+	// New value from dy
+	private double dy_next;
+	
 	public double getVelX() {
 		return velX[1];
 	}
