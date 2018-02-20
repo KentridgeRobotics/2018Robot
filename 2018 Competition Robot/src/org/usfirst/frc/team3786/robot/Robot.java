@@ -205,6 +205,9 @@ public class Robot extends TimedRobot {
 				this.mecanumSubsystem = new MecanumSubsystem();
 				return this.mecanumSubsystem;
 			}
+			
+		} else if(this.drivetrainType == DrivetrainType.TWO_WHEEL) {
+			return getTwoWheelSubsystem();
 		}
 		return null;
 	}
