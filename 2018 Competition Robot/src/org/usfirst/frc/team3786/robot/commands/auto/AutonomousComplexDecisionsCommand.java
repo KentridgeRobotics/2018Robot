@@ -3,6 +3,7 @@ package org.usfirst.frc.team3786.robot.commands.auto;
 import org.usfirst.frc.team3786.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Robot runs decisions based on decisions made through decisions making class.
@@ -44,7 +45,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 		this.targetNumber = targetNumber;
 		colorPositions = gameSpecificMessage;
 
-		requires(Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getMecanumSubsystem());
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -59,7 +60,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.instance.getMecanumSubsystem().setDirectionSpeed(0, 1.0);
+		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(0, 1.0, 0.0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

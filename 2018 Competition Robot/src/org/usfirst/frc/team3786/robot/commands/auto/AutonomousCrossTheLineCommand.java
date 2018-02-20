@@ -2,6 +2,7 @@ package org.usfirst.frc.team3786.robot.commands.auto;
 
 import org.usfirst.frc.team3786.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Robot Drives forward until it passes black line. Basic Code to working with
@@ -31,7 +32,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 	
 	public AutonomousCrossTheLineCommand(int StartingPosition) {
 		this.StartingPosition = StartingPosition;
-		requires(Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getMecanumSubsystem());
 		currentStep = commandStep.Go_Forward;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);

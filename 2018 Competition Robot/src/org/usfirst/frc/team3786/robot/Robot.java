@@ -10,6 +10,7 @@ package org.usfirst.frc.team3786.robot;
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
 
 	private TwoWheelSubsystem twoWheelSubsystem;
 
-	private MecanumSubsystem mecanumSubsystem;
+	private ChargersDriveSubsystem mecanumSubsystem;
 	
 	private DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
@@ -196,7 +197,7 @@ public class Robot extends TimedRobot {
 		return null;
 	}
 	
-	public MecanumSubsystem getMecanumSubsystem() {
+	public ChargersDriveSubsystem getMecanumSubsystem() {
 		if (this.drivetrainType == DrivetrainType.MECANUM) {
 			if (this.mecanumSubsystem != null) {
 				return this.mecanumSubsystem;

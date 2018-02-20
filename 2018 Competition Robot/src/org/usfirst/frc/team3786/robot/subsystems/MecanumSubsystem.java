@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MecanumSubsystem extends PIDSubsystem {
+public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsystem {
 
 	private WPI_TalonSRX leftFront;
 	private WPI_TalonSRX leftBack;
@@ -75,6 +75,10 @@ public class MecanumSubsystem extends PIDSubsystem {
 		mecanumDrive.drivePolar(speed, angle, 0, GyroUtil.getInstance().getHeading());
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem#gyroAssistedDrive(double, double, double)
+	 */
+	@Override
 	public void gyroAssistedDrive(double x, double y, double turnRate) {
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.getInstance().getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.getInstance().getDisableY());

@@ -4,6 +4,7 @@ import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
@@ -21,7 +22,7 @@ public class MecanumDriveCommand extends Command {
 	public MecanumDriveCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getMecanumSubsystem());
 	}
 
 	// Called just before this Command runs the first time
