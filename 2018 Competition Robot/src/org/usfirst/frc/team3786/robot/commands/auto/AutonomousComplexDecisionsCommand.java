@@ -45,7 +45,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 		this.targetNumber = targetNumber;
 		colorPositions = gameSpecificMessage;
 
-		requires((Subsystem) Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getDriveSubsystem());
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -60,7 +60,7 @@ public class AutonomousComplexDecisionsCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(0, 1.0, 0.0);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(0, 1.0, 0.0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

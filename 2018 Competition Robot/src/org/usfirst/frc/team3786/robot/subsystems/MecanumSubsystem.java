@@ -98,7 +98,7 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 	 * Turn the robot to a specific angle 
 	 * @param angle the angle to turn the robot to.
 	 */
-	private void setRobotHeading(double angle) {
+	public void setRobotHeading(double angle) {
 		// This finds the shortest way to get to the desired angle
 		this.setSetpointRelative(Math.IEEEremainder(angle-GyroUtil.getInstance().getHeading(), 360.0));
 	}

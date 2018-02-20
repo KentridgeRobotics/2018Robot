@@ -32,7 +32,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 	
 	public AutonomousCrossTheLineCommand(int StartingPosition) {
 		this.StartingPosition = StartingPosition;
-		requires((Subsystem) Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getDriveSubsystem());
 		currentStep = commandStep.Go_Forward;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -51,7 +51,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 			return;
 		}
 		
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(0.0, 1.0, 0.0);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 1.0, 0.0);
 	}
 	
 	void GoSideWays() {
@@ -77,7 +77,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 			return;
 		}
 		
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(x, y, 0.0);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(x, y, 0.0);
 	}
 	
 	void FinalForward() {
@@ -87,7 +87,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 			return;
 		}
 		
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(0.0, 1.0, 0.0);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 1.0, 0.0);
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
@@ -117,7 +117,7 @@ public class AutonomousCrossTheLineCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(0.0, 0.0, 0.0);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, 0.0);
 	}
 
 	// Called when another command which requires one or more of the same

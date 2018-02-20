@@ -4,7 +4,6 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
 import org.usfirst.frc.team3786.robot.RobotMap;
-import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 

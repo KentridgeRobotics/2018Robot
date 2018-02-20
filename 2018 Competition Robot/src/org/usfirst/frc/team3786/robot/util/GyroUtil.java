@@ -21,8 +21,7 @@ public class GyroUtil implements Runnable {
 	private double[] velX, velY, dispX, dispY;
 	private double last, now;
 	private double dT;
-	private boolean pauseDistance = true;
-
+	
 	public GyroUtil() {
 		imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
 
@@ -31,7 +30,8 @@ public class GyroUtil implements Runnable {
 
 		velX[0] = 0.0;
 		velY[0] = 0.0;
-
+		
+		
 		dispX = new double[2];
 		dispY = new double[2];
 
@@ -94,33 +94,21 @@ public class GyroUtil implements Runnable {
 		SmartDashboard.putNumberArray("VelY", velY);
 		
 		dispX[1] = dispX[0] + velX[1] * dT + 0.5 * accelX * Math.pow(dT, 2);
-		dispY[1] = dispY[0] + velY[1] * dT + 0.5 * accelY * Math.pow(dT, 2);
 
 		dispX[0] = dispX[1];
-		dispY[0] = dispY[1];
-
+		
+		
+		if(accelY >= 1.0) {
+			dispY[1] = dispY[0] + velY[1] * dT + 0.5 * accelY * Math.pow(dT, 2);
+		}
+		
+		else {
+			dispY[0] = dispY[1];
+		}
+		
 		last = now;
 
 	}
-
-	
-	// Current value on x
-	private double x;
-	
-	// Current value on y
-	private double y;
-	
-	// Current velocity on x
-	private double dx;
-	
-	// Current velocity on y
-	private double dy;
-	
-	// New value from dx
-	private double dx_next;
-	
-	// New value from dy
-	private double dy_next;
 	
 	public double getVelX() {
 		return velX[1];

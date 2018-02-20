@@ -9,7 +9,6 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
-import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
@@ -40,10 +39,8 @@ public class Robot extends TimedRobot {
 
 	private UsbCamera camera;
 
-	private TwoWheelSubsystem twoWheelSubsystem;
+	private ChargersDriveSubsystem driveSubsystem;
 
-	private ChargersDriveSubsystem mecanumSubsystem;
-	
 	private DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
 
 	private int driverStationNumber;
@@ -73,11 +70,10 @@ public class Robot extends TimedRobot {
 		camera.setResolution(320, 240);
 		camera.setFPS(30);
 
-		//chooser.addDefault("Default Auto", new AutonomousCrossTheLineCommand(driverStationNumber));
+		// chooser.addDefault("Default Auto", new
+		// AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", chooser);
-		if (drivetrainType == DrivetrainType.MECANUM)
-			MecanumDriveCommand.getInstance();
-		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
+		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance();
 	}
 
@@ -89,7 +85,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		if (drivetrainType == DrivetrainType.MECANUM) {
+		if (drivetrainType != DrivetrainType.DEBUG) {
 			MecanumDriveCommand.getInstance().setDisableX(false);
 			MecanumDriveCommand.getInstance().setDisableY(false);
 		}
@@ -147,11 +143,9 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		if (drivetrainType == DrivetrainType.MECANUM)
+		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance().start();
-		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
-			TankDriveCommand.getInstance().start();
-		else if (drivetrainType == DrivetrainType.DEBUG)
+		else
 			DEBUGCOMMAND.getInstance().start();
 	}
 
@@ -184,34 +178,22 @@ public class Robot extends TimedRobot {
 	public String getGameSpecificMessage() {
 		return gameSpecificMessage;
 	}
-	
-	public TwoWheelSubsystem getTwoWheelSubsystem() {
-		if (this.drivetrainType == DrivetrainType.TWO_WHEEL) {
-			if (this.twoWheelSubsystem != null) {
-				return this.twoWheelSubsystem;
-			} else {
-				this.twoWheelSubsystem = new TwoWheelSubsystem();
-				return this.twoWheelSubsystem;
+
+	public ChargersDriveSubsystem getDriveSubsystem() {
+		if (this.driveSubsystem != null)
+			return this.driveSubsystem;
+		else {
+			if (drivetrainType == DrivetrainType.MECANUM) {
+				this.driveSubsystem = new MecanumSubsystem();
+				return this.driveSubsystem;
+			} else if (drivetrainType == DrivetrainType.TWO_WHEEL) {
+				this.driveSubsystem = new TwoWheelSubsystem();
+				return this.driveSubsystem;
 			}
 		}
 		return null;
 	}
-	
-	public ChargersDriveSubsystem getMecanumSubsystem() {
-		if (this.drivetrainType == DrivetrainType.MECANUM) {
-			if (this.mecanumSubsystem != null) {
-				return this.mecanumSubsystem;
-			} else {
-				this.mecanumSubsystem = new MecanumSubsystem();
-				return this.mecanumSubsystem;
-			}
-			
-		} else if(this.drivetrainType == DrivetrainType.TWO_WHEEL) {
-			return getTwoWheelSubsystem();
-		}
-		return null;
-	}
-	
+
 	public enum DrivetrainType {
 		MECANUM(),
 		TWO_WHEEL(),

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumDriveCommand extends Command {
+	
 	private static MecanumDriveCommand instance;
 
 	private boolean xDisable = false;
@@ -22,7 +23,7 @@ public class MecanumDriveCommand extends Command {
 	public MecanumDriveCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires((Subsystem) Robot.instance.getMecanumSubsystem());
+		requires((Subsystem) Robot.instance.getDriveSubsystem());
 	}
 
 	// Called just before this Command runs the first time
@@ -37,7 +38,7 @@ public class MecanumDriveCommand extends Command {
 		// Turning controls
 		double turn = OI.getRightStickX();
 		double limit = OI.getLeftTrigger();
-		limit = 1;
+//		limit = 1;
 		x *= (1 - limit/1.25);
 		y *= (1 - limit/1.25);
 		turn *= (1 - limit/1.25);
@@ -48,7 +49,7 @@ public class MecanumDriveCommand extends Command {
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(-x, y, -turn);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(-x, y, -turn);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
