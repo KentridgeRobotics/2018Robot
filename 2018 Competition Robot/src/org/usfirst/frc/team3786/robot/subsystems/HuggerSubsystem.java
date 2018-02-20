@@ -26,19 +26,11 @@ public class HuggerSubsystem extends Subsystem {
 	public HuggerSubsystem() {
 		motor = new WPI_TalonSRX(RobotMap.huggerMotor);
 		motor.configOpenloopRamp(0.2, 0);
+		motor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	public void setMotorSpeed(double Speed) {
 		motor.set(Speed);
-	}
-
-	public void setBrakeMode(boolean isBraking) {
-		NeutralMode mode;
-		if (isBraking)
-			mode = NeutralMode.Brake;
-		else
-			mode = NeutralMode.Coast;
-		motor.setNeutralMode(mode);
 	}
 
 	public void initDefaultCommand() {

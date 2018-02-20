@@ -14,7 +14,6 @@ public class HuggerInCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		HuggerSubsystem.getInstance().setBrakeMode(false);
 		HuggerSubsystem.getInstance().setMotorSpeed(-1.0);
 	}
 
