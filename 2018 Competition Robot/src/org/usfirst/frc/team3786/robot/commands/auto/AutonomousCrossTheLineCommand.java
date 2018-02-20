@@ -1,7 +1,6 @@
-package org.usfirst.frc.team3786.robot.commands;
+package org.usfirst.frc.team3786.robot.commands.auto;
 
 import org.usfirst.frc.team3786.robot.Robot;
-import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

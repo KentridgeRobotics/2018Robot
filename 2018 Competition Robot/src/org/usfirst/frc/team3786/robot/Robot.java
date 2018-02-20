@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
@@ -149,6 +150,8 @@ public class Robot extends TimedRobot {
 			MecanumDriveCommand.getInstance().start();
 		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
 			TankDriveCommand.getInstance().start();
+		else if (drivetrainType == DrivetrainType.DEBUG)
+			DEBUGCOMMAND.getInstance().start();
 	}
 
 	/**
@@ -204,6 +207,7 @@ public class Robot extends TimedRobot {
 	
 	public enum DrivetrainType {
 		MECANUM(),
-		TWO_WHEEL();
+		TWO_WHEEL(),
+		DEBUG();
 	}
 }

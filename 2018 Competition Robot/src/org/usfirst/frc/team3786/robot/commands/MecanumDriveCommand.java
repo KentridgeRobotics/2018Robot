@@ -48,7 +48,6 @@ public class MecanumDriveCommand extends Command {
 
 		// Update motors with controls
 		Robot.instance.getMecanumSubsystem().gyroAssistedDrive(-x, y, -turn);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
