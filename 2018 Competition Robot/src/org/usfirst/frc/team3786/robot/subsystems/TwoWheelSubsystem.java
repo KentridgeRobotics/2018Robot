@@ -50,7 +50,7 @@ public class TwoWheelSubsystem extends Subsystem implements ChargersDriveSubsyst
 	@Override
 	public void gyroAssistedDrive(double x, double y, double turnRate) {
 		
-		differentialDrive.arcadeDrive(y, turnRate);
+		differentialDrive.arcadeDrive(-y, -turnRate);
 		
 	}
 
