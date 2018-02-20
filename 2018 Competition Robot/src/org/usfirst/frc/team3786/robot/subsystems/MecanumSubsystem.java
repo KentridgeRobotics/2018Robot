@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumSubsystem extends PIDSubsystem {
 
-	double desiredHeading = 0.0;
 	private WPI_TalonSRX leftFront;
 	private WPI_TalonSRX leftBack;
 	private WPI_TalonSRX rightBack;
@@ -23,9 +22,10 @@ public class MecanumSubsystem extends PIDSubsystem {
 	
 	private static boolean usePID = false;
 
-	private static double kP = 1.0;
+	// TODO Re-Tune these values when the robot is put together
+	private static double kP = 0.1;
 	private static double kI = 0.0;
-	private static double kD = 0.01;
+	private static double kD = 0.0;
 	private double pidTurnOutput = 0.0;
 
 	public MecanumSubsystem() {
@@ -79,20 +79,24 @@ public class MecanumSubsystem extends PIDSubsystem {
 		SmartDashboard.putBoolean("X Disabled", MecanumDriveCommand.getInstance().getDisableX());
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.getInstance().getDisableY());
 		if (usePID) {
-			setRobotHeading(turnRate);
+			//setRobotHeading(GyroUtil.getInstance().getHeadingContinuous()+turnRate);
+			gyroAssistedTurn(turnRate);
 			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
 		} else
 			mecanumDrive.driveCartesian(x, y, turnRate);
 	}
+	
+	public void gyroAssistedTurn(double turn) {
+		this.setSetpointRelative(turn);
+	}
 
 	/**
-	 * Update the current heading and feed the value into the PID Controller in
-	 * charge of turning
-	 * 
-	 * @param turnRate the heading offset the robot should turn to
+	 * Turn the robot to a specific angle 
+	 * @param angle the angle to turn the robot to.
 	 */
-	private void setRobotHeading(double turnRate) {
-		this.setSetpointRelative(turnRate);
+	private void setRobotHeading(double angle) {
+		// This finds the shortest way to get to the desired angle
+		this.setSetpointRelative(Math.IEEEremainder(angle-GyroUtil.getInstance().getHeading(), 360.0));
 	}
 
 	@Override
