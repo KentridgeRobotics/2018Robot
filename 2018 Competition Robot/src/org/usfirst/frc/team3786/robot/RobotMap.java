@@ -42,7 +42,7 @@ public class RobotMap {
 	public static int rightMotor = 2;
 	
 	// Hugger Motor
-	public static int huggerMotor = 3;
+	public static int huggerMotor = 5;
 	
 	// Tower Motor
 	public static int towerMotor = 6;

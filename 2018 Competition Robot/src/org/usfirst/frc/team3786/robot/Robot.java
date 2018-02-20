@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	private DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
+	private DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
