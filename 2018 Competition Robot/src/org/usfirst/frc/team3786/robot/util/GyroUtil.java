@@ -37,8 +37,7 @@ public class GyroUtil implements Runnable {
 		dispX[0] = 0.0;
 		dispY[0] = 0.0;
 
-		last = 0.0;
-		lastCheckNanos = System.nanoTime();
+		last = System.currentTimeMillis() / 1000.0;
 	}
 
 	public double getHeadingContinuous() {
@@ -54,35 +53,45 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double[] getAccel() {
+		SmartDashboard.putNumber("AccelIMU", imu.getHeadingAccel());
 		return imu.getVectorAccel();
 	}
 
+	public double[] getGravity() {
+		return imu.getVectorGrav();
+	}
+	
 	public CalData getCalibration() {
 		return imu.getCalibration();
 	}
 
-	public void runold() {
-		now = System.currentTimeMillis() * 1000;
+	public void run() {
+		now = System.currentTimeMillis() / 1000.0;
 		dT = now - last;
 
-		robotAccelX = getAccel()[0];
-		robotAccelY = getAccel()[1];
+		robotAccelX = getAccel()[0] - getGravity()[0];
+		robotAccelY = getAccel()[1] - getGravity()[1];
 		
-		SmartDashboard.putNumber("AccelX", accelX);
-		SmartDashboard.putNumber("AccelY", accelY);
-		
+
 		robotHead = getHeading();
 		SmartDashboard.putNumber("Heading", robotHead);
 		
-		accelX = (float) (Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY);
-		accelY = (float) (-Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY);
+		accelX = Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY;
+		accelY = -Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY;
 
 		velX[1] = velX[0] + accelX * dT;
 		velY[1] = velY[0] + accelY * dT;
-
+		
 		velX[0] = velX[1];
 		velY[0] = velY[1];
-
+		
+		SmartDashboard.putNumber("AccelX", accelX);
+		SmartDashboard.putNumber("AccelY", accelY);
+		SmartDashboard.putNumber("Time", dT);
+		
+		SmartDashboard.putNumberArray("VelX", velX);
+		SmartDashboard.putNumberArray("VelY", velY);
+		
 		dispX[1] = dispX[0] + velX[1] * dT + 0.5 * accelX * Math.pow(dT, 2);
 		dispY[1] = dispY[0] + velY[1] * dT + 0.5 * accelY * Math.pow(dT, 2);
 
@@ -93,25 +102,6 @@ public class GyroUtil implements Runnable {
 
 	}
 
-	long lastCheckNanos;
-	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		// What is our position now?
-		// We need to know:
-		// - previous position (x and y)
-		// - previous velocity (dx and dy)
-		// - new veolocity (dxNext and dyNext)
-		// Our new position is :
-		// xNew = x + dt * (dx + dxNext)/2.0
-		long now = System.nanoTime();
-		dx_next = x + dT * (dx + dx_next) / 2.0;
-		dy_next = y + dT * (dy + dy_next) / 2.0;
-		
-		dx = dx_next;
-		dy = dy_next;		
-	}
 	
 	// Current value on x
 	private double x;
