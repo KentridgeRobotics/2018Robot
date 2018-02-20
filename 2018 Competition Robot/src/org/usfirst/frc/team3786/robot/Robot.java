@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem mecanumSubsystem;
 	
-	private DrivetrainType drivetrainType = DrivetrainType.MECANUM;
+	private DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
 		if (drivetrainType == DrivetrainType.MECANUM)
 			MecanumDriveCommand.getInstance();
 		else if (drivetrainType == DrivetrainType.TWO_WHEEL)
-			TankDriveCommand.getInstance();
+			MecanumDriveCommand.getInstance();
 	}
 
 	/**
