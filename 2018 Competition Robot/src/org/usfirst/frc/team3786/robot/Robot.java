@@ -199,16 +199,14 @@ public class Robot extends TimedRobot {
 	
 	public ChargersDriveSubsystem getMecanumSubsystem() {
 		if (this.drivetrainType == DrivetrainType.MECANUM) {
-			if (this.mecanumSubsystem != null) {
+			if (this.mecanumSubsystem != null)
 				return this.mecanumSubsystem;
-			} else {
+			else {
 				this.mecanumSubsystem = new MecanumSubsystem();
 				return this.mecanumSubsystem;
 			}
-			
-		} else if(this.drivetrainType == DrivetrainType.TWO_WHEEL) {
-			return getTwoWheelSubsystem();
-		}
+		} else if (this.drivetrainType == DrivetrainType.TWO_WHEEL)
+			return this.mecanumSubsystem;
 		return null;
 	}
 	

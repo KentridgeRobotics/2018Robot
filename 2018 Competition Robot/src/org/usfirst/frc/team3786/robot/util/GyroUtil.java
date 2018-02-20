@@ -21,7 +21,6 @@ public class GyroUtil implements Runnable {
 	private double[] velX, velY, dispX, dispY;
 	private double last, now;
 	private double dT;
-	private boolean pauseDistance = true;
 
 	public GyroUtil() {
 		imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
@@ -102,25 +101,6 @@ public class GyroUtil implements Runnable {
 		last = now;
 
 	}
-
-	
-	// Current value on x
-	private double x;
-	
-	// Current value on y
-	private double y;
-	
-	// Current velocity on x
-	private double dx;
-	
-	// Current velocity on y
-	private double dy;
-	
-	// New value from dx
-	private double dx_next;
-	
-	// New value from dy
-	private double dy_next;
 	
 	public double getVelX() {
 		return velX[1];
