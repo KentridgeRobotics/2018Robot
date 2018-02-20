@@ -3,6 +3,8 @@ package org.usfirst.frc.team3786.robot.util;
 import org.usfirst.frc.team3786.robot.util.BNO055.CalData;
 import org.usfirst.frc.team3786.robot.util.BNO055.opmode_t;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class GyroUtil implements Runnable {
 
 	private static GyroUtil instance;
@@ -35,7 +37,7 @@ public class GyroUtil implements Runnable {
 		dispX[0] = 0.0;
 		dispY[0] = 0.0;
 
-		last = 0.0;
+		last = System.currentTimeMillis() / 1000.0;
 	}
 
 	public double getHeadingContinuous() {
@@ -43,7 +45,7 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double getHeading() {
-		return 360 - imu.getVectorEuler()[0];
+		return imu.getVectorEuler()[0];
 	}
 
 	public double[] getVector() {
@@ -51,31 +53,45 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double[] getAccel() {
+		SmartDashboard.putNumber("AccelIMU", imu.getHeadingAccel());
 		return imu.getVectorAccel();
 	}
 
+	public double[] getGravity() {
+		return imu.getVectorGrav();
+	}
+	
 	public CalData getCalibration() {
 		return imu.getCalibration();
 	}
 
-	@Override
 	public void run() {
-		now = System.currentTimeMillis() * 1000;
+		now = System.currentTimeMillis() / 1000.0;
 		dT = now - last;
 
-		robotAccelX = getAccel()[0];
-		robotAccelY = getAccel()[1];
-		robotHead = getHeading();
+		robotAccelX = getAccel()[0] - getGravity()[0];
+		robotAccelY = getAccel()[1] - getGravity()[1];
+		
 
-		accelX = (float) (Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY);
-		accelY = (float) (-Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY);
+		robotHead = getHeading();
+		SmartDashboard.putNumber("Heading", robotHead);
+		
+		accelX = Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY;
+		accelY = -Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY;
 
 		velX[1] = velX[0] + accelX * dT;
 		velY[1] = velY[0] + accelY * dT;
-
+		
 		velX[0] = velX[1];
 		velY[0] = velY[1];
-
+		
+		SmartDashboard.putNumber("AccelX", accelX);
+		SmartDashboard.putNumber("AccelY", accelY);
+		SmartDashboard.putNumber("Time", dT);
+		
+		SmartDashboard.putNumberArray("VelX", velX);
+		SmartDashboard.putNumberArray("VelY", velY);
+		
 		dispX[1] = dispX[0] + velX[1] * dT + 0.5 * accelX * Math.pow(dT, 2);
 		dispY[1] = dispY[0] + velY[1] * dT + 0.5 * accelY * Math.pow(dT, 2);
 
@@ -86,6 +102,25 @@ public class GyroUtil implements Runnable {
 
 	}
 
+	
+	// Current value on x
+	private double x;
+	
+	// Current value on y
+	private double y;
+	
+	// Current velocity on x
+	private double dx;
+	
+	// Current velocity on y
+	private double dy;
+	
+	// New value from dx
+	private double dx_next;
+	
+	// New value from dy
+	private double dy_next;
+	
 	public double getVelX() {
 		return velX[1];
 	}
