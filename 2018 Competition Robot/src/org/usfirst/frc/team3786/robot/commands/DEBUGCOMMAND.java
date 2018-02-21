@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DEBUGCOMMAND extends Command {
 	private static DEBUGCOMMAND instance;
 
-	private WPI_TalonSRX talon = new WPI_TalonSRX(5);
+	private WPI_TalonSRX talon = new WPI_TalonSRX(6);
 
 	public static DEBUGCOMMAND getInstance() {
 		if (instance == null)

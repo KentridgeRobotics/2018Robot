@@ -13,7 +13,6 @@ public class TowerStopCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		TowerSubsystem.getInstance().setBrakeMode(true);
 		TowerSubsystem.getInstance().setMotorSpeed(0.0);
 	}
 

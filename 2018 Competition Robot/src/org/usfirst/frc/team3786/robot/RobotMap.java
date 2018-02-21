@@ -12,6 +12,9 @@ import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
+import org.usfirst.frc.team3786.robot.commands.TowerLowerCommand;
+import org.usfirst.frc.team3786.robot.commands.TowerRaiseCommand;
+import org.usfirst.frc.team3786.robot.commands.TowerStopCommand;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -46,9 +49,6 @@ public class RobotMap {
 	
 	// Tower Motor
 	public static int towerMotor = 6;
-	
-	// Lift Motor
-	public static int liftMotor = 7;
 
 	// Controllers
 	public static int xboxPort = 0;
@@ -63,6 +63,12 @@ public class RobotMap {
 		OI.bumperR.whenReleased(huggerStopCommand);
 		OI.buttonBack.whenPressed(new DisableXCommand());
 		OI.buttonStart.whenPressed(new DisableYCommand());
+
+		TowerStopCommand towerStopCommand = new TowerStopCommand();
+		OI.buttonA.whenPressed(new TowerLowerCommand());
+		OI.buttonA.whenReleased(towerStopCommand);
+		OI.buttonB.whenPressed(new TowerRaiseCommand());
+		OI.buttonB.whenReleased(towerStopCommand);
 	}
 	// System.out.println(NetworkTableInstance.getDefault().getTable("SmartDashboard").getEntry("cubeR").getDouble(0.0));
 }

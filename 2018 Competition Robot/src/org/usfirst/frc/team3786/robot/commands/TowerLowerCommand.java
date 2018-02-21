@@ -13,7 +13,6 @@ public class TowerLowerCommand extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		TowerSubsystem.getInstance().setBrakeMode(false);
 		TowerSubsystem.getInstance().setMotorSpeed(-1.0);
 	}
 

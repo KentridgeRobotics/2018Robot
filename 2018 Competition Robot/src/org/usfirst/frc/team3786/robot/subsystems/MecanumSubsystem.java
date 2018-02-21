@@ -41,10 +41,10 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		rightBack = new WPI_TalonSRX(RobotMap.backRightMotor);
 		rightFront = new WPI_TalonSRX(RobotMap.frontRightMotor);
 
-		//leftFront.configOpenloopRamp(0.2, 0);
-		//leftBack.configOpenloopRamp(0.2, 0);
-		//rightFront.configOpenloopRamp(0.2, 0);
-		//rightBack.configOpenloopRamp(0.2, 0);
+		leftFront.configOpenloopRamp(0.2, 0);
+		leftBack.configOpenloopRamp(0.2, 0);
+		rightFront.configOpenloopRamp(0.2, 0);
+		rightBack.configOpenloopRamp(0.2, 0);
 
 		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
 		
@@ -84,10 +84,10 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		SmartDashboard.putBoolean("Y Disabled", MecanumDriveCommand.getInstance().getDisableY());
 		if (usePID) {
 			//setRobotHeading(GyroUtil.getInstance().getHeadingContinuous()+turnRate);
-			gyroAssistedTurn(turnRate);
+			gyroAssistedTurn(-turnRate);
 			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
 		} else
-			mecanumDrive.driveCartesian(x, y, turnRate);
+			mecanumDrive.driveCartesian(x, y, -turnRate);
 	}
 	
 	public void gyroAssistedTurn(double turn) {
