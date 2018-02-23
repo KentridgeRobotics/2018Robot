@@ -22,12 +22,12 @@ public class OI {
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
 
-	private static XboxController mainXboxCon = new XboxController(RobotMap.mainXboxPort, RobotMap.xboxStickDeadzone);
+	private static XboxController primaryXboxCon = new XboxController(RobotMap.mainXboxPort, RobotMap.xboxStickDeadzone);
 
 	private static XboxController secondaryXboxCon = new XboxController(RobotMap.secondaryXboxPort, RobotMap.xboxStickDeadzone);
 	
 	public static XboxController getMainController() {
-		return mainXboxCon;
+		return primaryXboxCon;
 	}
 	
 	public static XboxController getSecondaryController() {
