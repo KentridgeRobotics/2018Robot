@@ -7,6 +7,9 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.usfirst.frc.team3786.robot.Robot.DrivetrainType;
+import org.usfirst.frc.team3786.robot.commands.DEBUGDOWNCOMMAND;
+import org.usfirst.frc.team3786.robot.commands.DEBUGUPCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
@@ -56,19 +59,23 @@ public class RobotMap {
 	public static int joystickPort = 1;
 
 	public static void controllerMappings() {
-		HuggerStopCommand huggerStopCommand = new HuggerStopCommand();
-		OI.bumperL.whenPressed(new HuggerOutCommand());
-		OI.bumperL.whenReleased(huggerStopCommand);
-		OI.bumperR.whenPressed(new HuggerInCommand());
-		OI.bumperR.whenReleased(huggerStopCommand);
-		OI.buttonBack.whenPressed(new DisableXCommand());
-		OI.buttonStart.whenPressed(new DisableYCommand());
+		if (Robot.instance.drivetrainType != DrivetrainType.DEBUG) {
+			HuggerStopCommand huggerStopCommand = new HuggerStopCommand();
+			OI.bumperL.whenPressed(new HuggerOutCommand());
+			OI.bumperL.whenReleased(huggerStopCommand);
+			OI.bumperR.whenPressed(new HuggerInCommand());
+			OI.bumperR.whenReleased(huggerStopCommand);
+			OI.buttonBack.whenPressed(new DisableXCommand());
+			OI.buttonStart.whenPressed(new DisableYCommand());
 
-		TowerStopCommand towerStopCommand = new TowerStopCommand();
-		OI.buttonA.whenPressed(new TowerLowerCommand());
-		OI.buttonA.whenReleased(towerStopCommand);
-		OI.buttonB.whenPressed(new TowerRaiseCommand());
-		OI.buttonB.whenReleased(towerStopCommand);
+			TowerStopCommand towerStopCommand = new TowerStopCommand();
+			OI.buttonA.whenPressed(new TowerLowerCommand());
+			OI.buttonA.whenReleased(towerStopCommand);
+			OI.buttonB.whenPressed(new TowerRaiseCommand());
+			OI.buttonB.whenReleased(towerStopCommand);
+		} else {
+			OI.buttonA.whenPressed(new DEBUGUPCOMMAND());
+			OI.buttonB.whenPressed(new DEBUGDOWNCOMMAND());
+		}
 	}
-	// System.out.println(NetworkTableInstance.getDefault().getTable("SmartDashboard").getEntry("cubeR").getDouble(0.0));
 }
