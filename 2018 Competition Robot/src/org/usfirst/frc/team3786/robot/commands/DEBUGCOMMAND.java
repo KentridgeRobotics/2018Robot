@@ -34,8 +34,8 @@ public class DEBUGCOMMAND extends Command {
 			talonID = 1;
 		}
 		SmartDashboard.putNumber("DEBUG_TALON_ID", talonID);
-		System.out.println(OI.getRightStickY());
-		talon.set(OI.getRightStickY());
+		System.out.println(OI.getMainController().rightStickY());
+		talon.set(OI.getMainController().rightStickY());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

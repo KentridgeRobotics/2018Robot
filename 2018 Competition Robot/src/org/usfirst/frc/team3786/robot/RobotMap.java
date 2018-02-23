@@ -54,28 +54,28 @@ public class RobotMap {
 	public static int towerMotor = 6;
 
 	// Controllers
-	public static int xboxPort = 0;
+	public static int mainXboxPort = 0;
 	public static double xboxStickDeadzone = 0.13;
-	public static int joystickPort = 1;
+	public static int secondaryXboxPort = 1;
 
 	public static void controllerMappings() {
 		if (Robot.instance.drivetrainType != DrivetrainType.DEBUG) {
 			HuggerStopCommand huggerStopCommand = new HuggerStopCommand();
-			OI.bumperL.whenPressed(new HuggerOutCommand());
-			OI.bumperL.whenReleased(huggerStopCommand);
-			OI.bumperR.whenPressed(new HuggerInCommand());
-			OI.bumperR.whenReleased(huggerStopCommand);
-			OI.buttonBack.whenPressed(new DisableXCommand());
-			OI.buttonStart.whenPressed(new DisableYCommand());
+			OI.getSecondaryController().getBumperLeft().whenPressed(new HuggerOutCommand());
+			OI.getSecondaryController().getBumperLeft().whenReleased(huggerStopCommand);
+			OI.getSecondaryController().getBumperRight().whenPressed(new HuggerInCommand());
+			OI.getSecondaryController().getBumperRight().whenReleased(huggerStopCommand);
+			OI.getMainController().getButtonBack().whenPressed(new DisableXCommand());
+			OI.getMainController().getButtonStart().whenPressed(new DisableYCommand());
 
 			TowerStopCommand towerStopCommand = new TowerStopCommand();
-			OI.buttonA.whenPressed(new TowerLowerCommand());
-			OI.buttonA.whenReleased(towerStopCommand);
-			OI.buttonB.whenPressed(new TowerRaiseCommand());
-			OI.buttonB.whenReleased(towerStopCommand);
+			OI.getSecondaryController().getButtonA().whenPressed(new TowerLowerCommand());
+			OI.getSecondaryController().getButtonA().whenReleased(towerStopCommand);
+			OI.getSecondaryController().getButtonB().whenPressed(new TowerRaiseCommand());
+			OI.getSecondaryController().getButtonB().whenReleased(towerStopCommand);
 		} else {
-			OI.buttonA.whenPressed(new DEBUGUPCOMMAND());
-			OI.buttonB.whenPressed(new DEBUGDOWNCOMMAND());
+			OI.getMainController().getButtonA().whenPressed(new DEBUGUPCOMMAND());
+			OI.getMainController().getButtonB().whenPressed(new DEBUGDOWNCOMMAND());
 		}
 	}
 }

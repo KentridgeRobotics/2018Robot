@@ -7,10 +7,7 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3786.robot.util.XboxController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -25,106 +22,16 @@ public class OI {
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
 
-	private static XboxController xboxCon = new XboxController(RobotMap.xboxPort);
+	private static XboxController mainXboxCon = new XboxController(RobotMap.mainXboxPort, RobotMap.xboxStickDeadzone);
 
-	public static Button buttonA = new JoystickButton(xboxCon, 1); // A button
-	public static Button buttonB = new JoystickButton(xboxCon, 2); // B button
-	public static Button buttonX = new JoystickButton(xboxCon, 3); // X button
-	public static Button buttonY = new JoystickButton(xboxCon, 4); // Y button
-	public static Button bumperL = new JoystickButton(xboxCon, 5); // Left bumper
-	public static Button bumperR = new JoystickButton(xboxCon, 6); // Right bumper
-	public static Button buttonBack = new JoystickButton(xboxCon, 7); // Back button
-	public static Button buttonStart = new JoystickButton(xboxCon, 8); // Start button
-	public static Button buttonLCenter = new JoystickButton(xboxCon, 9); // Left Center button
-	public static Button buttonRCenter = new JoystickButton(xboxCon, 10); // Right Center button
-
-
-	public static double getLeftStickY() {
-		double n = xboxCon.getY(Hand.kLeft);
-		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public static double getLeftStickX() {
-		double n = xboxCon.getX(Hand.kLeft);
-		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
-			return 0.0;
-		else
-			return n;
-
-	}
-
-	public static double getRightStickY() {
-		double n = xboxCon.getY(Hand.kRight);
-		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public static double getRightStickX() {
-		double n = xboxCon.getX(Hand.kRight);
-		if (Math.abs(n) <= RobotMap.xboxStickDeadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public static double getLeftTrigger() {
-		double n = xboxCon.getTriggerAxis(Hand.kLeft);
-		return n;
-	}
-
-	public static double getRightTrigger() {
-		double n = xboxCon.getTriggerAxis(Hand.kRight);
-		return n;
-	}
-
-	public static boolean buttonA() {
-
-		return xboxCon.getAButton();
-	}
-
-	public static boolean buttonB() {
-		return xboxCon.getBButton();
-	}
-
-	public static boolean buttonX() {
-		return xboxCon.getXButton();
-	}
-
-	public static boolean buttonY() {
-		return xboxCon.getYButton();
-	}
-
-	public static boolean buttonBack() {
-		return xboxCon.getBackButton();
-	}
-
-	public static boolean buttonStart() {
-		return xboxCon.getStartButton();
-	}
-
-	public static boolean buttonLeftCenter() {
-		return xboxCon.getStickButton(Hand.kLeft);
-	}
-
-	public static boolean buttonRightCenter() {
-		return xboxCon.getStickButton(Hand.kRight);
-	}
-
-	public static boolean bumperLeft() {
-		return xboxCon.getBumper(Hand.kLeft);
-	}
-
-	public static boolean bumperRight() {
-		return xboxCon.getBumper(Hand.kRight);
+	private static XboxController secondaryXboxCon = new XboxController(RobotMap.secondaryXboxPort, RobotMap.xboxStickDeadzone);
+	
+	public static XboxController getMainController() {
+		return mainXboxCon;
 	}
 	
-	public static int pov() {
-		return xboxCon.getPOV();
+	public static XboxController getSecondaryController() {
+		return secondaryXboxCon;
 	}
 
 	// There are a few additional built in buttons you can use. Additionally,

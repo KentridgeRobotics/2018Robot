@@ -33,11 +33,11 @@ public class MecanumDriveCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// Drive controls
-		double x = OI.getLeftStickX();
-		double y = OI.getLeftStickY();
+		double x = OI.getMainController().leftStickX();
+		double y = OI.getMainController().leftStickY();
 		// Turning controls
-		double turn = OI.getRightStickX();
-		double limit = OI.getLeftTrigger();
+		double turn = OI.getMainController().rightStickX();
+		double limit = OI.getMainController().leftTrigger();
 		x *= (1 - limit/1.25);
 		y *= (1 - limit/1.25);
 		turn *= (1 - limit/1.25);
