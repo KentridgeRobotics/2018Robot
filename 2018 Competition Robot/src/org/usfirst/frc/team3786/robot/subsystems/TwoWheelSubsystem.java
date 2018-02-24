@@ -32,15 +32,6 @@ public class TwoWheelSubsystem extends Subsystem implements ChargersDriveSubsyst
 		right.set(rightSpeed);
 	}
 
-	public void setBrakeMode(boolean isBraking) {
-		NeutralMode mode;
-		if (isBraking)
-			mode = NeutralMode.Brake;
-		else
-			mode = NeutralMode.Coast;
-		left.setNeutralMode(mode);
-		right.setNeutralMode(mode);
-	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

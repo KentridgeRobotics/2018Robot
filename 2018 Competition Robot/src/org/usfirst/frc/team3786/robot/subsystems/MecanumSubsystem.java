@@ -47,8 +47,6 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		rightBack.configOpenloopRamp(0.2, 0);
 
 		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
-		
-		setBrakeMode(true);
 	}
 
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed,
@@ -57,18 +55,6 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		leftBack.set(leftBackSpeed);
 		rightBack.set(rightBackSpeed);
 		rightFront.set(rightFrontSpeed);
-	}
-
-	public void setBrakeMode(boolean isBraking) {
-		NeutralMode mode;
-		if (isBraking)
-			mode = NeutralMode.Brake;
-		else
-			mode = NeutralMode.Coast;
-		leftFront.setNeutralMode(mode);
-		leftBack.setNeutralMode(mode);
-		rightBack.setNeutralMode(mode);
-		rightFront.setNeutralMode(mode);
 	}
 
 	
