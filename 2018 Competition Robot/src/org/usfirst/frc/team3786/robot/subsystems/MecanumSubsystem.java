@@ -71,9 +71,6 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		rightFront.setNeutralMode(mode);
 	}
 
-	public void setDirectionSpeed(double angle, double speed) {
-		mecanumDrive.drivePolar(speed, angle, 0, GyroUtil.getInstance().getHeading());
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem#gyroAssistedDrive(double, double, double)
