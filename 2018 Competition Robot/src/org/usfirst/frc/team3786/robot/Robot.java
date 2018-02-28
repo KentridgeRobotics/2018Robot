@@ -11,6 +11,7 @@ import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	public DrivetrainType drivetrainType = DrivetrainType.DEBUG;
+	public DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -67,9 +68,11 @@ public class Robot extends TimedRobot {
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(320, 240);
-		camera.setFPS(30);
-
+		if (camera != null)
+		{
+			camera.setResolution(320, 240);
+			camera.setFPS(30);
+		}
 		// chooser.addDefault("Default Auto", new
 		// AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", chooser);
@@ -160,6 +163,7 @@ public class Robot extends TimedRobot {
 		GyroUtil.getInstance().run();
 		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
+		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
 	}
 
