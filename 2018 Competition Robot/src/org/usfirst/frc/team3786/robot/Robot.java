@@ -70,10 +70,10 @@ public class Robot extends TimedRobot {
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("none", null);
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
-		autonomousThrottleChooser.addDefault("25%", 25);
+		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
 		autonomousThrottleChooser.addObject("75%", 75);
-		autonomousThrottleChooser.addObject("100%", 100);
+		autonomousThrottleChooser.addDefault("100%", 100);
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		if (camera != null)
 		{
@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
 		// chooser.addDefault("Default Auto", new
 		// AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
+		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
 		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance();
 	}
