@@ -44,6 +44,10 @@ public class LinearCrossTheLine extends Command {
     		startingTimeMillis = now;
     		return;
     	}
+    	int throttle = Robot.instance.autonomousThrottleChooser.getSelected();
+    	double throttlePercentage = ((double)throttle)/100.0;
+    	x*=throttlePercentage;
+    	y*=throttlePercentage;
     	finished = false;
     }
 

@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 
 	private Command autonomousCommand;
 	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
-	private SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
+	public SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
 	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
