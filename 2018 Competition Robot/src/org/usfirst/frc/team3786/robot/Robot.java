@@ -9,6 +9,7 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -65,8 +66,11 @@ public class Robot extends TimedRobot {
 		this.setPeriod(DEFAULT_PERIOD);
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
+		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
+		chooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
+		chooser.addObject("none", null);
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
-
+		
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		if (camera != null)
 		{
