@@ -49,8 +49,8 @@ public class Robot extends TimedRobot {
 	private String gameSpecificMessage;
 
 	private Command autonomousCommand;
-	private SendableChooser<Command> chooser = new SendableChooser<>();
-
+	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
+	private SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
 	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
@@ -67,10 +67,13 @@ public class Robot extends TimedRobot {
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		chooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
-		chooser.addObject("none", null);
+		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
+		autonomousCommandChooser.addObject("none", null);
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
-		
+		autonomousThrottleChooser.addDefault("25%", 25);
+		autonomousThrottleChooser.addObject("50%", 50);
+		autonomousThrottleChooser.addObject("75%", 75);
+		autonomousThrottleChooser.addObject("100%", 100);
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		if (camera != null)
 		{
@@ -79,7 +82,7 @@ public class Robot extends TimedRobot {
 		}
 		// chooser.addDefault("Default Auto", new
 		// AutonomousCrossTheLineCommand(driverStationNumber));
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
 		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance();
 	}
@@ -118,7 +121,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autonomousCommandChooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
