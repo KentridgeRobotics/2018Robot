@@ -86,6 +86,27 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
 		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance();
+		switch(drivetrainType) {
+		case MECANUM:
+			System.out.println("#############################");
+			System.out.println("# DRIVETRAIN SET TO MECANUM #");
+			System.out.println("#############################");
+			break;
+		case TWO_WHEEL:
+			System.out.println("##############################");
+			System.out.println("# DRIVETRAIN SET TO TWOWHEEL #");
+			System.out.println("##############################");
+			break;
+		case DEBUG:
+			for (int i = 0; i < 5; i++) {
+				System.out.println("###########################");
+				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
+				System.out.println("# DRIVETRAIN SET TO DEBUG #");
+				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
+			}
+			System.out.println("###########################");
+			break;
+		}
 	}
 
 	/**
