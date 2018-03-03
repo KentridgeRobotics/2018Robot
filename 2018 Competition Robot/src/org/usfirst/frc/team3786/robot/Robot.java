@@ -7,6 +7,11 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
@@ -21,11 +26,6 @@ import org.usfirst.frc.team3786.robot.util.LED;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -62,7 +62,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		instance = this;
-		RobotMap.controllerMappings();
 		this.setPeriod(DEFAULT_PERIOD);
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
@@ -84,8 +83,7 @@ public class Robot extends TimedRobot {
 		// AutonomousCrossTheLineCommand(driverStationNumber));
 		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
 		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
-		if (drivetrainType != DrivetrainType.DEBUG)
-			MecanumDriveCommand.getInstance();
+		MecanumDriveCommand.getInstance();
 		switch(drivetrainType) {
 		case MECANUM:
 			System.out.println("#############################");
@@ -96,15 +94,6 @@ public class Robot extends TimedRobot {
 			System.out.println("##############################");
 			System.out.println("# DRIVETRAIN SET TO TWOWHEEL #");
 			System.out.println("##############################");
-			break;
-		case DEBUG:
-			for (int i = 0; i < 5; i++) {
-				System.out.println("###########################");
-				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
-				System.out.println("# DRIVETRAIN SET TO DEBUG #");
-				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
-			}
-			System.out.println("###########################");
 			break;
 		}
 	}
@@ -117,10 +106,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		if (drivetrainType != DrivetrainType.DEBUG) {
-			MecanumDriveCommand.getInstance().setDisableX(false);
-			MecanumDriveCommand.getInstance().setDisableY(false);
-		}
+		RobotMap.controllerMappings();
+		MecanumDriveCommand.getInstance().setDisableX(false);
+		MecanumDriveCommand.getInstance().setDisableY(false);
 		LED.setRGB(0, 0, 0);
 	}
 
@@ -143,6 +131,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
 		/*
@@ -168,6 +157,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		RobotMap.controllerMappings();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -175,10 +165,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		if (drivetrainType != DrivetrainType.DEBUG)
-			MecanumDriveCommand.getInstance().start();
-		else
-			DEBUGCOMMAND.getInstance().start();
+		MecanumDriveCommand.getInstance().start();
 	}
 
 	/**
@@ -194,6 +181,12 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
+	}
+	
+	@Override
+	public void testInit() {
+		DEBUGCOMMAND.getInstance().start();
+		RobotMap.debug();
 	}
 
 	/**
@@ -229,7 +222,6 @@ public class Robot extends TimedRobot {
 	
 	public enum DrivetrainType {
 		MECANUM(),
-		TWO_WHEEL(),
-		DEBUG();
+		TWO_WHEEL();
 	}
 }
