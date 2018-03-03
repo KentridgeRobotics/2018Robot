@@ -65,8 +65,8 @@ public class RobotMap {
 			OI.getSecondaryController().getBumperLeft().whenReleased(huggerStopCommand);
 			OI.getSecondaryController().getBumperRight().whenPressed(new HuggerInCommand());
 			OI.getSecondaryController().getBumperRight().whenReleased(huggerStopCommand);
-			OI.getMainController().getButtonBack().whenPressed(new DisableXCommand());
-			OI.getMainController().getButtonStart().whenPressed(new DisableYCommand());
+			//OI.getMainController().getButtonBack().whenPressed(new DisableXCommand());
+			//OI.getMainController().getButtonStart().whenPressed(new DisableYCommand());
 
 			TowerStopCommand towerStopCommand = new TowerStopCommand();
 			OI.getSecondaryController().getButtonA().whenPressed(new TowerLowerCommand());
