@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
+	
+	private SwitchSide[] switchSides;
 
 	private Command autonomousCommand;
 	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
@@ -68,7 +70,6 @@ public class Robot extends TimedRobot {
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("none", null);
-		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
 		autonomousThrottleChooser.addObject("75%", 75);
@@ -110,11 +111,28 @@ public class Robot extends TimedRobot {
 		MecanumDriveCommand.getInstance().setDisableX(false);
 		MecanumDriveCommand.getInstance().setDisableY(false);
 		LED.setRGB(0, 0, 0);
+		gameSpecificMessage = null;
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		if (gameSpecificMessage != null) {
+			char[] splitMessage = gameSpecificMessage.toCharArray();
+			if (splitMessage.length == 3) {
+				for (int i = 0; i < 3; i++) {
+					if (splitMessage[i] == 'L') {
+						switchSides[i] = SwitchSide.LEFT;
+					} else if (splitMessage[i] == 'R') {
+						switchSides[i] = SwitchSide.RIGHT;
+					} else {
+						switchSides[i] = null;
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -131,6 +149,25 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		if (!gameSpecificMessage.equals(this.gameSpecificMessage)) {
+			this.gameSpecificMessage = gameSpecificMessage;
+		}
+		if (gameSpecificMessage != null) {
+			char[] splitMessage = gameSpecificMessage.toCharArray();
+			if (splitMessage.length == 3) {
+				for (int i = 0; i < 3; i++) {
+					if (splitMessage[i] == 'L') {
+						switchSides[i] = SwitchSide.LEFT;
+					} else if (splitMessage[i] == 'R') {
+						switchSides[i] = SwitchSide.RIGHT;
+					} else {
+						switchSides[i] = null;
+						break;
+					}
+				}
+			}
+		}
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
@@ -220,8 +257,17 @@ public class Robot extends TimedRobot {
 		return null;
 	}
 	
+	public SwitchSide[] getSwitchSides() {
+		return this.switchSides;
+	}
+	
 	public enum DrivetrainType {
 		MECANUM(),
 		TWO_WHEEL();
+	}
+	
+	public enum SwitchSide {
+		LEFT(),
+		RIGHT();
 	}
 }

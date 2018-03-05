@@ -9,6 +9,8 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGDOWNCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.DEBUGUPCOMMAND;
+import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
+import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
@@ -68,8 +70,8 @@ public class RobotMap {
 		OI.getSecondaryController().setMapping(XboxButton.BUMPER_LEFT, ButtonMappingType.WHEN_RELEASED, huggerStopCommand);
 		OI.getSecondaryController().setMapping(XboxButton.BUMPER_RIGHT, ButtonMappingType.WHEN_PRESSED, new HuggerInCommand());
 		OI.getSecondaryController().setMapping(XboxButton.BUMPER_RIGHT, ButtonMappingType.WHEN_RELEASED, huggerStopCommand);
-		//OI.getMainController().setMapping(XboxButton.BACK, ButtonMappingType.WHEN_PRESSED, new DisableXCommand());
-		//OI.getMainController().setMapping(XboxButton.START, ButtonMappingType.WHEN_PRESSED, new DisableYCommand());
+		OI.getMainController().setMapping(XboxButton.BACK, ButtonMappingType.WHEN_PRESSED, new DisableXCommand());
+		OI.getMainController().setMapping(XboxButton.START, ButtonMappingType.WHEN_PRESSED, new DisableYCommand());
 
 		TowerStopCommand towerStopCommand = new TowerStopCommand();
 		OI.getSecondaryController().setMapping(XboxButton.A, ButtonMappingType.WHEN_PRESSED, new TowerLowerCommand());

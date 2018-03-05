@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //
 public class AutonomousComplexDecisionsCommand extends Command {
 	private int startingPosition;
-	private String colorPositions;
 	private Direction initialDirection;
 	private int targetNumber;
 
@@ -40,10 +39,9 @@ public class AutonomousComplexDecisionsCommand extends Command {
 	 *            Either 1 or 2, decides on the target goal to aim for
 	 * 
 	 */
-	public AutonomousComplexDecisionsCommand(int startingPosition, String gameSpecificMessage, int targetNumber) {
+	public AutonomousComplexDecisionsCommand(int startingPosition, int targetNumber) {
 		this.startingPosition = startingPosition;
 		this.targetNumber = targetNumber;
-		colorPositions = gameSpecificMessage;
 
 		requires((Subsystem) Robot.instance.getDriveSubsystem());
 		// Use requires() here to declare subsystem dependencies
