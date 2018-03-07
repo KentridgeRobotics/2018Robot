@@ -29,7 +29,7 @@ public class NavigateToSwitchCommand extends Command {
     protected void execute() {
     	double angle = sensor.getRadians();
     	double distance = sensor.getDistance();
-    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(distance, angle, 0.0);
+    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(distance, angle, 0.0); //this is actually in Cartesian coordinates
     	
     }
 
