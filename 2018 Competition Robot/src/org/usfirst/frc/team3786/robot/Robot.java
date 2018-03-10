@@ -17,8 +17,10 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import org.usfirst.frc.team3786.robot.util.LED;
+import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -37,6 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
+	
 	public static Robot instance;
 
 	private UsbCamera camera;
@@ -194,6 +197,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
+		SmartDashboard.putNumber("getVoltage", UltraSonicDistance.getInstance().getVoltage());
+		SmartDashboard.putNumber("Distance in Inches", UltraSonicDistance.getInstance().getDistance());
 	}
 
 	/**
