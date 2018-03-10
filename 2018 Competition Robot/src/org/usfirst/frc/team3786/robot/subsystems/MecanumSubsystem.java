@@ -2,13 +2,13 @@ package org.usfirst.frc.team3786.robot.subsystems;
 
 import org.usfirst.frc.team3786.robot.RobotMap;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
-import org.usfirst.frc.team3786.robot.util.ExtendedMecanumDrive;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsystem {
@@ -18,7 +18,7 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 	private WPI_TalonSRX rightBack;
 	private WPI_TalonSRX rightFront;
 
-	private ExtendedMecanumDrive mecanumDrive;
+	private MecanumDrive mecanumDrive;
 	
 	private static boolean usePID = false;
 
@@ -46,9 +46,7 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		rightFront.configOpenloopRamp(0.2, 0);
 		rightBack.configOpenloopRamp(0.2, 0);
 
-		mecanumDrive = new ExtendedMecanumDrive(leftFront, leftBack, rightFront, rightBack);
-		
-		setBrakeMode(true);
+		mecanumDrive = new MecanumDrive(leftFront, leftBack, rightFront, rightBack);
 	}
 
 	public void setMotorSpeeds(double leftFrontSpeed, double leftBackSpeed, double rightBackSpeed,
@@ -59,21 +57,6 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 		rightFront.set(rightFrontSpeed);
 	}
 
-	public void setBrakeMode(boolean isBraking) {
-		NeutralMode mode;
-		if (isBraking)
-			mode = NeutralMode.Brake;
-		else
-			mode = NeutralMode.Coast;
-		leftFront.setNeutralMode(mode);
-		leftBack.setNeutralMode(mode);
-		rightBack.setNeutralMode(mode);
-		rightFront.setNeutralMode(mode);
-	}
-
-	public void setDirectionSpeed(double angle, double speed) {
-		mecanumDrive.drivePolar(speed, angle, 0, GyroUtil.getInstance().getHeading());
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem#gyroAssistedDrive(double, double, double)

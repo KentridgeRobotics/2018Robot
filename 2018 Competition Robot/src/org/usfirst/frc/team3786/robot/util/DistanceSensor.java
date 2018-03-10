@@ -19,6 +19,17 @@ public class DistanceSensor {
 		double value = DistanceTable.getEntry("r").getDouble(0.0);
 		return value;
 	}
+	
+	// assume return Radians from Switch
+	public double getRadians() {
+		return DistanceTable.getEntry("dist").getDouble(0.0);
+	}
+	
+	// assume return Distance from Switch 
+	public double getDistance() {
+		return DistanceTable.getEntry("rads").getDouble(0.0);
+	}
+	
 	public DistanceSensor() {
 		NetworkTableInstance ntInst = NetworkTableInstance.getDefault();
 		DistanceTable = ntInst.getTable("Distance");

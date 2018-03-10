@@ -9,8 +9,10 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
+import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
@@ -41,14 +43,14 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	public DrivetrainType drivetrainType = DrivetrainType.DEBUG;
+	public DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
 
 	private Command autonomousCommand;
-	private SendableChooser<Command> chooser = new SendableChooser<>();
-
+	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
+	public SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
 	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
@@ -64,17 +66,47 @@ public class Robot extends TimedRobot {
 		this.setPeriod(DEFAULT_PERIOD);
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
+		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
+		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
+		autonomousCommandChooser.addObject("none", null);
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
-
+		autonomousThrottleChooser.addObject("25%", 25);
+		autonomousThrottleChooser.addObject("50%", 50);
+		autonomousThrottleChooser.addObject("75%", 75);
+		autonomousThrottleChooser.addDefault("100%", 100);
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(320, 240);
-		camera.setFPS(30);
-
+		if (camera != null)
+		{
+			camera.setResolution(320, 240);
+			camera.setFPS(30);
+		}
 		// chooser.addDefault("Default Auto", new
 		// AutonomousCrossTheLineCommand(driverStationNumber));
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
+		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
 		if (drivetrainType != DrivetrainType.DEBUG)
 			MecanumDriveCommand.getInstance();
+		switch(drivetrainType) {
+		case MECANUM:
+			System.out.println("#############################");
+			System.out.println("# DRIVETRAIN SET TO MECANUM #");
+			System.out.println("#############################");
+			break;
+		case TWO_WHEEL:
+			System.out.println("##############################");
+			System.out.println("# DRIVETRAIN SET TO TWOWHEEL #");
+			System.out.println("##############################");
+			break;
+		case DEBUG:
+			for (int i = 0; i < 5; i++) {
+				System.out.println("###########################");
+				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
+				System.out.println("# DRIVETRAIN SET TO DEBUG #");
+				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
+			}
+			System.out.println("###########################");
+			break;
+		}
 	}
 
 	/**
@@ -111,7 +143,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autonomousCommandChooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -160,6 +192,7 @@ public class Robot extends TimedRobot {
 		GyroUtil.getInstance().run();
 		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
+		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
 	}
 
