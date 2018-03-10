@@ -34,7 +34,7 @@ public class GyroUtil implements Runnable {
 		dispX = 0.0;
 		dispY = 0.0;
 
-		last = System.currentTimeMillis() / 1000.0;
+		last = System.nanoTime() / 1000000000.0;
 	}
 
 	public double getHeadingContinuous() {
@@ -63,7 +63,7 @@ public class GyroUtil implements Runnable {
 	}
 
 	public void run() {
-		now = System.currentTimeMillis() / 1000.0;
+		now = System.nanoTime() / 1000000000.0;
 		dT = now - last;
 		double velXNext;
 		double velYNext;
