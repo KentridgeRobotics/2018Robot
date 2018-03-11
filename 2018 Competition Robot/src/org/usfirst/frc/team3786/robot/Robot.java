@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("none", null);
-		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		//autonomousCommandchooser.addObject("Cross the line linear" new AutonomousCrossTheLineFromTheMidde);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
 		autonomousThrottleChooser.addObject("75%", 75);
@@ -147,7 +147,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = autonomousCommandChooser.getSelected();
-
+		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		driverStationNumber = DriverStation.getInstance().getLocation();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -209,9 +210,7 @@ public class Robot extends TimedRobot {
 		LED.colorCycle();
 	}
 
-	public int getDriverStationNumber() {
-		return driverStationNumber;
-	}
+	
 
 	public String getGameSpecificMessage() {
 		return gameSpecificMessage;
