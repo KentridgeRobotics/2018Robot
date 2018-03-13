@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TimeBasedDrivingCommand extends Command{
 	private long startingTimeMillis;
+	@Override
+	protected void initialize() {
+		startingTimeMillis = System.currentTimeMillis();
+	}
+
 	private boolean finished = false;
 	private double ySpeed;
 	private double xSpeed;

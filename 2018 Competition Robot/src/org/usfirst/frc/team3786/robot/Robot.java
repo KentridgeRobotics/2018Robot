@@ -10,6 +10,7 @@ package org.usfirst.frc.team3786.robot;
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
+import org.usfirst.frc.team3786.robot.commands.auto.TwoWheelAutonomousCommandGroup;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -46,7 +47,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	public DrivetrainType drivetrainType = DrivetrainType.MECANUM;
+	public DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("none", null);
+		autonomousCommandChooser.addObject("TwoWheelAuto", new TwoWheelAutonomousCommandGroup());
 		//autonomousCommandchooser.addObject("Cross the line linear" new AutonomousCrossTheLineFromTheMidde);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
