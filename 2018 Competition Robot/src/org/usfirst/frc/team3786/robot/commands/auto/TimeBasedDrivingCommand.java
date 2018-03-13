@@ -5,24 +5,24 @@ import org.usfirst.frc.team3786.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TimeBasedDrivingCommand extends Command{
-	private int startingPosition;
 	private long startingTimeMillis;
 	private boolean finished = false;
 	private double ySpeed;
 	private double xSpeed;
 	private long millisToStart;
 	private long millisToEnd;
+	private double rotation;
 	
-	TimeBasedDrivingCommand(int startingPosition, int millisToStart, int millisToEnd, double xSpeed, double ySpeed){
-		this.startingPosition = startingPosition;
+	TimeBasedDrivingCommand( int millisToStart, int millisToEnd, double xSpeed, double ySpeed, double rotation){
 		this.millisToStart = millisToStart;
 		this.millisToEnd = millisToEnd;
 		this.ySpeed = ySpeed;
 		this.xSpeed = xSpeed;
+		this.rotation = rotation; 
 	}
 	
 	  protected void execute() {
-	    	System.err.println("RUNNING!!!!" + startingPosition);
+	    	System.err.println("RUNNING!!!!");
 	    	long now = System.currentTimeMillis();
 	    	if (now - startingTimeMillis < millisToStart) {
 	    		return;
@@ -31,7 +31,7 @@ public class TimeBasedDrivingCommand extends Command{
 	    		finished = true; 
 	    		return;
 	    	}
-	    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(xSpeed, ySpeed, 0.0);
+	    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(xSpeed, ySpeed, rotation);
 	    }
 	  
 	  protected void end() {
