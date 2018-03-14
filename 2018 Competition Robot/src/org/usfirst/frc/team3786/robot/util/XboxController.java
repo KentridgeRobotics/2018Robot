@@ -1,8 +1,11 @@
 package org.usfirst.frc.team3786.robot.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class XboxController {
 	
@@ -12,16 +15,18 @@ public class XboxController {
 	
 	private final edu.wpi.first.wpilibj.XboxController controller;
 
-	private final Button buttonA; // A button
-	private final Button buttonB; // B button
-	private final Button buttonX; // X button
-	private final Button buttonY; // Y button
-	private final Button bumperLeft; // Left bumper
-	private final Button bumperRight; // Right bumper
-	private final Button buttonBack; // Back button
-	private final Button buttonStart; // Start button
-	private final Button buttonLeftCenter; // Left Center button
-	private final Button buttonRightCenter; // Right Center button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonA; // A button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonB; // B button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonX; // X button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonY; // Y button
+	private final edu.wpi.first.wpilibj.buttons.Button bumperLeft; // Left bumper
+	private final edu.wpi.first.wpilibj.buttons.Button bumperRight; // Right bumper
+	private final edu.wpi.first.wpilibj.buttons.Button buttonBack; // Back button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonStart; // Start button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonLeftCenter; // Left Center button
+	private final edu.wpi.first.wpilibj.buttons.Button buttonRightCenter; // Right Center button
+	
+	private HashMap<XboxButton, ArrayList<Mapping>> mappings = new HashMap<>();
 	
 	public XboxController(int id) {
 		this.id = id;
@@ -147,44 +152,187 @@ public class XboxController {
 		return this.id;
 	}
 	
-	public Button getButtonA() {
-		return this.buttonA;
+	public boolean getButtonA() {
+		return this.buttonA.get();
 	}
 	
-	public Button getButtonB() {
-		return this.buttonB;
+	public boolean getButtonB() {
+		return this.buttonB.get();
 	}
 	
-	public Button getButtonX() {
-		return this.buttonX;
+	public boolean getButtonX() {
+		return this.buttonX.get();
 	}
 	
-	public Button getButtonY() {
-		return this.buttonY;
+	public boolean getButtonY() {
+		return this.buttonY.get();
 	}
 	
-	public Button getBumperLeft() {
-		return this.bumperLeft;
+	public boolean getBumperLeft() {
+		return this.bumperLeft.get();
 	}
 	
-	public Button getBumperRight() {
-		return this.bumperRight;
+	public boolean getBumperRight() {
+		return this.bumperRight.get();
 	}
 	
-	public Button getButtonBack() {
-		return this.buttonBack;
+	public boolean getButtonBack() {
+		return this.buttonBack.get();
 	}
 	
-	public Button getButtonStart() {
-		return this.buttonStart;
+	public boolean getButtonStart() {
+		return this.buttonStart.get();
 	}
 	
-	public Button getButtonLeftCenter() {
-		return this.buttonLeftCenter;
+	public boolean getButtonLeftCenter() {
+		return this.buttonLeftCenter.get();
 	}
 	
-	public Button getButtonRightCenter() {
-		return this.buttonRightCenter;
+	public boolean getButtonRightCenter() {
+		return this.buttonRightCenter.get();
 	}
+	
+	public void setMapping(XboxButton button, ButtonMappingType ButtonMappingType, Command command) {
+		if (mappings.containsKey(button)) {
+			ArrayList<Mapping> mapList = mappings.get(button);
+			for (Mapping map : mapList) {
+				if (map.getButtonMappingType() == ButtonMappingType) {
+					Mapping newMap = new Mapping(button, ButtonMappingType, command);
+					mapList.remove(map);
+					mapList.add(newMap);
+					setMappingValue(getButton(button), ButtonMappingType, command);
+					mappings.put(button, mapList);
+					return;
+				}
+			}
+		} else {
+			ArrayList<Mapping> mapList = new ArrayList<>();
+			Mapping map = new Mapping(button, ButtonMappingType, command);
+			mapList.add(map);
+			setMappingValue(getButton(button), ButtonMappingType, command);
+			mappings.put(button, mapList);
+			return;
+		}
+	}
+	
+	public void setMapping(Mapping mapping) {
+		XboxButton button = mapping.getButton();
+		ButtonMappingType ButtonMappingType = mapping.getButtonMappingType();
+		Command command = mapping.getCommand();
+		if (mappings.containsKey(button)) {
+			ArrayList<Mapping> mapList = mappings.get(button);
+			for (Mapping map : mapList) {
+				if (map.getButtonMappingType() == ButtonMappingType) {
+					mapList.remove(map);
+					mapList.add(mapping);
+					setMappingValue(getButton(button), ButtonMappingType, command);
+					mappings.put(button, mapList);
+					return;
+				}
+			}
+		} else {
+			ArrayList<Mapping> mapList = new ArrayList<>();
+			mapList.add(mapping);
+			setMappingValue(getButton(button), ButtonMappingType, command);
+			mappings.put(button, mapList);
+			return;
+		}
+	}
+	
+	private edu.wpi.first.wpilibj.buttons.Button getButton(XboxButton button) {
+		switch(button) {
+		case A:
+			return buttonA;
+		case B:
+			return buttonB;
+		case X:
+			return buttonX;
+		case Y:
+			return buttonY;
+		case BUMPER_LEFT:
+			return bumperLeft;
+		case BUMPER_RIGHT:
+			return bumperRight;
+		case BACK:
+			return buttonBack;
+		case START:
+			return buttonStart;
+		case LEFT_CENTER:
+			return buttonLeftCenter;
+		case RIGHT_CENTER:
+			return buttonRightCenter;
+		default:
+			return null;
+		}
+	}
+	
+	private static void setMappingValue(edu.wpi.first.wpilibj.buttons.Button button, ButtonMappingType ButtonMappingType, Command command) {
+		switch(ButtonMappingType) {
+		case WHEN_PRESSED:
+			button.whenPressed(command);
+			break;
+		case WHEN_RELEASED:
+			button.whenReleased(command);
+			break;
+		case WHEN_ACTIVE:
+			button.whenActive(command);
+			break;
+		case WHEN_INACTIVE:
+			button.whenInactive(command);
+			break;
+		case WHILE_HELD:
+			button.whileHeld(command);
+			break;
+		case WHILE_ACTIVE:
+			button.whileActive(command);
+			break;
+		case CANCEL_WHEN_ACTIVE:
+			button.cancelWhenActive(command);
+			break;
+		case CANCEL_WHEN_PRESSED:
+			button.cancelWhenPressed(command);
+			break;
+		case TOGGLE_WHEN_ACTIVE:
+			button.toggleWhenActive(command);
+			break;
+		case TOGGLE_WHEN_PRESSED:
+			button.toggleWhenPressed(command);
+			break;
+		}
+	}
+	
+	public void removeMappings() {
+		for (ArrayList<Mapping> mappings : mappings.values()) {
+			for (Mapping map : mappings) {
+				setMappingValue(getButton(map.getButton()), map.getButtonMappingType(), null);
+			}
+		}
+		mappings = new HashMap<>();
+	}
+}
 
+class Mapping {
+	
+	private XboxButton button;
+	private ButtonMappingType ButtonMappingType;
+	private Command command;
+	
+	Mapping(XboxButton button, ButtonMappingType ButtonMappingType, Command command) {
+		this.button = button;
+		this.ButtonMappingType = ButtonMappingType;
+		this.command = command;
+	}
+	
+	public XboxButton getButton() {
+		return this.button;
+	}
+	
+	public ButtonMappingType getButtonMappingType() {
+		return this.ButtonMappingType;
+	}
+	
+	public Command getCommand() {
+		return this.command;
+	}
+	
 }

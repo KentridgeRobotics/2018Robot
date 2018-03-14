@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //
 public class AutonomousComplexDecisionsCommand extends Command {
 	private int startingPosition;
-	private String colorPositions;
 	private Direction initialDirection;
 	private int targetNumber;
 	private double distanceX;
