@@ -18,27 +18,23 @@ public class GyroUtil implements Runnable {
 	private static BNO055 imu;
 	private double accelX, accelY;
 	private double robotAccelX, robotAccelY, robotHead;
-	private double[] velX, velY, dispX, dispY;
+	private double velX, velY, dispX, dispY;
 	private double last, now;
 	private double dT;
 	
 	public GyroUtil() {
 		imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
 
-		velX = new double[2];
-		velY = new double[2];
-
-		velX[0] = 0.0;
-		velY[0] = 0.0;
 		
+
+		velX = 0.0;
+		velY = 0.0;
 		
-		dispX = new double[2];
-		dispY = new double[2];
 
-		dispX[0] = 0.0;
-		dispY[0] = 0.0;
+		dispX = 0.0;
+		dispY = 0.0;
 
-		last = System.currentTimeMillis() / 1000.0;
+		last = System.nanoTime() / 1000000000.0;
 	}
 
 	public double getHeadingContinuous() {
@@ -54,24 +50,28 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double[] getAccel() {
-		SmartDashboard.putNumber("AccelIMU", imu.getHeadingAccel());
-		return imu.getVectorAccel();
+		double[] result = imu.getVectorLinAccel();
+		return result; 
 	}
 
 	public double[] getGravity() {
 		return imu.getVectorGrav();
-	}
+	} 
 	
 	public CalData getCalibration() {
 		return imu.getCalibration();
 	}
 
 	public void run() {
-		now = System.currentTimeMillis() / 1000.0;
+		now = System.nanoTime() / 1000000000.0;
 		dT = now - last;
-
-		robotAccelX = getAccel()[0] - getGravity()[0];
-		robotAccelY = getAccel()[1] - getGravity()[1];
+		double velXNext;
+		double velYNext;
+		double dispXNext;
+		double dispYNext = 0.0;
+		double[] accel = getAccel();
+		robotAccelX = accel[0];
+		robotAccelY = accel[1];
 		
 
 		robotHead = getHeading();
@@ -80,50 +80,43 @@ public class GyroUtil implements Runnable {
 		accelX = Math.cos(robotHead) * robotAccelX + Math.sin(robotHead) * robotAccelY;
 		accelY = -Math.sin(robotHead) * robotAccelX + Math.cos(robotHead) * robotAccelY;
 
-		velX[1] = velX[0] + accelX * dT;
-		velY[1] = velY[0] + accelY * dT;
+		velXNext = velX + accelX * dT;
+		velYNext = velY + accelY * dT;
 		
-		velX[0] = velX[1];
-		velY[0] = velY[1];
+		velX = velXNext;
+		velY = velYNext;
 		
 		SmartDashboard.putNumber("AccelX", accelX);
 		SmartDashboard.putNumber("AccelY", accelY);
 		SmartDashboard.putNumber("Time", dT);
 		
-		SmartDashboard.putNumberArray("VelX", velX);
-		SmartDashboard.putNumberArray("VelY", velY);
+		SmartDashboard.putNumber("VelX", velX);
+		SmartDashboard.putNumber("VelY", velY);
 		
-		dispX[1] = dispX[0] + velX[1] * dT + 0.5 * accelX * Math.pow(dT, 2);
+		dispXNext = dispX + velX * dT;
 
-		dispX[0] = dispX[1];
-		
-		
-		if(accelY >= 1.0) {
-			dispY[1] = dispY[0] + velY[1] * dT + 0.5 * accelY * Math.pow(dT, 2);
-		}
-		
-		else {
-			dispY[0] = dispY[1];
-		}
+		dispX = dispXNext;
+		dispYNext = dispY + velY * dT;
+		dispY = dispYNext;
 		
 		last = now;
 
 	}
 	
 	public double getVelX() {
-		return velX[1];
+		return velX;
 	}
 
 	public double getVelY() {
-		return velY[1];
+		return velY;
 	}
 
 	public double getDispX() {
-		return dispX[1];
+		return dispX;
 	}
 
 	public double getDispY() {
-		return dispY[1];
+		return dispY;
 	}
 
 }

@@ -28,21 +28,22 @@ public class LinearCrossTheLine extends Command {
     	startingTimeMillis = System.currentTimeMillis();
     	if(startingPosition == 1) {
     		x = -0.1;
-    		y = 1.0;
+    		y = -1.0;
     		startingTimeMillis = now;
     	}else if(startingPosition == 2) {
     		x = 0.0;
-    		y = 0.0;
+    		y = -1.0;
     		System.err.println("Don't use this for starting postion 2");
     		startingTimeMillis = now;
     	}else if(startingPosition == 3) {
     		x = 0.1;
-    		y = 1.0;
+    		y = -1.0;
     		startingTimeMillis = now;
     	}else {
     		System.err.println("Wrong starting Position");
     		startingTimeMillis = now;
-    		return;
+//    		return;
+    		y = -1.0;
     	}
     	int throttle = Robot.instance.autonomousThrottleChooser.getSelected();
     	double throttlePercentage = ((double)throttle)/100.0;
@@ -55,7 +56,10 @@ public class LinearCrossTheLine extends Command {
     protected void execute() {
     	System.err.println("RUNNING!!!!" + startingPosition);
     	long now = System.currentTimeMillis();
-    	if(now - startingTimeMillis > shortTimeMillis) {
+    	if (now - startingTimeMillis < 5000L) {
+    		return;
+    	}
+    	else if (now - startingTimeMillis > 8000L) {
     		finished = true; 
     		return;
     	}
