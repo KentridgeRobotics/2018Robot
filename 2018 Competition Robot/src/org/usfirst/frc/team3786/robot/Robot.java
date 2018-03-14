@@ -10,7 +10,6 @@ package org.usfirst.frc.team3786.robot;
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
-import org.usfirst.frc.team3786.robot.commands.auto.TwoWheelAutonomousCommandGroup;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -18,10 +17,7 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import org.usfirst.frc.team3786.robot.util.LED;
-import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
-
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -40,7 +36,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
-	
+	private SwitchSide[] switchSides;
+
 	public static Robot instance;
 
 	private UsbCamera camera;
@@ -58,190 +55,7 @@ public class Robot extends TimedRobot {
 	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
 	public GyroUtil gyroUtil = GyroUtil.getInstance();
 	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
- 
-	/**
-	 * This function is run when the robot is first started up and should be used
-	 * for any initialization code.
-	 */
-	@Override
-	public void robotInit() {
-		instance = this;
-		RobotMap.controllerMappings();
-		this.setPeriod(DEFAULT_PERIOD);
 
-		driverStationNumber = DriverStation.getInstance().getLocation();
-		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
-		autonomousCommandChooser.addObject("none", null);
-		autonomousCommandChooser.addObject("TwoWheelAuto", new TwoWheelAutonomousCommandGroup());
-		//autonomousCommandchooser.addObject("Cross the line linear" new AutonomousCrossTheLineFromTheMidde);
-		autonomousThrottleChooser.addObject("25%", 25);
-		autonomousThrottleChooser.addObject("50%", 50);
-		autonomousThrottleChooser.addObject("75%", 75);
-		autonomousThrottleChooser.addDefault("100%", 100);
-		camera = CameraServer.getInstance().startAutomaticCapture();
-		if (camera != null)
-		{
-			camera.setResolution(320, 240);
-			camera.setFPS(30);
-		}
-		// chooser.addDefault("Default Auto", new
-		// AutonomousCrossTheLineCommand(driverStationNumber));
-		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
-		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
-		if (drivetrainType != DrivetrainType.DEBUG)
-			MecanumDriveCommand.getInstance();
-		switch(drivetrainType) {
-		case MECANUM:
-			System.out.println("#############################");
-			System.out.println("# DRIVETRAIN SET TO MECANUM #");
-			System.out.println("#############################");
-			break;
-		case TWO_WHEEL:
-			System.out.println("##############################");
-			System.out.println("# DRIVETRAIN SET TO TWOWHEEL #");
-			System.out.println("##############################");
-			break;
-		case DEBUG:
-			for (int i = 0; i < 5; i++) {
-				System.out.println("###########################");
-				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
-				System.out.println("# DRIVETRAIN SET TO DEBUG #");
-				System.out.println("# !!!!!!!!WARNING!!!!!!!! #");
-			}
-			System.out.println("###########################");
-			break;
-		}
-	}
-
-	/**
-	 * 
-	 * This function is called once each time the robot enters Disabled mode. You
-	 * can use it to reset any subsystem information you want to clear when the
-	 * robot is disabled.
-	 */
-	@Override
-	public void disabledInit() {
-		if (drivetrainType != DrivetrainType.DEBUG) {
-			MecanumDriveCommand.getInstance().setDisableX(false);
-			MecanumDriveCommand.getInstance().setDisableY(false);
-		}
-		LED.setRGB(0, 0, 0);
-	}
-
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable chooser
-	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-	 * remove all of the chooser code and uncomment the getString code to get the
-	 * auto name from the text box below the Gyro
-	 *
-	 * <p>
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons to
-	 * the switch structure below with additional strings & commands.
-	 */
-	@Override
-	public void autonomousInit() {
-		autonomousCommand = autonomousCommandChooser.getSelected();
-		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
-		driverStationNumber = DriverStation.getInstance().getLocation();
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}
-	}
-
-	/**
-	 * This function is called periodically during autonomous.
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
-	@Override
-	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
-		if (drivetrainType != DrivetrainType.DEBUG)
-			MecanumDriveCommand.getInstance().start();
-		else
-			DEBUGCOMMAND.getInstance().start();
-	}
-
-	/**
-	 * This function is called periodically during operator control.
-	 */
-	@Override
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		SmartDashboard.putNumberArray("Gyroscope", GyroUtil.getInstance().getVector());
-		SmartDashboard.putNumber("Heading", GyroUtil.getInstance().getHeading());
-		GyroUtil.getInstance().run();
-		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
-		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
-		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
-		LED.colorCycle();
-		SmartDashboard.putNumber("getVoltage", UltraSonicDistance.getInstance().getVoltage());
-		SmartDashboard.putNumber("Distance in Inches", UltraSonicDistance.getInstance().getDistance());
-	}
-
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
-		LED.colorCycle();
-	}
-
-	
-
-	public String getGameSpecificMessage() {
-		return gameSpecificMessage;
-	}
-
-	public ChargersDriveSubsystem getDriveSubsystem() {
-		if (this.driveSubsystem != null)
-			return this.driveSubsystem;
-		else {
-			if (drivetrainType == DrivetrainType.MECANUM) {
-				this.driveSubsystem = new MecanumSubsystem();
-				return this.driveSubsystem;
-			} else if (drivetrainType == DrivetrainType.TWO_WHEEL) {
-				this.driveSubsystem = new TwoWheelSubsystem();
-				return this.driveSubsystem;
-			}
-		}
-		return null;
-	}
-	
-	private SwitchSide[] switchSides;
-
-	private Command autonomousCommand;
-	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
-	public SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
-	public ColorSensorUtil colorSenseUtil = new ColorSensorUtil();
-	public GyroUtil gyroUtil = GyroUtil.getInstance();
-	public org.usfirst.frc.team3786.robot.util.DistanceSensor distanceSensor = new org.usfirst.frc.team3786.robot.util.DistanceSensor();
- 
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -260,8 +74,7 @@ public class Robot extends TimedRobot {
 		autonomousThrottleChooser.addObject("75%", 75);
 		autonomousThrottleChooser.addDefault("100%", 100);
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		if (camera != null)
-		{
+		if (camera != null) {
 			camera.setResolution(320, 240);
 			camera.setFPS(30);
 		}
@@ -270,7 +83,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", autonomousCommandChooser);
 		SmartDashboard.putData("Auto throttle", autonomousThrottleChooser);
 		MecanumDriveCommand.getInstance();
-		switch(drivetrainType) {
+		switch (drivetrainType) {
 		case MECANUM:
 			System.out.println("#############################");
 			System.out.println("# DRIVETRAIN SET TO MECANUM #");
@@ -404,7 +217,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
 	}
-	
+
 	@Override
 	public void testInit() {
 		DEBUGCOMMAND.getInstance().start();
@@ -441,18 +254,16 @@ public class Robot extends TimedRobot {
 		}
 		return null;
 	}
-	
+
 	public SwitchSide[] getSwitchSides() {
 		return this.switchSides;
 	}
-	
+
 	public enum DrivetrainType {
-		MECANUM(),
-		TWO_WHEEL();
+		MECANUM(), TWO_WHEEL();
 	}
-	
+
 	public enum SwitchSide {
-		LEFT(),
-		RIGHT();
+		LEFT(), RIGHT();
 	}
 }

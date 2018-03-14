@@ -44,10 +44,9 @@ public class AutonomousComplexDecisionsCommand extends Command {
 	 *            Either 1 or 2, decides on the target goal to aim for
 	 * 
 	 */
-	public AutonomousComplexDecisionsCommand(int startingPosition, String gameSpecificMessage, int targetNumber, double desiredDistanceX, double desiredDistanceY) {
+	public AutonomousComplexDecisionsCommand(int startingPosition, int targetNumber, double desiredDistanceX, double desiredDistanceY) {
 		this.startingPosition = startingPosition;
 		this.targetNumber = targetNumber;
-		colorPositions = gameSpecificMessage;
 		this.desiredDistanceX = desiredDistanceX;
 		this.desiredDistanceY = desiredDistanceY;
 
