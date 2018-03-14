@@ -69,8 +69,9 @@ public class GyroUtil implements Runnable {
 		double velYNext;
 		double dispXNext;
 		double dispYNext = 0.0;
-		robotAccelX = getAccel()[0];// - getGravity()[0];
-		robotAccelY = getAccel()[1];// - getGravity()[1];
+		double[] accel = getAccel();
+		robotAccelX = accel[0];
+		robotAccelY = accel[1];
 		
 
 		robotHead = getHeading();
@@ -92,10 +93,10 @@ public class GyroUtil implements Runnable {
 		SmartDashboard.putNumber("VelX", velX);
 		SmartDashboard.putNumber("VelY", velY);
 		
-		dispXNext = dispX + velX * dT + 0.5 * accelX * Math.pow(dT, 2);
+		dispXNext = dispX + velX * dT;
 
 		dispX = dispXNext;
-		dispYNext = dispY + velY * dT + 0.5 * accelY * Math.pow(dT, 2);
+		dispYNext = dispY + velY * dT;
 		dispY = dispYNext;
 		
 		last = now;
