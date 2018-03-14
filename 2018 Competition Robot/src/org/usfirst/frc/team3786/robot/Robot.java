@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
-	private SwitchSide[] switchSides;
+	private SwitchSide[] switchSides = new SwitchSide[3];
 
 	public static Robot instance;
 
@@ -117,16 +117,18 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameSpecificMessage != null) {
-			char[] splitMessage = gameSpecificMessage.toCharArray();
-			if (splitMessage.length == 3) {
-				for (int i = 0; i < 3; i++) {
-					if (splitMessage[i] == 'L') {
-						switchSides[i] = SwitchSide.LEFT;
-					} else if (splitMessage[i] == 'R') {
-						switchSides[i] = SwitchSide.RIGHT;
-					} else {
-						switchSides[i] = null;
-						break;
+			if (gameSpecificMessage.length() == 3) {
+				char[] splitMessage = gameSpecificMessage.toCharArray();
+				if (splitMessage.length == 3) {
+					for (int i = 0; i < 3; i++) {
+						if (splitMessage[i] == 'L') {
+							switchSides[i] = SwitchSide.LEFT;
+						} else if (splitMessage[i] == 'R') {
+							switchSides[i] = SwitchSide.RIGHT;
+						} else {
+							switchSides[i] = null;
+							break;
+						}
 					}
 				}
 			}
@@ -152,16 +154,18 @@ public class Robot extends TimedRobot {
 			this.gameSpecificMessage = gameSpecificMessage;
 		}
 		if (gameSpecificMessage != null) {
-			char[] splitMessage = gameSpecificMessage.toCharArray();
-			if (splitMessage.length == 3) {
-				for (int i = 0; i < 3; i++) {
-					if (splitMessage[i] == 'L') {
-						switchSides[i] = SwitchSide.LEFT;
-					} else if (splitMessage[i] == 'R') {
-						switchSides[i] = SwitchSide.RIGHT;
-					} else {
-						switchSides[i] = null;
-						break;
+			if (gameSpecificMessage.length() == 3) {
+				char[] splitMessage = gameSpecificMessage.toCharArray();
+				if (splitMessage.length == 3) {
+					for (int i = 0; i < 3; i++) {
+						if (splitMessage[i] == 'L') {
+							switchSides[i] = SwitchSide.LEFT;
+						} else if (splitMessage[i] == 'R') {
+							switchSides[i] = SwitchSide.RIGHT;
+						} else {
+							switchSides[i] = null;
+							break;
+						}
 					}
 				}
 			}
@@ -220,8 +224,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		DEBUGCOMMAND.getInstance().start();
 		RobotMap.debug();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
+		}
+		DEBUGCOMMAND.getInstance();
 	}
 
 	/**
@@ -229,6 +236,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
+		DEBUGCOMMAND.getInstance().execute();
 		LED.colorCycle();
 	}
 

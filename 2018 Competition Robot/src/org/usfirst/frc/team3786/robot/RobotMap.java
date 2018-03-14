@@ -86,7 +86,7 @@ public class RobotMap {
 		OI.getSecondaryController().removeMappings();
 		
 		// Setup debug controls
-		OI.getSecondaryController().setMapping(XboxButton.A, ButtonMappingType.WHEN_PRESSED, new DEBUGUPCOMMAND());
-		OI.getSecondaryController().setMapping(XboxButton.B, ButtonMappingType.WHEN_PRESSED, new DEBUGDOWNCOMMAND());
+		OI.getMainController().setMapping(XboxButton.A, ButtonMappingType.WHEN_PRESSED, new DEBUGUPCOMMAND());
+		OI.getMainController().setMapping(XboxButton.B, ButtonMappingType.WHEN_PRESSED, new DEBUGDOWNCOMMAND());
 	}
 }

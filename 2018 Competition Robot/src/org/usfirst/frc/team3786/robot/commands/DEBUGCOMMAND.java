@@ -24,17 +24,20 @@ public class DEBUGCOMMAND extends Command {
 	}
 
 	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
+		System.err.println("Hi!");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	@Override
+	public void execute() {
 		if (talon == null) {
 			talon = new WPI_TalonSRX(1);
 			talonID = 1;
 		}
 		SmartDashboard.putNumber("DEBUG_TALON_ID", talonID);
-		System.out.println(OI.getMainController().rightStickY());
+		//System.err.println("RIGHT STICK: "+OI.getMainController().rightStickY());
 		talon.set(OI.getMainController().rightStickY());
 	}
 
