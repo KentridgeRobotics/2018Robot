@@ -37,10 +37,11 @@ public class MecanumDriveCommand extends Command {
 		double y = OI.getMainController().leftStickY();
 		// Turning controls
 		double turn = OI.getMainController().rightStickX();
-		double limit = OI.getMainController().leftTrigger();
-		x *= (1 - limit/1.25);
-		y *= (1 - limit/1.25);
-		turn *= (1 - limit/1.25);
+		if(OI.getMainController().bumperLeft() == true) {
+			x *= 0.5;
+			y *= 0.5;
+			turn *= 0.5; 
+		}
 		if (this.xDisable)
 			x = 0;
 		if (this.yDisable)
