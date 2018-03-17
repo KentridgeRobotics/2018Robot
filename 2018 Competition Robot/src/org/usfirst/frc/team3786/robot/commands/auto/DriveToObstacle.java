@@ -34,6 +34,7 @@ public class DriveToObstacle extends Command{
 		  protected void end() {
 		    	System.err.println("Stopping");
 		    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, 0.0);
+		    	finished = false; 
 		    }
 		  
 		@Override

@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
-		autonomousCommandChooser.addObject("Drive to obstacle", new DriveToObstacle(0,0.25,0.0, 0.0));
+		autonomousCommandChooser.addObject("Drive to obstacle", new DriveToObstacle(0,0.0,-0.25, 0.0));
 		autonomousCommandChooser.addObject("none", null);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
