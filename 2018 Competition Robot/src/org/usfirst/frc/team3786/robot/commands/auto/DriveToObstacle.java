@@ -1,32 +1,41 @@
 package org.usfirst.frc.team3786.robot.commands.auto;
 
 import org.usfirst.frc.team3786.robot.Robot;
+import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveToObstacle extends Command{
 
 		
 		@Override
 		protected void initialize() {
+			desiredHeading = GyroUtil.getInstance().getHeadingContinuous(); 
+	    	finished = false;
+	    	tooCloseCount = 0; 
 		}
-
-		private boolean finished = false;
-		private double ySpeed;
-		private double xSpeed;
-		private double rotation;
 		
-		public DriveToObstacle(int millisToEnd, double xSpeed, double ySpeed, double rotation){
-			this.ySpeed = ySpeed;
-			this.xSpeed = xSpeed;
-			this.rotation = rotation; 
+		private double desiredHeading; 
+		private boolean finished = false;
+		private double speed;
+		private int tooCloseCount;
+		public DriveToObstacle(double speed){
+			this.speed = speed; 
 		}
 		
 		  protected void execute() {
-		    	System.err.println("RUNNING!!!!");
-		    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(xSpeed, ySpeed, rotation);
-		    	if(UltraSonicDistance.getInstance().getDistance() <= 36.0) {
+			    double rotation = 0.0; 
+		    	System.err.println("RUNNING!!!!" + speed);
+		    	double currentHeading = GyroUtil.getInstance().getHeadingContinuous();
+		    	rotation = 0.25 * (desiredHeading - currentHeading)/(Math.abs(desiredHeading)+Math.abs(currentHeading)+1); 
+		    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, speed, rotation);
+		    	SmartDashboard.putNumber("rotation", rotation);
+		    	if(UltraSonicDistance.getInstance().getDistance() <= 33.0) {
+		    		tooCloseCount++; 
+		    	}
+		    	if(tooCloseCount > 10) {
 		    		finished = true; 
 		    	}
 		    }
@@ -34,7 +43,6 @@ public class DriveToObstacle extends Command{
 		  protected void end() {
 		    	System.err.println("Stopping");
 		    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, 0.0);
-		    	finished = false; 
 		    }
 		  
 		@Override

@@ -70,10 +70,10 @@ public class Robot extends TimedRobot {
 		this.setPeriod(DEFAULT_PERIOD);
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
-		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
-		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
-		autonomousCommandChooser.addObject("Drive to obstacle", new DriveToObstacle(0,0.0,-0.25, 0.0));
+	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.25));
+//		autonomousCommandChooser.addObject("Cross the line linear", linearCrossTheLineCommand);
+//		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
 		autonomousCommandChooser.addObject("none", null);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
@@ -154,6 +154,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		GyroUtil.getInstance().run();
+
 		if (!gameSpecificMessage.equals(this.gameSpecificMessage)) {
 			this.gameSpecificMessage = gameSpecificMessage;
 		}
@@ -194,6 +196,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		GyroUtil.getInstance().run();
+
 	}
 
 	@Override
