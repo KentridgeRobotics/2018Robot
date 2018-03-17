@@ -9,6 +9,7 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
 import org.usfirst.frc.team3786.robot.commands.auto.MecanumAutonomousCommandGroup;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
@@ -18,6 +19,8 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import org.usfirst.frc.team3786.robot.util.LED;
+import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -70,6 +73,7 @@ public class Robot extends TimedRobot {
 		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
 		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
+		autonomousCommandChooser.addObject("Drive to obstacle", new DriveToObstacle(0,0.25,0.0, 0.0));
 		autonomousCommandChooser.addObject("none", null);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
@@ -218,6 +222,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
+		SmartDashboard.putNumber("UltraSonicDistance", UltraSonicDistance.getInstance().getDistance());
 	}
 
 	@Override
