@@ -61,32 +61,19 @@ public class RobotMap {
 	
 	public static void controllerMappings() {
 		// Initially remove all mappings
-		OI.getMainController().removeMappings();
-		OI.getSecondaryController().removeMappings();
 		
 		// Set new mappings
 		HuggerStopCommand huggerStopCommand = new HuggerStopCommand();
-		OI.getSecondaryController().setMapping(XboxButton.BUMPER_LEFT, ButtonMappingType.WHEN_PRESSED, new HuggerOutCommand());
-		OI.getSecondaryController().setMapping(XboxButton.BUMPER_LEFT, ButtonMappingType.WHEN_RELEASED, huggerStopCommand);
-		OI.getSecondaryController().setMapping(XboxButton.BUMPER_RIGHT, ButtonMappingType.WHEN_PRESSED, new HuggerInCommand());
-		OI.getSecondaryController().setMapping(XboxButton.BUMPER_RIGHT, ButtonMappingType.WHEN_RELEASED, huggerStopCommand);
-		OI.getMainController().setMapping(XboxButton.BACK, ButtonMappingType.WHEN_PRESSED, new DisableXCommand());
-		OI.getMainController().setMapping(XboxButton.START, ButtonMappingType.WHEN_PRESSED, new DisableYCommand());
-
+		OI.getSecondaryController().bumperLeft.whenPressed(new HuggerOutCommand());
+		OI.getSecondaryController().bumperLeft.whenReleased(huggerStopCommand);
+		OI.getSecondaryController().bumperRight.whenPressed(new HuggerInCommand());
+		OI.getSecondaryController().bumperRight.whenReleased(huggerStopCommand);
+		
 		TowerStopCommand towerStopCommand = new TowerStopCommand();
-		OI.getSecondaryController().setMapping(XboxButton.A, ButtonMappingType.WHEN_PRESSED, new TowerLowerCommand());
-		OI.getSecondaryController().setMapping(XboxButton.A, ButtonMappingType.WHEN_RELEASED, towerStopCommand);
-		OI.getSecondaryController().setMapping(XboxButton.B, ButtonMappingType.WHEN_PRESSED, new TowerRaiseCommand());
-		OI.getSecondaryController().setMapping(XboxButton.B, ButtonMappingType.WHEN_RELEASED, towerStopCommand);
+		OI.getSecondaryController().buttonA.whenPressed(new TowerLowerCommand());
+		OI.getSecondaryController().buttonA.whenReleased(towerStopCommand);
+		OI.getSecondaryController().buttonB.whenPressed(new TowerRaiseCommand());
+		OI.getSecondaryController().buttonB.whenReleased(towerStopCommand);
 	}
 	
-	public static void debug() {
-		// Initially remove all mappings
-		OI.getMainController().removeMappings();
-		OI.getSecondaryController().removeMappings();
-		
-		// Setup debug controls
-		OI.getSecondaryController().setMapping(XboxButton.A, ButtonMappingType.WHEN_PRESSED, new DEBUGUPCOMMAND());
-		OI.getSecondaryController().setMapping(XboxButton.B, ButtonMappingType.WHEN_PRESSED, new DEBUGDOWNCOMMAND());
-	}
 }

@@ -231,8 +231,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		DEBUGCOMMAND.getInstance().start();
-		RobotMap.debug();
 	}
 
 	/**
@@ -240,7 +238,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		LED.colorCycle();
 	}
 
 	public int getDriverStationNumber() {
