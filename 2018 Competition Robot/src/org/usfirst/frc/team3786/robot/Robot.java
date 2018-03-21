@@ -9,7 +9,9 @@ package org.usfirst.frc.team3786.robot;
 
 import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
+import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
+import org.usfirst.frc.team3786.robot.commands.auto.MecanumAutonomousCommandGroup;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -17,6 +19,8 @@ import org.usfirst.frc.team3786.robot.subsystems.TwoWheelSubsystem;
 import org.usfirst.frc.team3786.robot.util.ColorSensorUtil;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
 import org.usfirst.frc.team3786.robot.util.LED;
+import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -66,8 +70,10 @@ public class Robot extends TimedRobot {
 		this.setPeriod(DEFAULT_PERIOD);
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
-		LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Cross the line linear", linearCrossTheLineCommand);
+	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.25));
+//		autonomousCommandChooser.addObject("Cross the line linear", linearCrossTheLineCommand);
+//		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
 		autonomousCommandChooser.addObject("none", null);
 		autonomousThrottleChooser.addObject("25%", 25);
 		autonomousThrottleChooser.addObject("50%", 50);
@@ -118,21 +124,21 @@ public class Robot extends TimedRobot {
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameSpecificMessage != null) {
 			if (gameSpecificMessage.length() == 3) {
-				char[] splitMessage = gameSpecificMessage.toCharArray();
-				if (splitMessage.length == 3) {
-					for (int i = 0; i < 3; i++) {
-						if (splitMessage[i] == 'L') {
-							switchSides[i] = SwitchSide.LEFT;
-						} else if (splitMessage[i] == 'R') {
-							switchSides[i] = SwitchSide.RIGHT;
-						} else {
-							switchSides[i] = null;
-							break;
-						}
+			char[] splitMessage = gameSpecificMessage.toCharArray();
+			if (splitMessage.length == 3) {
+				for (int i = 0; i < 3; i++) {
+					if (splitMessage[i] == 'L') {
+						switchSides[i] = SwitchSide.LEFT;
+					} else if (splitMessage[i] == 'R') {
+						switchSides[i] = SwitchSide.RIGHT;
+					} else {
+						switchSides[i] = null;
+						break;
 					}
 				}
 			}
 		}
+	}
 	}
 
 	/**
@@ -150,28 +156,33 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
+		GyroUtil.getInstance().run();
+
 		if (!gameSpecificMessage.equals(this.gameSpecificMessage)) {
 			this.gameSpecificMessage = gameSpecificMessage;
 		}
 		if (gameSpecificMessage != null) {
 			if (gameSpecificMessage.length() == 3) {
-				char[] splitMessage = gameSpecificMessage.toCharArray();
-				if (splitMessage.length == 3) {
-					for (int i = 0; i < 3; i++) {
-						if (splitMessage[i] == 'L') {
-							switchSides[i] = SwitchSide.LEFT;
-						} else if (splitMessage[i] == 'R') {
-							switchSides[i] = SwitchSide.RIGHT;
-						} else {
-							switchSides[i] = null;
-							break;
-						}
+			char[] splitMessage = gameSpecificMessage.toCharArray();
+			if (splitMessage.length == 3) {
+				for (int i = 0; i < 3; i++) {
+					if (splitMessage[i] == 'L') {
+						switchSides[i] = SwitchSide.LEFT;
+					} else if (splitMessage[i] == 'R') {
+						switchSides[i] = SwitchSide.RIGHT;
+					} else {
+						switchSides[i] = null;
+						break;
 					}
 				}
 			}
 		}
+<<<<<<< HEAD
 		SmartDashboard.putString("Color Side ", gameSpecificMessage);
 		SmartDashboard.putString("Side 0 ", "" + switchSides[0]);
+=======
+		}
+>>>>>>> branch 'master' of https://github.com/KentridgeRobotics/2018Robot.git
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
@@ -194,6 +205,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		GyroUtil.getInstance().run();
+
 	}
 
 	@Override
@@ -222,15 +235,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
 		LED.colorCycle();
+		SmartDashboard.putNumber("UltraSonicDistance", UltraSonicDistance.getInstance().getDistance());
 	}
 
 	@Override
 	public void testInit() {
-		RobotMap.debug();
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
-		DEBUGCOMMAND.getInstance();
 	}
 
 	/**
@@ -238,9 +247,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		Scheduler.getInstance().run();
-		DEBUGCOMMAND.getInstance().execute();
-		LED.colorCycle();
 	}
 
 	public int getDriverStationNumber() {

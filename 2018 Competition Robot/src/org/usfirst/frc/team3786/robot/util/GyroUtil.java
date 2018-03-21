@@ -23,7 +23,8 @@ public class GyroUtil implements Runnable {
 	private double dT;
 	
 	public GyroUtil() {
-		imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
+		if (imu == null)
+			imu = BNO055.getInstance(opmode_t.OPERATION_MODE_NDOF);
 
 		
 
