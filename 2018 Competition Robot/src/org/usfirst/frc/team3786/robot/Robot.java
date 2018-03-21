@@ -177,7 +177,7 @@ public class Robot extends TimedRobot {
 				}
 			}
 		}
-		
+		SmartDashboard.putNumber("Driver Station Number ", DriverStation.getInstance().getLocation());
 		SmartDashboard.putString("Color Side ", gameSpecificMessage);
 		SmartDashboard.putString("Side 0 ", "" + switchSides[0]);
 
