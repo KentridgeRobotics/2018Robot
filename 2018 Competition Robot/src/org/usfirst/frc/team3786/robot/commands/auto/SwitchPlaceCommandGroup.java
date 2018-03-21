@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class SwithPlaceCommandGroup extends CommandGroup {
+public class SwitchPlaceCommandGroup extends CommandGroup {
 
-    public SwithPlaceCommandGroup() {
+    public SwitchPlaceCommandGroup() {
         
     	addSequential(new RotationBasedDriving(90, 0.25)); 
     	//addSequential(new NavigateToCubeCommand());
