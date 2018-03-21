@@ -9,10 +9,11 @@ public class SwithPlaceCommandGroup extends CommandGroup {
 
     public SwithPlaceCommandGroup() {
         
-    	addSequential(new NavigateToCubeCommand());
-    	addSequential(new GetCubeCommand());
-    	addSequential(new LiftCubeCommand());
-    	addSequential(new DropOffCubeCommand());
+    	addSequential(new RotationBasedDriving(90, 0.25)); 
+    	//addSequential(new NavigateToCubeCommand());
+    	//addSequential(new GetCubeCommand());
+    	//addSequential(new LiftCubeCommand());
+    	//addSequential(new DropOffCubeCommand());
     	
     	// Add Commands here:
         // e.g. addSequential(new Command1());

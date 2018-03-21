@@ -12,6 +12,7 @@ import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
 import org.usfirst.frc.team3786.robot.commands.auto.MecanumAutonomousCommandGroup;
+import org.usfirst.frc.team3786.robot.commands.auto.SwithPlaceCommandGroup;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.25));
+		autonomousCommandChooser.addObject("switch place", new SwithPlaceCommandGroup());
 //		autonomousCommandChooser.addObject("Cross the line linear", linearCrossTheLineCommand);
 //		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
 		autonomousCommandChooser.addObject("none", null);
