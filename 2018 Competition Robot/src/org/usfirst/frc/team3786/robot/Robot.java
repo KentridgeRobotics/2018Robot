@@ -40,7 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
-	private SwitchSide[] switchSides;
+	private SwitchSide[] switchSides = new SwitchSide[3];
 
 	public static Robot instance;
 
@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameSpecificMessage != null) {
+			if (gameSpecificMessage.length() == 3) {
 			char[] splitMessage = gameSpecificMessage.toCharArray();
 			if (splitMessage.length == 3) {
 				for (int i = 0; i < 3; i++) {
@@ -137,6 +138,7 @@ public class Robot extends TimedRobot {
 				}
 			}
 		}
+	}
 	}
 
 	/**
@@ -160,6 +162,7 @@ public class Robot extends TimedRobot {
 			this.gameSpecificMessage = gameSpecificMessage;
 		}
 		if (gameSpecificMessage != null) {
+			if (gameSpecificMessage.length() == 3) {
 			char[] splitMessage = gameSpecificMessage.toCharArray();
 			if (splitMessage.length == 3) {
 				for (int i = 0; i < 3; i++) {
@@ -173,6 +176,7 @@ public class Robot extends TimedRobot {
 					}
 				}
 			}
+		}
 		}
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
