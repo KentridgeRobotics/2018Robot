@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	public DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
+	public DrivetrainType drivetrainType = DrivetrainType.MECANUM;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -170,6 +170,8 @@ public class Robot extends TimedRobot {
 				}
 			}
 		}
+		SmartDashboard.putString("Color Side ", gameSpecificMessage);
+		SmartDashboard.putString("Side 0 ", "" + switchSides[0]);
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
