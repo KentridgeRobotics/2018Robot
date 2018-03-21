@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
 			}
 		}
 	}
-	}
+}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -177,12 +177,11 @@ public class Robot extends TimedRobot {
 				}
 			}
 		}
-<<<<<<< HEAD
+		
 		SmartDashboard.putString("Color Side ", gameSpecificMessage);
 		SmartDashboard.putString("Side 0 ", "" + switchSides[0]);
-=======
+
 		}
->>>>>>> branch 'master' of https://github.com/KentridgeRobotics/2018Robot.git
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
