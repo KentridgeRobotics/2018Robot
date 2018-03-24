@@ -12,6 +12,7 @@ import org.usfirst.frc.team3786.robot.commands.DEBUGUPCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
 import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerJointUpCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerLowerCommand;
@@ -74,6 +75,8 @@ public class RobotMap {
 		OI.getSecondaryController().buttonA.whenReleased(towerStopCommand);
 		OI.getSecondaryController().buttonB.whenPressed(new TowerRaiseCommand());
 		OI.getSecondaryController().buttonB.whenReleased(towerStopCommand);
-	}
+		
+		OI.getMainController().buttonA.whenPressed(new HuggerJointUpCommand());
+		}
 	
 }
