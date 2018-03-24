@@ -15,25 +15,36 @@ public class DriveToObstacle extends Command{
 			desiredHeading = GyroUtil.getInstance().getHeadingContinuous(); 
 	    	finished = false;
 	    	tooCloseCount = 0; 
+	    	startingTimeMillis = System.currentTimeMillis();
+	    	
 		}
-		
+		private long startingTimeMillis;
+		private long millisToRun;
 		private double desiredHeading; 
 		private boolean finished = false;
 		private double speed;
 		private int tooCloseCount;
-		public DriveToObstacle(double speed){
+		public DriveToObstacle(double speed, long maxMillis){
 			this.speed = speed; 
+			millisToRun = maxMillis; 
 		}
 		
 		  protected void execute() {
+			    long now = System.currentTimeMillis();
 			    double rotation = 0.0; 
-		    	System.err.println("RUNNING!!!!" + speed);
+		    	
 		    	double currentHeading = GyroUtil.getInstance().getHeadingContinuous();
 		    	rotation = 0.25 * (desiredHeading - currentHeading)/(Math.abs(desiredHeading)+Math.abs(currentHeading)+1); 
 		    	Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, speed, rotation);
 		    	SmartDashboard.putNumber("rotation", rotation);
+		    	if (now - startingTimeMillis > millisToRun) {
+		    		finished = true; 
+		    		return;
+		    	}
 		    	if(UltraSonicDistance.getInstance().getDistance() <= 33.0) {
 		    		tooCloseCount++; 
+		    	}else {
+		    		tooCloseCount = 0; 
 		    	}
 		    	if(tooCloseCount > 10) {
 		    		finished = true; 
