@@ -12,7 +12,9 @@ import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
 import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
 import org.usfirst.frc.team3786.robot.commands.auto.MecanumAutonomousCommandGroup;
+import org.usfirst.frc.team3786.robot.commands.auto.RotationBasedDriving;
 import org.usfirst.frc.team3786.robot.commands.auto.SwitchPlaceCommandGroup;
+import org.usfirst.frc.team3786.robot.commands.auto.TimeBasedDrivingCommand;
 import org.usfirst.frc.team3786.robot.subsystems.ChargersDriveSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.MecanumSubsystem;
 import org.usfirst.frc.team3786.robot.subsystems.TowerSubsystem;
@@ -73,7 +75,9 @@ public class Robot extends TimedRobot {
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
 		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.25));
-		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup());
+		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(1, true));
+		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5));
+		autonomousCommandChooser.addObject("Time based",  new TimeBasedDrivingCommand(1000, 0.0, 0.5, 0.0));
 //		autonomousCommandChooser.addObject("Cross the line linear", linearCrossTheLineCommand);
 //		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
 		autonomousCommandChooser.addObject("none", null);
@@ -205,6 +209,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		LED.colorCycle();
 		Scheduler.getInstance().run();
 		GyroUtil.getInstance().run();
 

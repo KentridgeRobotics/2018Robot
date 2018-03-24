@@ -8,19 +8,19 @@ public class TimeBasedDrivingCommand extends Command{
 	private long startingTimeMillis;
 	@Override
 	protected void initialize() {
+		finished = false;
 		startingTimeMillis = System.currentTimeMillis();
 	}
 
 	private boolean finished = false;
 	private double ySpeed;
 	private double xSpeed;
-	private long millisToStart;
+	private long millisToRun;
 	private long millisToEnd;
 	private double rotation;
 	
-	TimeBasedDrivingCommand( int millisToStart, int millisToEnd, double xSpeed, double ySpeed, double rotation){
-		this.millisToStart = millisToStart;
-		this.millisToEnd = millisToEnd;
+	public TimeBasedDrivingCommand(long millisToRun, double xSpeed, double ySpeed, double rotation){
+		this.millisToRun = millisToRun;
 		this.ySpeed = ySpeed;
 		this.xSpeed = xSpeed;
 		this.rotation = rotation; 
@@ -29,10 +29,7 @@ public class TimeBasedDrivingCommand extends Command{
 	  protected void execute() {
 	    	System.err.println("RUNNING!!!!");
 	    	long now = System.currentTimeMillis();
-	    	if (now - startingTimeMillis < millisToStart) {
-	    		return;
-	    	}
-	    	else if (now - startingTimeMillis > millisToEnd) {
+	    	if (now - startingTimeMillis > millisToEnd) {
 	    		finished = true; 
 	    		return;
 	    	}
