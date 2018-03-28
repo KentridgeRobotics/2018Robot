@@ -7,11 +7,9 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import org.usfirst.frc.team3786.robot.commands.DEBUGCOMMAND;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
-import org.usfirst.frc.team3786.robot.commands.auto.LinearCrossTheLine;
-import org.usfirst.frc.team3786.robot.commands.auto.MecanumAutonomousCommandGroup;
+import org.usfirst.frc.team3786.robot.commands.auto.FieldCallBacks;
 import org.usfirst.frc.team3786.robot.commands.auto.RotationBasedDriving;
 import org.usfirst.frc.team3786.robot.commands.auto.SwitchPlaceCommandGroup;
 import org.usfirst.frc.team3786.robot.commands.auto.TimeBasedDrivingCommand;
@@ -55,7 +53,7 @@ public class Robot extends TimedRobot {
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
-
+	private FieldCallBacks fieldCallBacks = new FieldCallBacks();
 	private Command autonomousCommand;
 	private SendableChooser<Command> autonomousCommandChooser = new SendableChooser<Command>();
 	public SendableChooser<Integer> autonomousThrottleChooser = new SendableChooser<Integer>();
@@ -74,9 +72,9 @@ public class Robot extends TimedRobot {
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(0.25, 10000));
-		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(1, true));
-		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5));
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(0.25, 10000, null));
+		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(this.fieldCallBacks));
+		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5,null));
 		autonomousCommandChooser.addObject("Time based",  new TimeBasedDrivingCommand(1000, 0.0, 0.5, 0.0));
 //		autonomousCommandChooser.addObject("Cross the line linear", linearCrossTheLineCommand);
 //		autonomousCommandChooser.addObject("AutonomousMecanum", new MecanumAutonomousCommandGroup());
@@ -184,9 +182,10 @@ public class Robot extends TimedRobot {
 			}
 		}
 		SmartDashboard.putNumber("Driver Station number ", DriverStation.getInstance().getLocation());
+		fieldCallBacks.startingPosition = DriverStation.getInstance().getLocation();
 		SmartDashboard.putString("Color Side ", gameSpecificMessage);
 		SmartDashboard.putString("Side 0 ", "" + switchSides[0]);
-
+		fieldCallBacks.isLeftMine = (switchSides[0] == SwitchSide.LEFT);
 		}
 		RobotMap.controllerMappings();
 		autonomousCommand = autonomousCommandChooser.getSelected();

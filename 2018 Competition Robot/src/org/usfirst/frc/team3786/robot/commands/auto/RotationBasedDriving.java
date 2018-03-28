@@ -13,6 +13,7 @@ public class RotationBasedDriving extends Command{
 	private boolean isRunning;
 	private double currentError; 
 	private double absCurrentError; 
+	private FieldCallBacks fieldCallBacks;
 	private static double slowDownDegrees = 10.0; 
 	@Override
 	protected void initialize() {
@@ -21,7 +22,8 @@ public class RotationBasedDriving extends Command{
 	}
 	
 	
-	public RotationBasedDriving(double rotation, double rotationSpeed){
+	public RotationBasedDriving(double rotation, double rotationSpeed, FieldCallBacks fieldCallBacks){
+		this.fieldCallBacks = fieldCallBacks; 
 		this.rotation = rotation;
 		this.rotationSpeed = rotationSpeed;
 	}

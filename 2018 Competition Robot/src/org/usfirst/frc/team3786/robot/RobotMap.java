@@ -7,20 +7,15 @@
 
 package org.usfirst.frc.team3786.robot;
 
-import org.usfirst.frc.team3786.robot.commands.DEBUGDOWNCOMMAND;
-import org.usfirst.frc.team3786.robot.commands.DEBUGUPCOMMAND;
-import org.usfirst.frc.team3786.robot.commands.DisableXCommand;
-import org.usfirst.frc.team3786.robot.commands.DisableYCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerInCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerJointDownCommand;
+import org.usfirst.frc.team3786.robot.commands.HuggerJointStopCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerJointUpCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerLowerCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerRaiseCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerStopCommand;
-import org.usfirst.frc.team3786.robot.util.ButtonMappingType;
-import org.usfirst.frc.team3786.robot.util.XboxButton;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -77,8 +72,11 @@ public class RobotMap {
 		OI.getSecondaryController().buttonB.whenPressed(new TowerRaiseCommand());
 		OI.getSecondaryController().buttonB.whenReleased(towerStopCommand);
 		
+		HuggerJointStopCommand huggerJointStopCommand = new HuggerJointStopCommand();
 		OI.getMainController().buttonA.whenPressed(new HuggerJointUpCommand());
+		OI.getMainController().buttonA.whenReleased(huggerJointStopCommand);
 		OI.getMainController().buttonB.whenPressed(new HuggerJointDownCommand());
+		OI.getMainController().buttonB.whenReleased(huggerJointStopCommand);
 		}
 	
 }

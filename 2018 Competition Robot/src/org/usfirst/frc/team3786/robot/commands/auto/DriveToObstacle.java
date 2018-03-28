@@ -24,9 +24,11 @@ public class DriveToObstacle extends Command{
 		private boolean finished = false;
 		private double speed;
 		private int tooCloseCount;
-		public DriveToObstacle(double speed, long maxMillis){
+		private FieldCallBacks fieldCallBacks; 
+		public DriveToObstacle(double speed, long maxMillis, FieldCallBacks fieldCallBacks){
 			this.speed = speed; 
 			millisToRun = maxMillis; 
+			this.fieldCallBacks = fieldCallBacks; 
 		}
 		
 		  protected void execute() {
