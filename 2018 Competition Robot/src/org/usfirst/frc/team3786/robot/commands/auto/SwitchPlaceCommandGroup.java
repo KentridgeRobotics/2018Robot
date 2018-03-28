@@ -9,8 +9,12 @@ public class SwitchPlaceCommandGroup extends CommandGroup {
 	static double speed = 0.5; 
     public SwitchPlaceCommandGroup(FieldCallBacks fieldCallBacks) {
         
-    	addSequential(new DriveToObstacle(speed, 1000, fieldCallBacks));
-    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks));
+    	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward1 ));
+    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn1));
+    	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward2));
+    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn2));
+    	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward3));
+    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn3));
 
     	
     	

@@ -7,23 +7,28 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RotationBasedDriving extends Command{
 	private double currentDegree; 
-	private final double rotation;
+	private double rotation;
 	private final double rotationSpeed;
 	private double startDegree;
 	private boolean isRunning;
 	private double currentError; 
 	private double absCurrentError; 
-	private FieldCallBacks fieldCallBacks;
+	private RotationParameters rotationParameters;
 	private static double slowDownDegrees = 10.0; 
+	
 	@Override
 	protected void initialize() {
+		if(rotationParameters != null) {
+			rotation = rotationParameters.rotation;
+		}
 		startDegree = GyroUtil.getInstance().getHeadingContinuous();
 		this.isRunning = true;
+		
 	}
 	
 	
-	public RotationBasedDriving(double rotation, double rotationSpeed, FieldCallBacks fieldCallBacks){
-		this.fieldCallBacks = fieldCallBacks; 
+	public RotationBasedDriving(double rotation, double rotationSpeed, RotationParameters rotatonParameters){
+		this.rotationParameters = rotationParameters; 
 		this.rotation = rotation;
 		this.rotationSpeed = rotationSpeed;
 	}
