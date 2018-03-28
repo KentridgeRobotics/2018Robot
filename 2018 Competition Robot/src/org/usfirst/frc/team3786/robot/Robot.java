@@ -145,6 +145,18 @@ public class Robot extends TimedRobot {
 	}
 }
 
+	public void switchPlaceConfig(int fieldPosition, boolean isMySideLeft) {
+		/*
+		 * If the position is 1 and switch color is blue, then drive forwards 84 inches, turn 90 degrees right, forwards 18 inches, 90 degrees left, forwards 84 inches
+		 * OR
+		 * If the position is 1 and switch color is red, then drive forwards 84 inches, turn 90 degrees left, forwards 32 inches, 90 degrees right, forwards 132 inches, 90 degrees right, forwards 36 inches
+		 * 
+		 * If the position is 2 and switch color is blue, then drive forwards 84 inches, turn 90 degrees left, forwards inches, 90 degrees right, forwards 84 inches
+		 * OR
+		 * If the position is 2 and switch color is red, then drive forwards 84 inches, turn 90 degrees right, forwards 54 inches, 90 degrees left, forwards 84 inches
+		 */
+	}
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable chooser
