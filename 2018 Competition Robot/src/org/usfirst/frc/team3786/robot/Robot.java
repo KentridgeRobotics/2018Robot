@@ -128,22 +128,36 @@ public class Robot extends TimedRobot {
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameSpecificMessage != null) {
 			if (gameSpecificMessage.length() == 3) {
-			char[] splitMessage = gameSpecificMessage.toCharArray();
-			if (splitMessage.length == 3) {
-				for (int i = 0; i < 3; i++) {
-					if (splitMessage[i] == 'L') {
-						switchSides[i] = SwitchSide.LEFT;
-					} else if (splitMessage[i] == 'R') {
-						switchSides[i] = SwitchSide.RIGHT;
-					} else {
-						switchSides[i] = null;
-						break;
+				char[] splitMessage = gameSpecificMessage.toCharArray();
+				if (splitMessage.length == 3) {
+					for (int i = 0; i < 3; i++) {
+						if (splitMessage[i] == 'L') {
+							switchSides[i] = SwitchSide.LEFT;
+						} else if (splitMessage[i] == 'R') {
+							switchSides[i] = SwitchSide.RIGHT;
+						} else {
+							switchSides[i] = null;
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
-}
+	
+	private long millisForInches(int inches) {
+		if (inches == 84)
+		{
+			return 1200;
+		}
+		if (inches == 22) {
+			return 500;
+		}
+		if (inches == 140) {
+			return 2800;
+		}
+		return 0;
+	}
 
 	public void switchPlaceConfig(int fieldPosition, boolean isMySideLeft) {
 		/*
@@ -155,6 +169,63 @@ public class Robot extends TimedRobot {
 		 * OR
 		 * If the position is 2 and switch color is red, then drive forwards 84 inches, turn 90 degrees right, forwards 54 inches, 90 degrees left, forwards 84 inches
 		 */
+		if (isMySideLeft) {
+			if (fieldPosition == 1) {
+				// OK, not tested
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = 90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(22);
+				this.fieldCallBacks.turn2.rotation = -90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+			}
+			else if (fieldPosition == 2) {
+				// OK, not tested
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = -90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn2.rotation = 90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+			
+			}
+			else if (fieldPosition == 3)
+			{
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = -90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(140);
+				this.fieldCallBacks.turn2.rotation = 90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+			
+			}
+		}
+		else {
+			if (fieldPosition == 1) {
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = 90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(140);
+				this.fieldCallBacks.turn2.rotation = -90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+			}
+			else if (fieldPosition == 2) {
+				// OK, not tested
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = 90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(22);
+				this.fieldCallBacks.turn2.rotation = -90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+		
+			}
+			else if (fieldPosition == 3)
+			{
+				// OK, not tested
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.turn1.rotation = -90.0;
+				this.fieldCallBacks.forward2.millisToRun = millisForInches(22);
+				this.fieldCallBacks.turn2.rotation = 90.0;
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+
+			}
+			
+		}
 	}
 	
 	/**
@@ -200,6 +271,7 @@ public class Robot extends TimedRobot {
 		fieldCallBacks.isLeftMine = (switchSides[0] == SwitchSide.LEFT);
 		}
 		RobotMap.controllerMappings();
+		switchPlaceConfig(fieldCallBacks.startingPosition, fieldCallBacks.isLeftMine);
 		autonomousCommand = autonomousCommandChooser.getSelected();
 
 		/*
