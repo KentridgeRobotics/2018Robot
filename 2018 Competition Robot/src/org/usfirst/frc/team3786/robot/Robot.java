@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.22, 4000, null));
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.22, 4200, null));
 		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(this.fieldCallBacks));
 		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5,null));
 		autonomousCommandChooser.addObject("Time based",  new TimeBasedDrivingCommand(1000, 0.0, 0.5, 0.0));
@@ -150,13 +150,13 @@ public class Robot extends TimedRobot {
 	private long millisForInches(int inches) {
 		if (inches == 84)
 		{
-			return 1200;
+			return 2100;
 		}
 		if (inches == 22) {
 			return 500;
 		}
 		if (inches == 140) {
-			return 2800;
+			return 3800;
 		}
 		return 0;
 	}

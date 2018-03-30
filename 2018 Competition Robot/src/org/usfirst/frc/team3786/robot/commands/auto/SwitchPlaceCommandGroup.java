@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class SwitchPlaceCommandGroup extends CommandGroup {
-	static double speed = 0.25; 
+	static double speed = 0.22; 
     public SwitchPlaceCommandGroup(FieldCallBacks fieldCallBacks) {
         
     	addSequential(new AutoHuggerCommand());

@@ -2,7 +2,6 @@ package org.usfirst.frc.team3786.robot.commands.auto;
 
 import org.usfirst.frc.team3786.robot.Robot;
 import org.usfirst.frc.team3786.robot.util.GyroUtil;
-import org.usfirst.frc.team3786.robot.util.UltraSonicDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,14 +13,12 @@ private long millisToRun;
 private double desiredHeading; 
 private boolean finished = false;
 private double speed;
-private int tooCloseCount;
 private DriveForwardParameters driveForwardParameters;
 	
 	@Override
 	protected void initialize() {
 		desiredHeading = GyroUtil.getInstance().getHeadingContinuous(); 
     	finished = false;
-    	tooCloseCount = 0; 
     	startingTimeMillis = System.currentTimeMillis();
     	if(driveForwardParameters != null) {
 			millisToRun = driveForwardParameters.millisToRun;
@@ -47,14 +44,6 @@ private DriveForwardParameters driveForwardParameters;
 	    	if (now - startingTimeMillis > millisToRun) {
 	    		finished = true; 
 	    		return;
-	    	}
-	    	if(UltraSonicDistance.getInstance().getDistance() <= 33.0) {
-	    		tooCloseCount++; 
-	    	}else {
-	    		tooCloseCount = 0; 
-	    	}
-	    	if(tooCloseCount > 10) {
-	    		finished = true; 
 	    	}
 	    }
 	  
