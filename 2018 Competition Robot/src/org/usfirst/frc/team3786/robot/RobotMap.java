@@ -73,10 +73,10 @@ public class RobotMap {
 		OI.getSecondaryController().buttonB.whenReleased(towerStopCommand);
 		
 		HuggerJointStopCommand huggerJointStopCommand = new HuggerJointStopCommand();
-		OI.getMainController().buttonA.whenPressed(new HuggerJointUpCommand());
-		OI.getMainController().buttonA.whenReleased(huggerJointStopCommand);
-		OI.getMainController().buttonB.whenPressed(new HuggerJointDownCommand());
-		OI.getMainController().buttonB.whenReleased(huggerJointStopCommand);
+		OI.getSecondaryController().buttonX.whenPressed(new HuggerJointDownCommand());
+		OI.getSecondaryController().buttonX.whenReleased(huggerJointStopCommand);
+		OI.getSecondaryController().buttonY.whenPressed(new HuggerJointUpCommand());
+		OI.getSecondaryController().buttonY.whenReleased(huggerJointStopCommand);
 		}
 	
 }

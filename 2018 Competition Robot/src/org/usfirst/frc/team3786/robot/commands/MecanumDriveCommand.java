@@ -38,9 +38,9 @@ public class MecanumDriveCommand extends Command {
 		// Turning controls
 		double turn = OI.getMainController().rightStickX();
 		if(OI.getMainController().bumperLeft() == true) {
-			x *= 0.5;
-			y *= 0.5;
-			turn *= 0.5; 
+			x *= 0.7;
+			y *= 0.7;
+			turn *= 0.7; 
 		}
 		if (this.xDisable)
 			x = 0;
@@ -49,7 +49,7 @@ public class MecanumDriveCommand extends Command {
 		SmartDashboard.putNumber("Turn", turn);
 
 		// Update motors with controls
-		Robot.instance.getDriveSubsystem().gyroAssistedDrive(-x, y, turn);
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(x, y, turn);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -69,7 +69,7 @@ public class MecanumSubsystem extends PIDSubsystem implements ChargersDriveSubsy
 			gyroAssistedTurn(-turnRate);
 			mecanumDrive.driveCartesian(x, y, pidTurnOutput, GyroUtil.getInstance().getHeading());
 		} else
-			mecanumDrive.driveCartesian(x, y, turnRate);
+			mecanumDrive.driveCartesian(-x, y, -turnRate);
 	}
 	
 	public void gyroAssistedTurn(double turn) {

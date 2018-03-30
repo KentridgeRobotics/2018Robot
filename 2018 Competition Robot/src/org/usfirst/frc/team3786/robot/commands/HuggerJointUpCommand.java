@@ -10,7 +10,7 @@ public class HuggerJointUpCommand extends Command{
 		requires(HuggerJointSubsystem.getInstance());
 	}
 	protected void initialize(){
-		HuggerJointSubsystem.getInstance().setSpeed(0.5);
+		HuggerJointSubsystem.getInstance().setSpeed(1.0);
 	}
 	@Override
 	protected boolean isFinished() {

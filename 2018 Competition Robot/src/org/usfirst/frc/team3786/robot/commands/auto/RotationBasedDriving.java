@@ -45,10 +45,10 @@ public class RotationBasedDriving extends Command{
 	    }
 		if(absCurrentError > 1.0) {
 			if(currentError < 0) {
-			    Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, -speed);	
+			    Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, speed);	
 			}
 			else {
-				Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, speed);
+				Robot.instance.getDriveSubsystem().gyroAssistedDrive(0.0, 0.0, -speed);
 			}
 		} else {
 			isRunning = false;

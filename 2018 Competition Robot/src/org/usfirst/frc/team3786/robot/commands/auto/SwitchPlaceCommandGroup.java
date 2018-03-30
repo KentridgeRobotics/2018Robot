@@ -9,6 +9,7 @@ public class SwitchPlaceCommandGroup extends CommandGroup {
 	static double speed = 0.25; 
     public SwitchPlaceCommandGroup(FieldCallBacks fieldCallBacks) {
         
+    	addSequential(new AutoHuggerCommand());
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward1 ));
     	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn1));
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward2));

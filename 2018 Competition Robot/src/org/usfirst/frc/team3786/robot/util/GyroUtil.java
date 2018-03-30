@@ -39,7 +39,7 @@ public class GyroUtil implements Runnable {
 	}
 
 	public double getHeadingContinuous() {
-		return -imu.getHeadingEuler();
+		return imu.getHeadingEuler();
 	}
 
 	public double getHeading() {

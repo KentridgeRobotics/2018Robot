@@ -12,7 +12,7 @@ public class HuggerJointDownCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		HuggerJointSubsystem.getInstance().setSpeed(-0.5);
+		HuggerJointSubsystem.getInstance().setSpeed(-1.0);
 	}
 
 	@Override
