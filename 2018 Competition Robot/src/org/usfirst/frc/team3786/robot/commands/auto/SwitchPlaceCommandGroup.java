@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SwitchPlaceCommandGroup extends CommandGroup {
 	static double speed = 0.22; 
+	static double rotateSpeed = 0.25;
     public SwitchPlaceCommandGroup(FieldCallBacks fieldCallBacks) {
         
     	addSequential(new AutoHuggerCommand());
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward1 ));
-    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn1));
+    	addSequential(new RotationBasedDriving(0, rotateSpeed, fieldCallBacks.turn1));
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward2));
-    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn2));
+    	addSequential(new RotationBasedDriving(0, rotateSpeed, fieldCallBacks.turn2));
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward3));
     	addSequential(new LiftCubeCommand());
     	addSequential(new DropOffCubeCommand());

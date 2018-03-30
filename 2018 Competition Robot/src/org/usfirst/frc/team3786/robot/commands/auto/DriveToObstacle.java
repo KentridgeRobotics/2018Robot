@@ -27,7 +27,7 @@ private DriveForwardParameters driveForwardParameters;
 	}
 	 
 	public DriveToObstacle(double speed, long maxMillis, DriveForwardParameters  driveForwardParameters){
-		this.speed = speed; 
+		this.speed = -speed; 
 		millisToRun = maxMillis; 
 		this.driveForwardParameters = driveForwardParameters; 
 		

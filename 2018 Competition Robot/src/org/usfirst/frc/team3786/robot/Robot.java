@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(-0.22, 4200, null));
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(0.22, 4200, null));
 		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(this.fieldCallBacks));
 		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5,null));
 		autonomousCommandChooser.addObject("Time based",  new TimeBasedDrivingCommand(1000, 0.0, 0.5, 0.0));
@@ -126,6 +126,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		LED.setRGB(0, 100, 0);
 		Scheduler.getInstance().run();
 		gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameSpecificMessage != null) {
@@ -148,15 +149,19 @@ public class Robot extends TimedRobot {
 	}
 	
 	private long millisForInches(int inches) {
+		if (inches == 70)
+		{
+			return 1500;
+		}
 		if (inches == 84)
 		{
-			return 2100;
+			return 1900;
 		}
 		if (inches == 22) {
-			return 500;
+			return 480;
 		}
 		if (inches == 140) {
-			return 3800;
+			return 3700;
 		}
 		return 0;
 	}
@@ -174,28 +179,28 @@ public class Robot extends TimedRobot {
 		if (isMySideLeft) {
 			if (fieldPosition == 1) {
 				// OK, not tested
-				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(70);
 				this.fieldCallBacks.turn1.rotation = 90.0;
 				this.fieldCallBacks.forward2.millisToRun = millisForInches(22);
 				this.fieldCallBacks.turn2.rotation = -90.0;
-				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(70);
 			}
 			else if (fieldPosition == 2) {
 				// OK, not tested
-				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(70);
 				this.fieldCallBacks.turn1.rotation = -90.0;
 				this.fieldCallBacks.forward2.millisToRun = millisForInches(84);
 				this.fieldCallBacks.turn2.rotation = 90.0;
-				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(70);
 			
 			}
 			else if (fieldPosition == 3)
 			{
-				this.fieldCallBacks.forward1.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward1.millisToRun = millisForInches(70);
 				this.fieldCallBacks.turn1.rotation = -90.0;
 				this.fieldCallBacks.forward2.millisToRun = millisForInches(140);
 				this.fieldCallBacks.turn2.rotation = 90.0;
-				this.fieldCallBacks.forward3.millisToRun = millisForInches(84);
+				this.fieldCallBacks.forward3.millisToRun = millisForInches(70);
 			
 			}
 		}
@@ -244,6 +249,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		LED.setRGB(250, 250, 210);
 		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		GyroUtil.getInstance().run();
 
@@ -294,7 +300,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		LED.colorCycle();
+		//LED.colorCycle();
+		LED.setRGB(255, 0, 0);
 		Scheduler.getInstance().run();
 		GyroUtil.getInstance().run();
 
@@ -313,6 +320,8 @@ public class Robot extends TimedRobot {
 		MecanumDriveCommand.getInstance().start();
 	}
 
+	private int ledCount = 0;
+	
 	/**
 	 * This function is called periodically during operator control.
 	 */
@@ -325,7 +334,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
-		LED.colorCycle();
+		ledCount++;
+		if (ledCount >= 10) {
+			ledCount = 0;
+			LED.colorCycle();
+		}
 		SmartDashboard.putNumber("UltraSonicDistance", UltraSonicDistance.getInstance().getDistance());
 	}
 
