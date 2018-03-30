@@ -20,7 +20,7 @@ public class DropOffCubeCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	now = System.currentTimeMillis();
-    	HuggerSubsystem.getInstance().setMotorSpeed(-1.0);
+    	HuggerSubsystem.getInstance().setMotorSpeed(1.0);
     }
 
     // Called repeatedly when this Command is scheduled to run

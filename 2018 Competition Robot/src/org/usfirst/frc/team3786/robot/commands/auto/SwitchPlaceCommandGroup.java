@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class SwitchPlaceCommandGroup extends CommandGroup {
-	static double speed = 0.5; 
+	static double speed = 0.25; 
     public SwitchPlaceCommandGroup(FieldCallBacks fieldCallBacks) {
         
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward1 ));
@@ -14,10 +14,10 @@ public class SwitchPlaceCommandGroup extends CommandGroup {
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward2));
     	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn2));
     	addSequential(new DriveToObstacle(speed, 0, fieldCallBacks.forward3));
-    	addSequential(new RotationBasedDriving(0, speed, fieldCallBacks.turn3));
+    	addSequential(new LiftCubeCommand());
+    	addSequential(new DropOffCubeCommand());
+    	
 
-    	
-    	
     	//addSequential(new NavigateToCubeCommand());
     	//addSequential(new GetCubeCommand());
     	//addSequential(new LiftCubeCommand());
