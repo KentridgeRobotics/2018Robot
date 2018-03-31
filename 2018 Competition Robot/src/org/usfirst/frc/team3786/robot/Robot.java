@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 
 		driverStationNumber = DriverStation.getInstance().getLocation();
 	//	LinearCrossTheLine linearCrossTheLineCommand = new LinearCrossTheLine(driverStationNumber);
-		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(0.22, 4200, null));
+		autonomousCommandChooser.addDefault("Drive to obstacle", new DriveToObstacle(0.22, 5000, null));
 		autonomousCommandChooser.addObject("Switch place group", new SwitchPlaceCommandGroup(this.fieldCallBacks));
 		autonomousCommandChooser.addObject("Rotate", new RotationBasedDriving(90.0, 0.5,null));
 		autonomousCommandChooser.addObject("Time based",  new TimeBasedDrivingCommand(1000, 0.0, 0.5, 0.0));
@@ -249,7 +249,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		LED.setRGB(250, 250, 210);
 		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		GyroUtil.getInstance().run();
 
