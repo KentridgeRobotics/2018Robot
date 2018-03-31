@@ -117,6 +117,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		SmartDashboard.putString("RobotMode", "disabled");
 		RobotMap.controllerMappings();
 		MecanumDriveCommand.getInstance().setDisableX(false);
 		MecanumDriveCommand.getInstance().setDisableY(false);
@@ -249,6 +250,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		SmartDashboard.putString("RobotMode", "autonomous");
 		String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
 		GyroUtil.getInstance().run();
 
@@ -308,6 +310,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		SmartDashboard.putString("RobotMode", "teleop");
 		RobotMap.controllerMappings();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -339,17 +342,6 @@ public class Robot extends TimedRobot {
 			LED.colorCycle();
 		}
 		SmartDashboard.putNumber("UltraSonicDistance", UltraSonicDistance.getInstance().getDistance());
-	}
-
-	@Override
-	public void testInit() {
-	}
-
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
 	}
 
 	public int getDriverStationNumber() {
