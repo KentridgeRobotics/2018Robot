@@ -1,28 +1,9 @@
 package org.usfirst.frc.team3786.robot.util;
 
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class XboxController {
-	
-	private final int id;
-	
-	private final double deadzone;
-	
-	public final edu.wpi.first.wpilibj.XboxController controller;
-
-	public final edu.wpi.first.wpilibj.buttons.Button buttonA; // A button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonB; // B button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonX; // X button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonY; // Y button
-	public final edu.wpi.first.wpilibj.buttons.Button bumperLeft; // Left bumper
-	public final edu.wpi.first.wpilibj.buttons.Button bumperRight; // Right bumper
-	public final edu.wpi.first.wpilibj.buttons.Button buttonBack; // Back button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonStart; // Start button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonLeftCenter; // Left Center button
-	public final edu.wpi.first.wpilibj.buttons.Button buttonRightCenter; // Right Center button
-	
+public class XboxController extends SuperXboxController {
 	
 	public XboxController(int id) {
 		this(id, 0.0);
@@ -42,98 +23,6 @@ public class XboxController {
 		buttonStart = new JoystickButton(controller, 8);
 		buttonLeftCenter = new JoystickButton(controller, 9);
 		buttonRightCenter = new JoystickButton(controller, 10);
-	}
-
-
-	public double leftStickY() {
-		double n = controller.getY(Hand.kLeft);
-		if (Math.abs(n) <= deadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public double leftStickX() {
-		double n = controller.getX(Hand.kLeft);
-		if (Math.abs(n) <= deadzone)
-			return 0.0;
-		else
-			return n;
-
-	}
-
-	public double rightStickY() {
-		double n = controller.getY(Hand.kRight);
-		if (Math.abs(n) <= deadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public double rightStickX() {
-		double n = controller.getX(Hand.kRight);
-		if (Math.abs(n) <= deadzone)
-			return 0.0;
-		else
-			return n;
-	}
-
-	public double leftTrigger() {
-		double n = controller.getTriggerAxis(Hand.kLeft);
-		return n;
-	}
-
-	public double rightTrigger() {
-		double n = controller.getTriggerAxis(Hand.kRight);
-		return n;
-	}
-
-	public boolean buttonA() {
-		return controller.getAButton();
-	}
-
-	public boolean buttonB() {
-		return controller.getBButton();
-	}
-
-	public boolean buttonX() {
-		return controller.getXButton();
-	}
-
-	public boolean buttonY() {
-		return controller.getYButton();
-	}
-
-	public boolean buttonBack() {
-		return controller.getBackButton();
-	}
-
-	public boolean buttonStart() {
-		return controller.getStartButton();
-	}
-
-	public boolean buttonLeftCenter() {
-		return controller.getStickButton(Hand.kLeft);
-	}
-
-	public boolean buttonRightCenter() {
-		return controller.getStickButton(Hand.kRight);
-	}
-
-	public boolean bumperLeft() {
-		return controller.getBumper(Hand.kLeft);
-	}
-
-	public boolean bumperRight() {
-		return controller.getBumper(Hand.kRight);
-	}
-	
-	public int pov() {
-		return controller.getPOV();
-	}
-	
-	public int getID() {
-		return this.id;
 	}
 	
 	

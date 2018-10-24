@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.usfirst.frc.team3786.robot.util.GuitarController;
+import org.usfirst.frc.team3786.robot.util.SuperXboxController;
 import org.usfirst.frc.team3786.robot.util.XboxController;
 
 /**
@@ -22,15 +24,15 @@ public class OI {
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
 
-	private static XboxController primaryXboxCon = new XboxController(RobotMap.mainXboxPort, RobotMap.xboxStickDeadzone);
+	private static SuperXboxController primaryXboxCon = new XboxController(RobotMap.mainXboxPort, RobotMap.xboxStickDeadzone);
 
-	private static XboxController secondaryXboxCon = new XboxController(RobotMap.secondaryXboxPort, RobotMap.xboxStickDeadzone);
+	private static SuperXboxController secondaryXboxCon = new XboxController(RobotMap.secondaryXboxPort, RobotMap.xboxStickDeadzone);
 	
-	public static XboxController getMainController() {
+	public static SuperXboxController getMainController() {
 		return primaryXboxCon;
 	}
 	
-	public static XboxController getSecondaryController() {
+	public static SuperXboxController getSecondaryController() {
 		return secondaryXboxCon;
 	}
 

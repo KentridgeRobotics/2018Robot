@@ -13,6 +13,7 @@ import org.usfirst.frc.team3786.robot.commands.HuggerJointStopCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerJointUpCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerOutCommand;
 import org.usfirst.frc.team3786.robot.commands.HuggerStopCommand;
+import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerLowerCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerRaiseCommand;
 import org.usfirst.frc.team3786.robot.commands.TowerStopCommand;
@@ -67,16 +68,23 @@ public class RobotMap {
 		OI.getSecondaryController().bumperRight.whenReleased(huggerStopCommand);
 		
 		TowerStopCommand towerStopCommand = new TowerStopCommand();
-		OI.getSecondaryController().buttonA.whenPressed(new TowerLowerCommand());
-		OI.getSecondaryController().buttonA.whenReleased(towerStopCommand);
-		OI.getSecondaryController().buttonB.whenPressed(new TowerRaiseCommand());
-		OI.getSecondaryController().buttonB.whenReleased(towerStopCommand);
+		OI.getMainController().buttonRightCenter.whenPressed(new TowerLowerCommand());
+		OI.getMainController().buttonRightCenter.whenReleased(towerStopCommand);
+		OI.getMainController().buttonLeftCenter.whenPressed(new TowerRaiseCommand());
+		OI.getMainController().buttonLeftCenter.whenReleased(towerStopCommand);
 		
 		HuggerJointStopCommand huggerJointStopCommand = new HuggerJointStopCommand();
 		OI.getSecondaryController().buttonX.whenPressed(new HuggerJointDownCommand());
 		OI.getSecondaryController().buttonX.whenReleased(huggerJointStopCommand);
 		OI.getSecondaryController().buttonY.whenPressed(new HuggerJointUpCommand());
 		OI.getSecondaryController().buttonY.whenReleased(huggerJointStopCommand);
+		
+		
+	
 		}
+		
+		
+	
+		
 	
 }
