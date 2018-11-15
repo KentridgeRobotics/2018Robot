@@ -3,6 +3,7 @@ package org.usfirst.frc.team3786.robot.commands;
 import org.usfirst.frc.team3786.robot.OI;
 import org.usfirst.frc.team3786.robot.Robot;
 
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,23 +34,18 @@ public class MecanumDriveCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// Drive controls
-		double x = OI.getMainController().leftStickX();
-		double y = OI.getMainController().leftStickY();
+		double x = OI.getJoystick().getX();
+		double y = OI.getJoystick().getY();
 		// Turning controls
-		double turn = OI.getMainController().rightStickX();
-		if(OI.getMainController().bumperLeft() == true) {
-			x *= 0.5;
-			y *= 0.5;
-			turn *= 0.5; 
-		}
-		if (this.xDisable)
-			x = 0;
-		if (this.yDisable)
-			y = 0;
-		SmartDashboard.putNumber("Turn", turn);
-
+		SmartDashboard.putNumber("Joystick x", x);
+		SmartDashboard.putNumber("Joystick y", y);
 		// Update motors with controls
-		Robot.instance.getDriveSubsystem().gyroAssistedDrive(-x, y, turn);
+		boolean triggerPressed = OI.getJoystick().getButton(ButtonType.kTrigger);
+		if (triggerPressed) {
+			x = x*0.5;
+			y = y*0.5;
+		}
+		Robot.instance.getDriveSubsystem().gyroAssistedDrive(0, -x, y);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

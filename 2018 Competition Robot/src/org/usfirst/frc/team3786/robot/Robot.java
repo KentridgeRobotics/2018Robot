@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 
 	private ChargersDriveSubsystem driveSubsystem;
 
-	public DrivetrainType drivetrainType = DrivetrainType.MECANUM;
+	public DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
 
 	private int driverStationNumber;
 	private String gameSpecificMessage;
@@ -323,6 +323,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance x", GyroUtil.getInstance().getDispX());
 		SmartDashboard.putNumber("Distance y", GyroUtil.getInstance().getDispY());
 		SmartDashboard.putString("TowerControllerFaults: ", TowerSubsystem.getInstance().getControllerFaults());
+		SmartDashboard.putString("Two Wheel Subsystem", driveSubsystem.getClass().getName());
+
 		LED.colorCycle();
 		SmartDashboard.putNumber("UltraSonicDistance", UltraSonicDistance.getInstance().getDistance());
 	}
@@ -351,7 +353,7 @@ public class Robot extends TimedRobot {
 			return this.driveSubsystem;
 		else {
 			if (drivetrainType == DrivetrainType.MECANUM) {
-				this.driveSubsystem = new MecanumSubsystem();
+				this.driveSubsystem = new TwoWheelSubsystem();
 				return this.driveSubsystem;
 			} else if (drivetrainType == DrivetrainType.TWO_WHEEL) {
 				this.driveSubsystem = new TwoWheelSubsystem();

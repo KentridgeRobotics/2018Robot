@@ -4,24 +4,24 @@
 package org.usfirst.frc.team3786.robot.subsystems;
 
 import org.usfirst.frc.team3786.robot.RobotMap;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TwoWheelSubsystem extends Subsystem implements ChargersDriveSubsystem {
 
-	private WPI_TalonSRX left;
-	private WPI_TalonSRX right;
+	private Spark left;
+	private Spark right;
 
 	private DifferentialDrive differentialDrive;
 	
 	public TwoWheelSubsystem() {
-		left = new WPI_TalonSRX(RobotMap.leftMotor);
-		right = new WPI_TalonSRX(RobotMap.rightMotor);
-
-		left.configOpenloopRamp(0.3, 0);
-		right.configOpenloopRamp(0.3, 0);
+		left = new Spark(0);
+		right = new Spark(1);
 		
 		differentialDrive = new DifferentialDrive(left, right);
 	}
@@ -40,5 +40,9 @@ public class TwoWheelSubsystem extends Subsystem implements ChargersDriveSubsyst
 	@Override
 	public void gyroAssistedDrive(double x, double y, double turnRate) {
 		differentialDrive.arcadeDrive(y, turnRate * 0.75);
+		SmartDashboard.putNumber("Gyro assisted drive x", x);
+		SmartDashboard.putNumber("Gyro assisted drive y", y);
+		SmartDashboard.putNumber("Gyro assisted drive turn rate", turnRate);
+
 	}
 }
