@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3786.robot;
 
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team3786.robot.commands.MecanumDriveCommand;
 import org.usfirst.frc.team3786.robot.commands.auto.DriveToObstacle;
 import org.usfirst.frc.team3786.robot.commands.auto.FieldCallBacks;
@@ -30,6 +32,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -50,7 +53,11 @@ public class Robot extends TimedRobot {
 	private ChargersDriveSubsystem driveSubsystem;
 
 	public DrivetrainType drivetrainType = DrivetrainType.TWO_WHEEL;
-
+	
+	private static final int IMG_WIDTH = 320; //for cameraServerStart()
+	private static final int IMG_HEIGHT = 240; //for cameraServerStart()
+	private VisionThread visionThread;
+	
 	private int driverStationNumber;
 	private String gameSpecificMessage;
 	private FieldCallBacks fieldCallBacks = new FieldCallBacks();
@@ -105,6 +112,21 @@ public class Robot extends TimedRobot {
 			System.out.println("##############################");
 			break;
 		}
+	}
+	
+	public void cameraServerStart() {
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		
+		visionThread = new VisionThread(camera, new MyVisionPipeline(), pipeline -> {
+			if (!pipeline.filterContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.filterCountoursOutput().get(0));
+				synchronized (imgLock) {
+					centerX = r.x + (r.width/2);
+				}
+			}
+		});
+		visionThread.start();
 	}
 
 	/**
